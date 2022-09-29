@@ -25,7 +25,7 @@ module.exports = {
     requireConfigFile: 'false',
     babelOptions: {configFile: './babel.config.js'},
   },
-  plugins: ['react', 'react-native', 'prettier'],
+  plugins: ['react', 'react-native', 'prettier', 'react-hooks'],
   rules: {
     'react/jsx-uses-react': 'error',
     'react/jsx-uses-vars': 'error',
@@ -33,6 +33,8 @@ module.exports = {
     'no-console': 0,
     'require-jsdoc': 0,
     'prettier/prettier': 'error',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   settings: {
     react: {

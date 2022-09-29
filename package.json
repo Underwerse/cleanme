@@ -10,11 +10,16 @@
   },
   "dependencies": {
     "@babel/eslint-parser": "^7.19.1",
+    "@expo/webpack-config": "^0.16.19",
+    "@rneui/themed": "^4.0.0-rc.6",
     "eslint-plugin-react-native": "^4.0.0",
     "expo": "~46.0.13",
     "expo-status-bar": "~1.4.0",
+    "prop-types": "^15.8.1",
     "react": "18.0.0",
-    "react-native": "0.69.6"
+    "react-dom": "18.0.0",
+    "react-native": "0.69.6",
+    "react-native-web": "~0.18.7"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
@@ -23,6 +28,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.7.1"
   },
   "private": true
