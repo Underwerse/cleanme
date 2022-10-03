@@ -1,32 +1,20 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Keyboard, TouchableOpacity, View, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
 import {LoginForm} from '../components/LoginForm';
 import {RegisterForm} from '../components/RegisterForm';
-import {Card, ButtonGroup} from 'react-native-elements';
-import LottieView from 'lottie-react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-const Login = ({navigation}) => {
-  // AsyncStorage.setItem('userToken', null);
-  const animation = React.createRef();
+const Login = () => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {getUserByToken} = useUser();
   const [showRegForm, setShowRegForm] = useState(false);
 
   const checkToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
-    console.log('token value in async storage', userToken);
     if (!userToken) {
       return;
     }
@@ -43,52 +31,36 @@ const Login = ({navigation}) => {
 
   useEffect(() => {
     checkToken();
-    animation.current?.play();
   }, []);
 
   return (
-    <TouchableOpacity
-      style={{flex: 1}}
-      activeOpacity={1}
-      onPress={() => Keyboard.dismiss()}
+    <SafeAreaView
+      style={{flex: 1, justifyContent: 'space-between', alignItems: 'stretch'}}
     >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : ''}
-        style={styles.FlexGrowOne}
+      <TouchableOpacity
+        onPress={Keyboard.dismiss}
+        style={{flex: 1}}
+        activeOpacity={1}
       >
-        <ScrollView contentContainerStyle={styles.container}>
-          <Card>
-            <Card.Image style={styles.fakeImage}>
-              {/* <Logo /> */}
-              <LottieView
-                ref={animation}
-                source={require('../assets/clean.json')}
-                style={styles.animation}
-                loop={true}
-              />
-            </Card.Image>
-            <ButtonGroup
-              onPress={() => setShowRegForm(!showRegForm)}
-              selectedIndex={showRegForm ? 0 : 1}
-              buttons={['Login', 'Register']}
-            />
-          </Card>
+        <View>
           {showRegForm ? (
-            <Card>
-              <Card.Title h4>Login</Card.Title>
-              <Card.Divider />
-              <LoginForm />
-            </Card>
+            <RegisterForm style={styles.inner} />
           ) : (
-            <Card>
-              <Card.Title h4>Register</Card.Title>
-              <Card.Divider />
-              <RegisterForm setShowRegForm={setShowRegForm} />
-            </Card>
+            <LoginForm style={styles.inner} />
           )}
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </TouchableOpacity>
+          <Text
+            onPress={() => {
+              setShowRegForm(!showRegForm);
+            }}
+            style={{marginTop: 20, textAlign: 'center'}}
+          >
+            {showRegForm
+              ? 'Already registered? Log in'
+              : 'No account yet? Register a new account'}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 

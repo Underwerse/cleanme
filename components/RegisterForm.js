@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
-import {Input, Button} from '@rneui/themed';
+import {Input, Button, Card} from '@rneui/themed';
 
 export const RegisterForm = () => {
   const {checkUsername, postUser} = useUser();
@@ -39,8 +39,8 @@ export const RegisterForm = () => {
   };
 
   return (
-    <View>
-      <Text style={styles.header}>Registration form </Text>
+    <Card>
+      <Card.Title>Registration form</Card.Title>
       <Controller
         control={control}
         rules={{
@@ -160,16 +160,6 @@ export const RegisterForm = () => {
       />
 
       <Button title="Sign up" onPress={handleSubmit(register)} />
-    </View>
+    </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  header: {
-    textAlign: 'center',
-    marginTop: 24,
-    marginBottom: 10,
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-});

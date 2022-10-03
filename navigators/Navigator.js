@@ -12,6 +12,7 @@ import Upload from '../views/Upload';
 import MyFiles from '../views/MyFiles';
 import ModifyFile from '../views/ModifyFile';
 import Modify from '../views/Modify';
+import Start from '../views/Start';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -46,6 +47,8 @@ const TabScreen = () => {
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
+  const {isFirstStart} = useContext(MainContext);
+  console.log('isFirstStart', isFirstStart);
   return (
     <Stack.Navigator>
       {isLoggedIn ? (
