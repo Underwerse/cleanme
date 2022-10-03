@@ -1,24 +1,15 @@
-import {StatusBar} from 'expo-status-bar';
-import {Platform, SafeAreaView, StyleSheet} from 'react-native';
-import List from './components/List';
+import {MainProvider} from './contexts/MainContext';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Navigator from './navigators/Navigator';
 
 const App = () => {
   return (
-    <>
-      <SafeAreaView style={styles.droidSafeArea}>
-        <List />
-        <StatusBar style="auto" />
-      </SafeAreaView>
-    </>
+    <SafeAreaProvider>
+      <MainProvider>
+        <Navigator></Navigator>
+      </MainProvider>
+    </SafeAreaProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  droidSafeArea: {
-    paddingTop: Platform.OS === 'android' ? 45 : 0,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-});
 
 export default App;
