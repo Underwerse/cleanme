@@ -102,6 +102,7 @@ const useLogin = () => {
 
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
   console.log('%cApiHooks.js line:104 user', 'color: #007acc;', user);
+
   const {getUserByToken} = useUser();
 
   const checkToken = async () => {

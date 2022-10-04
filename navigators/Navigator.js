@@ -59,7 +59,7 @@ const StackScreen = () => {
           <Stack.Screen name="Single" component={Single} />
           <Stack.Screen name="MyFiles" component={MyFiles} />
           <Stack.Screen name="ModifyFile" component={ModifyFile} />
-          <Stack.Screen name="Modify" component={Modify}></Stack.Screen>
+          <Stack.Screen name="Modify" component={Modify} />
         </>
       ) : (
         <>
