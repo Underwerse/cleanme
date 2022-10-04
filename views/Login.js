@@ -31,7 +31,7 @@ const Login = () => {
 
   useEffect(() => {
     checkToken();
-  }, []);
+  });
 
   return (
     <SafeAreaView

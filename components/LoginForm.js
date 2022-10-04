@@ -22,7 +22,6 @@ export const LoginForm = () => {
 
   const logIn = async (loginCredentials) => {
     try {
-      // console.log('Button pressed', isLoggedIn);
       const userData = await postLogin(loginCredentials);
       console.log('User data: ', userData);
       await AsyncStorage.setItem('userToken', userData.token);
