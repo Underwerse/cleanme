@@ -6,7 +6,7 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <MainProvider>
-        <Navigator></Navigator>
+        <Navigator />
       </MainProvider>
     </SafeAreaProvider>
   );
