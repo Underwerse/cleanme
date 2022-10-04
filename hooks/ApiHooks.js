@@ -1,4 +1,5 @@
 import {useContext, useEffect, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import {doFetch} from '../utils/http';
 import {apiUrl, applicationTag} from '../utils/variables';
@@ -99,7 +100,28 @@ const useLogin = () => {
     }
   };
 
-  return {postLogin};
+  const {setIsLoggedIn, user, setUser} = useContext(MainContext);
+  console.log('%cApiHooks.js line:104 user', 'color: #007acc;', user);
+  const {getUserByToken} = useUser();
+
+  const checkToken = async () => {
+    const userToken = await AsyncStorage.getItem('userToken');
+    if (!userToken) {
+      return;
+    }
+    try {
+      const userData = await getUserByToken(userToken);
+      console.log('checkToken USER:', userData);
+      console.log('USER:', user);
+      setUser(userData);
+      setIsLoggedIn(true);
+      console.log('%cApiHooks.js line:118 user', 'color: #007acc;', user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return {postLogin, checkToken};
 };
 
 const useUser = () => {

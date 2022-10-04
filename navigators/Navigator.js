@@ -47,8 +47,6 @@ const TabScreen = () => {
 
 const StackScreen = () => {
   const {isLoggedIn} = useContext(MainContext);
-  const {isFirstStart} = useContext(MainContext);
-  console.log('isFirstStart', isFirstStart);
   return (
     <Stack.Navigator>
       {isLoggedIn ? (

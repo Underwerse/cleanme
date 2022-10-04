@@ -1,33 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Keyboard, TouchableOpacity, View, Text} from 'react-native';
 import PropTypes from 'prop-types';
-import {MainContext} from '../contexts/MainContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useUser} from '../hooks/ApiHooks';
+import {useLogin} from '../hooks/ApiHooks';
 import {LoginForm} from '../components/LoginForm';
 import {RegisterForm} from '../components/RegisterForm';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const Login = () => {
-  const {setIsLoggedIn, setUser} = useContext(MainContext);
-  const {getUserByToken} = useUser();
+  const {checkToken} = useLogin();
   const [showRegForm, setShowRegForm] = useState(false);
-
-  const checkToken = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    if (!userToken) {
-      return;
-    }
-    try {
-      const userData = await getUserByToken(userToken);
-      console.log('checkToken', userData);
-      console.log('token', userToken);
-      setUser(userData);
-      setIsLoggedIn(true);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
     checkToken();
