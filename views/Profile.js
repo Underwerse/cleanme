@@ -25,7 +25,7 @@ const Profile = ({navigation}) => {
 
   useEffect(() => {
     fetchAvatar();
-  }, []);
+  });
 
   const logout = async () => {
     try {

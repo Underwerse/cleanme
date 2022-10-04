@@ -12,7 +12,7 @@ import Upload from '../views/Upload';
 import MyFiles from '../views/MyFiles';
 import ModifyFile from '../views/ModifyFile';
 import Modify from '../views/Modify';
-import Start from '../views/Start';
+import OnboardingScreen from '../views/OnboardingScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -28,17 +28,17 @@ const TabScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
-        }}
-      />
-      <Tab.Screen
         name="Upload"
         component={Upload}
         options={{
           tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
         }}
       />
     </Tab.Navigator>
@@ -64,7 +64,18 @@ const StackScreen = () => {
           <Stack.Screen name="Modify" component={Modify}></Stack.Screen>
         </>
       ) : (
-        <Stack.Screen name="Login" component={Login} isLoggedIn={isLoggedIn} />
+        <>
+          <Stack.Screen
+            name="OnboardingScreen"
+            component={OnboardingScreen}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{headerShown: false}}
+          />
+        </>
       )}
     </Stack.Navigator>
   );

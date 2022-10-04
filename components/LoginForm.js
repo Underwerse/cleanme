@@ -6,7 +6,7 @@ import {MainContext} from '../contexts/MainContext';
 import {Input, Button, Text, Card} from '@rneui/themed';
 
 export const LoginForm = () => {
-  const {setIsLoggedIn, setUser, setIsFirstStart} = useContext(MainContext);
+  const {setIsLoggedIn, setUser} = useContext(MainContext);
   const {postLogin} = useLogin();
 
   const {
@@ -28,7 +28,6 @@ export const LoginForm = () => {
       await AsyncStorage.setItem('userToken', userData.token);
       setUser(userData.user);
       setIsLoggedIn(true);
-      setIsFirstStart(false);
     } catch (error) {
       console.error('Login - logIn', error);
       // TODO: nofify user about wrong username/password/net error?

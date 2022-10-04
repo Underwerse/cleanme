@@ -7,7 +7,6 @@ const MainProvider = (props) => {
   // TODO: create state isLoggedIn, set value to false
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [update, setUpdate] = useState(false);
-  const [isFirstStart, setIsFirstStart] = useState(true);
   const [user, setUser] = useState({});
 
   return (
@@ -19,8 +18,6 @@ const MainProvider = (props) => {
         setUpdate,
         user,
         setUser,
-        isFirstStart,
-        setIsFirstStart,
       }}
     >
       {props.children}
