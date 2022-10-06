@@ -1,19 +1,14 @@
 import React from 'react';
-import {
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
+import LogoSvg from '../assets/logo.svg';
+import TitleSvg from '../assets/title.svg';
 
 const Header = ({navigation}) => {
   return (
     <View style={styles.header}>
-      <Image style={styles.logo} source={require('../assets/logo.png')} />
-      <Image style={styles.title} source={require('../assets/title.png')} />
+      <LogoSvg height={'80%'} width={'25%'} />
+      <TitleSvg height={'80%'} width={'60%'} />
       {/* <ImageBackground
         source={require('../assets/rabbit.jpg')}
         style={styles.logo}
@@ -51,20 +46,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     position: 'relative',
     backgroundColor: 'white',
-  },
-  logo: {
-    height: 'auto',
-    width: '25%',
-    resizeMode: 'contain',
-    // borderColor: 'red',
-    // borderWidth: 2,
-  },
-  title: {
-    height: 'auto',
-    width: '60%',
-    resizeMode: 'contain',
-    // borderColor: 'red',
-    // borderWidth: 1,
   },
   // slogan: {
   //   backgroundColor: 'rgba(33,32,40,0.7)',
