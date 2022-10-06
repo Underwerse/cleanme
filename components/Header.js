@@ -1,8 +1,9 @@
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
 import LogoSvg from '../assets/logo.svg';
 import TitleSvg from '../assets/title.svg';
+import {colorSchema} from '../utils/variables';
 
 const Header = ({navigation}) => {
   return (
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     position: 'relative',
-    backgroundColor: 'white',
+    backgroundColor: colorSchema.bgrColor,
   },
   // slogan: {
   //   backgroundColor: 'rgba(33,32,40,0.7)',
