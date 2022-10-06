@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-// import {StyleSheet, SafeAreaView, Text, Button, Image} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
@@ -41,9 +41,7 @@ const Profile = ({navigation}) => {
       <Card>
         <Card.Title>
           <Icon name="person" />
-          <Text>
-            {user.username} (id: {user.user_id})
-          </Text>
+          <Text style={styles.A}>UsernameGoesHere</Text>
         </Card.Title>
         <Card.Divider />
 
@@ -63,10 +61,13 @@ const Profile = ({navigation}) => {
             }}
             containerStyle={{backgroundColor: '#aaa'}}
           />
-          <Text>{user.email}</Text>
+          <Text style={styles.A}>emailGoesHere</Text>
         </ListItem>
         <ListItem>
-          <Text>Full name: {user.fullname}</Text>
+          <Text style={styles.A}>Full name: FullnameGoesHere</Text>
+        </ListItem>
+        <ListItem>
+          <Text style={styles.A}>userId: userIdGoesHere</Text>
         </ListItem>
         <Button
           title={'MyFiles'}
@@ -91,7 +92,7 @@ Profile.propTypes = {
   navigation: PropTypes.object,
 };
 
-/* const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -103,6 +104,10 @@ Profile.propTypes = {
     marginBottom: 10,
     color: 'black',
   },
-}); */
+  A: {
+    color: 'blue',
+    fontWeight: 'bold',
+  },
+});
 
 export default Profile;
