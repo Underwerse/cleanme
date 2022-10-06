@@ -27,6 +27,7 @@ const TabScreen = () => {
         component={Home}
         options={{
           tabBarIcon: ({color}) => <Icon name="home" color={color} />,
+          tabBarActiveTintColor: colorSchema.mainColor,
         }}
       />
       <Tab.Screen
@@ -34,6 +35,7 @@ const TabScreen = () => {
         component={MyTasks}
         options={{
           tabBarIcon: ({color}) => <Icon name="fact-check" color={color} />,
+          tabBarActiveTintColor: colorSchema.mainColor,
         }}
       />
       <Tab.Screen
@@ -41,6 +43,7 @@ const TabScreen = () => {
         component={MyFavorites}
         options={{
           tabBarIcon: ({color}) => <Icon name="favorite" color={color} />,
+          tabBarActiveTintColor: colorSchema.mainColor,
         }}
       />
       <Tab.Screen
@@ -48,6 +51,7 @@ const TabScreen = () => {
         component={Profile}
         options={{
           tabBarIcon: ({color}) => <Icon name="person" color={color} />,
+          tabBarActiveTintColor: colorSchema.mainColor,
         }}
       />
     </Tab.Navigator>
