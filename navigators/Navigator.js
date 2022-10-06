@@ -15,6 +15,7 @@ import Modify from '../views/Modify';
 import OnboardingScreen from '../views/OnboardingScreen';
 import {colorSchema} from '../utils/variables';
 import MyFavorites from '../views/MyFavorites';
+import ModifyUser from '../views/ModifyUser';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -79,7 +80,7 @@ const StackScreen = () => {
           <Stack.Screen name="Single" component={Single} />
           <Stack.Screen name="MyTasks" component={MyTasks} />
           <Stack.Screen name="ModifyFile" component={ModifyFile} />
-          <Stack.Screen name="Modify" component={Modify} />
+          <Stack.Screen name="ModifyUser" component={ModifyUser} />
           <Stack.Screen name="AddTask" component={AddTask} />
         </>
       ) : (

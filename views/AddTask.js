@@ -13,10 +13,9 @@ import Header from '../components/Header';
 const Upload = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaType, setMediaType] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const {update, setUpdate} = useContext(MainContext);
 
-  const {postMedia} = useMedia();
+  const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
 
   const resetForm = () => {
@@ -173,7 +172,7 @@ const Upload = ({navigation}) => {
         <Button
           title="Upload media"
           disabled={!mediaFile}
-          loading={isLoading}
+          loading={loading}
           onPress={handleSubmit(onSubmit)}
         />
       </Card>

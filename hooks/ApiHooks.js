@@ -6,9 +6,11 @@ import {apiUrl, applicationTag} from '../utils/variables';
 
 const useMedia = (myFilesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
+  const [loading, setLoading] = useState(false);
   const {update, user} = useContext(MainContext);
 
   const loadMedia = async () => {
+    setLoading(true);
     try {
       if (myFilesOnly) {
         let jsonByTag = await useTag().getFilesByTag(applicationTag);
@@ -30,6 +32,8 @@ const useMedia = (myFilesOnly) => {
     } catch (error) {
       console.log('media fetch failed', error);
       throw new Error('Get media error: ', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,14 +42,17 @@ const useMedia = (myFilesOnly) => {
   }, [update]);
 
   const postMedia = async (token, formData) => {
+    setLoading(true);
     const options = {
       method: 'POST',
-      headers: {'x-access-token': token},
+      headers: {'x-access-token': token, 'Content-Type': 'multipart/form-data'},
       body: formData,
     };
 
     try {
-      return await doFetch(apiUrl + 'media', options);
+      const result = await doFetch(apiUrl + 'media', options);
+      result && setLoading(false);
+      return result;
     } catch (error) {
       console.log('postMedia error:', error.message);
     }
@@ -81,7 +88,7 @@ const useMedia = (myFilesOnly) => {
     }
   };
 
-  return {mediaArray, postMedia, putMedia, deleteMedia};
+  return {mediaArray, postMedia, putMedia, deleteMedia, loading};
 };
 
 const useLogin = () => {

@@ -50,7 +50,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
           <ButtonGroup
             onPress={(index) => {
               if (index === 0) {
-                navigation.navigate('Modify', {file: singleMedia});
+                navigation.navigate('ModifyFile', {file: singleMedia});
               } else {
                 doDelete();
               }

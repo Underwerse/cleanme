@@ -69,16 +69,16 @@ const Profile = ({navigation}) => {
           <Text>Full name: {user.fullname}</Text>
         </ListItem>
         <Button
-          title={'MyFiles'}
+          title={'MyTasks'}
           type="clear"
           onPress={() => {
-            navigation.navigate('MyFiles');
+            navigation.navigate('MyTasks');
           }}
         />
         <Button
           title="Modify user"
           onPress={() => {
-            navigation.navigate('Modify');
+            navigation.navigate('ModifyUser');
           }}
         />
         <Button title={'Logout'} type="clear" onPress={logout} />
