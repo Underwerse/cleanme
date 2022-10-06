@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import List from '../components/List';
 import PropTypes from 'prop-types';
 import AddButton from '../assets/add-btn.svg';
+import {colorSchema} from '../utils/variables';
 // import {MainContext} from '../contexts/MainContext';
 // import {useContext, useLayoutEffect} from 'react';
 
@@ -27,6 +28,7 @@ const Home = ({navigation}) => {
           onPress={() => {
             navigation.navigate('Upload');
           }}
+          color={colorSchema.red}
         />
       </View>
     </>
