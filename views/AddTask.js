@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {Alert} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {applicationTag} from '../utils/variables';
+import Header from '../components/Header';
 
 const Upload = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
@@ -26,15 +27,12 @@ const Upload = ({navigation}) => {
   };
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
+      // allowsEditing: true,
       // aspect: [4, 3],
       quality: 0.7,
     });
-
-    // console.log('pick image result: ', result);
 
     if (!result.cancelled) {
       setMediaFile(result.uri);
@@ -51,6 +49,7 @@ const Upload = ({navigation}) => {
     defaultValues: {
       title: '',
       description: '',
+      dateInput: '',
     },
   });
 
@@ -94,62 +93,91 @@ const Upload = ({navigation}) => {
       ]);
     } catch (error) {
       Alert.alert('Uploading status', error.message);
-      // console.log('onSubmit postMedia error: ', error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // console.log(watch('dateInput'));
+
   return (
-    <Card>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-          minLength: 3,
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Title"
-            autoCapitalize="words"
-            errorMessage={
-              (errors.title?.type === 'required' && (
-                <Text>This is required.</Text>
-              )) ||
-              (errors.title?.type === 'minLength' && <Text>Min 3 chars!</Text>)
-            }
+    <>
+      <Header navigation={navigation} />
+      <Card>
+        <Card.Title style={{fontSize: 26}}>Add new task</Card.Title>
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 5,
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Title"
+              autoCapitalize="sentences"
+              errorMessage={errors.title && <Text>{errors.title.message}</Text>}
+            />
+          )}
+          name="title"
+        />
+        {errors.title?.type === 'minLength' && <Text>Minimum 5 chars!</Text>}
+        {errors.title?.type === 'required' && (
+          <Text>This field is required.</Text>
+        )}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 20,
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Description"
+              errorMessage={
+                errors.description && <Text>{errors.description.message}</Text>
+              }
+            />
+          )}
+          name="description"
+        />
+        {errors.description?.type === 'minLength' && (
+          <Text>Minimum 20 chars! Describe your task, don`&#39`t be lazy!</Text>
+        )}
+        {errors.description?.type === 'required' && (
+          <Text>This field is required.</Text>
+        )}
+
+        {/* {errors.deadline?.type === 'minLength' && <Text>Something to do!</Text>}
+        {errors.deadline?.type === 'required' && (
+          <Text>This field is required.</Text>
+        )} */}
+
+        {mediaFile && (
+          <Card.Image
+            style={{resizeMode: 'contain', marginBottom: 20}}
+            source={{uri: mediaFile}}
           />
         )}
-        name="title"
-      />
-      <Controller
-        control={control}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Description"
-          />
-        )}
-        name="description"
-      />
-      {mediaFile && <Card.Image source={{uri: mediaFile}} />}
 
-      <Button title="Select media" onPress={pickImage} />
+        <Button title="Select media" onPress={pickImage} />
 
-      <Button title="Reset form" onPress={resetForm} />
+        <Button title="Reset form" onPress={resetForm} />
 
-      <Button
-        title="Upload media"
-        disabled={!mediaFile}
-        loading={isLoading}
-        onPress={handleSubmit(onSubmit)}
-      />
-    </Card>
+        <Button
+          title="Upload media"
+          disabled={!mediaFile}
+          loading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+        />
+      </Card>
+    </>
   );
 };
 

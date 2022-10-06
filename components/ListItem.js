@@ -7,7 +7,7 @@ import {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
+const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
   // console.log('myFilesOnly:', myFilesOnly);
   const {deleteMedia} = useMedia();
   const {update, setUpdate} = useContext(MainContext);
