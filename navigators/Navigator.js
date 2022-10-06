@@ -9,7 +9,7 @@ import Single from '../views/Single';
 import Login from '../views/Login';
 import {Icon} from '@rneui/themed';
 import Upload from '../views/Upload';
-import MyFiles from '../views/MyFiles';
+import MyTasks from '../views/MyTasks';
 import ModifyFile from '../views/ModifyFile';
 import Modify from '../views/Modify';
 import OnboardingScreen from '../views/OnboardingScreen';
@@ -28,8 +28,8 @@ const TabScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Upload"
-        component={Upload}
+        name="MyTasks"
+        component={MyTasks}
         options={{
           tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
         }}
@@ -57,9 +57,10 @@ const StackScreen = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="Single" component={Single} />
-          <Stack.Screen name="MyFiles" component={MyFiles} />
+          <Stack.Screen name="MyTasks" component={MyTasks} />
           <Stack.Screen name="ModifyFile" component={ModifyFile} />
           <Stack.Screen name="Modify" component={Modify} />
+          <Stack.Screen name="Upload" component={Upload} />
         </>
       ) : (
         <>
