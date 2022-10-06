@@ -14,6 +14,7 @@ import ModifyFile from '../views/ModifyFile';
 import Modify from '../views/Modify';
 import OnboardingScreen from '../views/OnboardingScreen';
 import {colorSchema} from '../utils/variables';
+import MyFavorites from '../views/MyFavorites';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,27 +26,28 @@ const TabScreen = () => {
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="home" color={colorSchema.mainColor} />
-          ),
+          tabBarIcon: ({color}) => <Icon name="home" color={color} />,
         }}
       />
       <Tab.Screen
         name="MyTasks"
         component={MyTasks}
         options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="fact-check" color={colorSchema.mainColor} />
-          ),
+          tabBarIcon: ({color}) => <Icon name="fact-check" color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="MyFavorites"
+        component={MyFavorites}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="favorite" color={color} />,
         }}
       />
       <Tab.Screen
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: ({color}) => (
-            <Icon name="person" color={colorSchema.mainColor} />
-          ),
+          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
         }}
       />
     </Tab.Navigator>

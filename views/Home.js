@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Header from '../components/Header';
 import List from '../components/List';
 import PropTypes from 'prop-types';
@@ -19,7 +19,7 @@ const Home = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
-      <View>
+      <TouchableOpacity>
         <List navigation={navigation} />
         <AddButton
           style={styles.addBtn}
@@ -28,9 +28,8 @@ const Home = ({navigation}) => {
           onPress={() => {
             navigation.navigate('Upload');
           }}
-          color={colorSchema.red}
         />
-      </View>
+      </TouchableOpacity>
     </>
   );
 };
