@@ -7,7 +7,7 @@ import TitleSvg from '../assets/title.svg';
 const Header = ({navigation}) => {
   return (
     <View style={styles.header}>
-      <LogoSvg height={'80%'} width={'25%'} />
+      <LogoSvg height={'100%'} width={'25%'} />
       <TitleSvg height={'80%'} width={'60%'} />
       {/* <ImageBackground
         source={require('../assets/rabbit.jpg')}
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     height: '15%',
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     position: 'relative',
     backgroundColor: 'white',
   },
