@@ -3,9 +3,6 @@ import Header from '../components/Header';
 import List from '../components/List';
 import PropTypes from 'prop-types';
 import AddButton from '../assets/add-btn.svg';
-import {colorSchema} from '../utils/variables';
-// import {MainContext} from '../contexts/MainContext';
-// import {useContext, useLayoutEffect} from 'react';
 
 const Home = ({navigation}) => {
   // const {update, setUpdate} = useContext(MainContext);
@@ -26,7 +23,7 @@ const Home = ({navigation}) => {
           height={'16%'}
           width={'16%'}
           onPress={() => {
-            navigation.navigate('Upload');
+            navigation.navigate('AddTask');
           }}
         />
       </TouchableOpacity>

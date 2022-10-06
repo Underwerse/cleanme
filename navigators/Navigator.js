@@ -8,7 +8,7 @@ import Profile from '../views/Profile';
 import Single from '../views/Single';
 import Login from '../views/Login';
 import {Icon} from '@rneui/themed';
-import Upload from '../views/Upload';
+import AddTask from '../views/AddTask';
 import MyTasks from '../views/MyTasks';
 import ModifyFile from '../views/ModifyFile';
 import Modify from '../views/Modify';
@@ -54,6 +54,13 @@ const TabScreen = () => {
           tabBarActiveTintColor: colorSchema.mainColor,
         }}
       />
+      <Tab.Screen
+        name="AddTask"
+        component={AddTask}
+        options={{
+          tabBarItemStyle: {display: 'none'},
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -73,7 +80,7 @@ const StackScreen = () => {
           <Stack.Screen name="MyTasks" component={MyTasks} />
           <Stack.Screen name="ModifyFile" component={ModifyFile} />
           <Stack.Screen name="Modify" component={Modify} />
-          <Stack.Screen name="Upload" component={Upload} />
+          <Stack.Screen name="AddTask" component={AddTask} />
         </>
       ) : (
         <>
