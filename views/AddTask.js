@@ -9,10 +9,13 @@ import {Alert} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {applicationTag} from '../utils/variables';
 import Header from '../components/Header';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const Upload = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaType, setMediaType] = useState(null);
+  const [startDate, setStartDate] = useState(new Date());
+  const [show, setShow] = useState(false);
   const {update, setUpdate} = useContext(MainContext);
 
   const {postMedia, loading} = useMedia();
@@ -40,15 +43,16 @@ const Upload = ({navigation}) => {
   };
 
   const {
+    register,
     control,
     handleSubmit,
     setValue,
     formState: {errors},
   } = useForm({
     defaultValues: {
-      title: '',
-      description: '',
-      dateInput: '',
+      title: 'asdf',
+      description: 'lkjh',
+      deadline: '2022',
     },
   });
 
@@ -98,6 +102,19 @@ const Upload = ({navigation}) => {
   };
 
   // console.log(watch('dateInput'));
+  console.log('startDate', typeof startDate);
+
+  const onChangeDate = (event, selectedDate) => {
+    setStartDate(selectedDate);
+    const date = new Date(selectedDate);
+    setValue('deadline', date.toString());
+    console.log('date.getFullYear()', date.getFullYear());
+    setShow(false);
+  };
+
+  const showDatepicker = () => {
+    setShow(true);
+  };
 
   return (
     <>
@@ -153,10 +170,30 @@ const Upload = ({navigation}) => {
           <Text>This field is required.</Text>
         )}
 
-        {/* {errors.deadline?.type === 'minLength' && <Text>Something to do!</Text>}
-        {errors.deadline?.type === 'required' && (
-          <Text>This field is required.</Text>
-        )} */}
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              onBlur={onBlur}
+              value={value}
+              onChangeText={onChange}
+              placeholder="Deadline"
+              errorMessage={
+                errors.deadline && <Text>{errors.deadline.message}</Text>
+              }
+            />
+          )}
+          name="deadline"
+        />
+        <Button onPress={showDatepicker} title={'Pick date'} />
+        {show && (
+          <DateTimePicker
+            onChange={onChangeDate}
+            mode={'date'}
+            is24Hour={true}
+            value={startDate}
+          />
+        )}
 
         {mediaFile && (
           <Card.Image
