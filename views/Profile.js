@@ -54,6 +54,7 @@ const Profile = ({navigation}) => {
         />
         <ListItem>
           <Avatar
+            style={styles.avatarStyle}
             icon={{
               name: 'contact-mail',
               type: 'material',
@@ -61,15 +62,16 @@ const Profile = ({navigation}) => {
             }}
             containerStyle={{backgroundColor: '#aaa'}}
           />
-          <Text style={styles.A}>emailGoesHere</Text>
+          <Text style={styles.textStyle}>emailGoesHere</Text>
         </ListItem>
         <ListItem>
-          <Text style={styles.A}>Full name: FullnameGoesHere</Text>
+          <Text style={styles.textStyle}>Full name: FullnameGoesHere</Text>
         </ListItem>
         <ListItem>
-          <Text style={styles.A}>userId: userIdGoesHere</Text>
+          <Text style={styles.textStyle}>userId: userIdGoesHere</Text>
         </ListItem>
         <Button
+          style={styles.buttonStyle}
           title={'MyFiles'}
           type="clear"
           onPress={() => {
@@ -77,12 +79,18 @@ const Profile = ({navigation}) => {
           }}
         />
         <Button
+          style={styles.buttonStyle}
           title="Modify user"
           onPress={() => {
             navigation.navigate('Modify');
           }}
         />
-        <Button title={'Logout'} type="clear" onPress={logout} />
+        <Button
+          style={styles.buttonStyle}
+          title={'Logout'}
+          type="clear"
+          onPress={logout}
+        />
       </Card>
     </ScrollView>
   );
@@ -104,9 +112,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: 'black',
   },
-  A: {
+  textStyle: {
     color: 'blue',
     fontWeight: 'bold',
+  },
+  buttonStyle: {
+    borderRadius: 12,
+    marginTop: 20,
+    marginBottom: 20,
+    color: 'red',
+  },
+  avatarStyle: {
+    borderRadius: 12,
   },
 });
 
