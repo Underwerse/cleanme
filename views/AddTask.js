@@ -5,16 +5,16 @@ import {useMedia, useTag} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
 import * as ImagePicker from 'expo-image-picker';
-import {Alert} from 'react-native';
+import {Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
-import {applicationTag} from '../utils/variables';
+import {applicationTag, colorSchema} from '../utils/variables';
 import Header from '../components/Header';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const Upload = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaType, setMediaType] = useState(null);
-  const [startDate, setStartDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const {update, setUpdate} = useContext(MainContext);
 
@@ -22,10 +22,16 @@ const Upload = ({navigation}) => {
   const {postTag} = useTag();
 
   const resetForm = () => {
+    const tempDate = new Date();
+    const currentDate = tempDate.toISOString().split('T')[0];
     setMediaFile(null);
     setMediaType(null);
     setValue('title', '');
     setValue('description', '');
+    setValue('address', '');
+    setValue('budget', '');
+    setDate(tempDate);
+    setValue('deadline', currentDate);
   };
 
   const pickImage = async () => {
@@ -43,16 +49,16 @@ const Upload = ({navigation}) => {
   };
 
   const {
-    register,
     control,
     handleSubmit,
     setValue,
     formState: {errors},
   } = useForm({
     defaultValues: {
-      title: 'asdf',
-      description: 'lkjh',
-      deadline: '2022',
+      title: '',
+      description: '',
+      address: '',
+      deadline: date.toISOString().split('T')[0],
     },
   });
 
@@ -60,6 +66,9 @@ const Upload = ({navigation}) => {
     const formData = new FormData();
     formData.append('title', data.title);
     formData.append('description', data.description);
+    formData.append('deadline', data.deadline);
+    formData.append('budget', data.budget);
+    formData.append('address', data.address);
     if (!mediaFile) {
       Alert.alert('Check image', 'No image selected!');
       return;
@@ -72,7 +81,6 @@ const Upload = ({navigation}) => {
       name: fileName,
       type: mediaType + '/' + fileExtension,
     });
-    setIsLoading(true);
     try {
       const token = await AsyncStorage.getItem('userToken');
       const mediaResponse = await postMedia(token, formData);
@@ -96,20 +104,15 @@ const Upload = ({navigation}) => {
       ]);
     } catch (error) {
       Alert.alert('Uploading status', error.message);
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  // console.log(watch('dateInput'));
-  console.log('startDate', typeof startDate);
-
   const onChangeDate = (event, selectedDate) => {
-    setStartDate(selectedDate);
-    const date = new Date(selectedDate);
-    setValue('deadline', date.toString());
-    console.log('date.getFullYear()', date.getFullYear());
     setShow(false);
+    const date = new Date(selectedDate);
+    setDate(selectedDate);
+    setValue('deadline', date.toISOString().split('T')[0]);
+    console.log('date.getFullYear()', date.getFullYear());
   };
 
   const showDatepicker = () => {
@@ -119,7 +122,7 @@ const Upload = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
-      <Card>
+      <ScrollView style={styles.container}>
         <Card.Title style={{fontSize: 26}}>Add new task</Card.Title>
         <Controller
           control={control}
@@ -132,7 +135,7 @@ const Upload = ({navigation}) => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Title"
+              placeholder="Title *"
               autoCapitalize="sentences"
               errorMessage={errors.title && <Text>{errors.title.message}</Text>}
             />
@@ -155,7 +158,7 @@ const Upload = ({navigation}) => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Description"
+              placeholder="Description *"
               errorMessage={
                 errors.description && <Text>{errors.description.message}</Text>
               }
@@ -172,27 +175,66 @@ const Upload = ({navigation}) => {
 
         <Controller
           control={control}
+          rules={{
+            required: true,
+            minLength: 10,
+          }}
           render={({field: {onChange, onBlur, value}}) => (
             <Input
               onBlur={onBlur}
-              value={value}
               onChangeText={onChange}
-              placeholder="Deadline"
+              value={value}
+              placeholder="Address *"
               errorMessage={
-                errors.deadline && <Text>{errors.deadline.message}</Text>
+                errors.address && <Text>{errors.address.message}</Text>
               }
             />
           )}
+          name="address"
+        />
+        {errors.address?.type === 'minLength' && <Text>Minimum 10 chars!</Text>}
+        {errors.address?.type === 'required' && (
+          <Text>This field is required.</Text>
+        )}
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 1,
+            maxLength: 3,
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              keyboardType="phone-pad"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Budget (EUR) *"
+              errorMessage={
+                errors.budget && <Text>{errors.budget.message}</Text>
+              }
+            />
+          )}
+          name="budget"
+        />
+        {errors.budget?.type === 'minLength' && <Text>Minimum 1 EUR!</Text>}
+        {errors.budget?.type === 'maxLength' && <Text>Maximum 999 EUR!</Text>}
+        {errors.budget?.type === 'required' && (
+          <Text>This field is required.</Text>
+        )}
+
+        <Controller
+          control={control}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Text style={styles.dateInput} onPress={showDatepicker}>
+              Deadline: {value}
+            </Text>
+          )}
           name="deadline"
         />
-        <Button onPress={showDatepicker} title={'Pick date'} />
         {show && (
-          <DateTimePicker
-            onChange={onChangeDate}
-            mode={'date'}
-            is24Hour={true}
-            value={startDate}
-          />
+          <DateTimePicker onChange={onChangeDate} mode={'date'} value={date} />
         )}
 
         {mediaFile && (
@@ -202,20 +244,55 @@ const Upload = ({navigation}) => {
           />
         )}
 
-        <Button title="Select media" onPress={pickImage} />
-
-        <Button title="Reset form" onPress={resetForm} />
+        <Button
+          buttonStyle={styles.btn}
+          title="Select media"
+          onPress={pickImage}
+        />
 
         <Button
+          buttonStyle={{
+            borderColor: 'rgba(78, 116, 289, 1)',
+          }}
+          type="clear"
+          titleStyle={{color: colorSchema.mainColor}}
+          containerStyle={{
+            marginHorizontal: 50,
+            marginTop: -10,
+            marginBottom: 20,
+          }}
+          title="Reset form"
+          onPress={resetForm}
+        />
+
+        <Button
+          buttonStyle={styles.btn}
           title="Upload media"
           disabled={!mediaFile}
           loading={loading}
           onPress={handleSubmit(onSubmit)}
         />
-      </Card>
+      </ScrollView>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  dateInput: {
+    fontSize: 20,
+    marginBottom: 20,
+    marginLeft: 10,
+  },
+  btn: {
+    marginBottom: 20,
+    backgroundColor: colorSchema.mainColor,
+    borderRadius: 40,
+  },
+});
 
 Upload.propTypes = {
   navigation: PropTypes.object,
