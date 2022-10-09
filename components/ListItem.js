@@ -1,6 +1,6 @@
 import {Alert, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
-import {mediaUrl} from '../utils/variables';
+import {colorSchema, mediaUrl} from '../utils/variables';
 import {ListItem as RNEListItem, Avatar, ButtonGroup} from '@rneui/themed';
 import {useMedia} from '../hooks/ApiHooks';
 import {useContext} from 'react';
@@ -46,14 +46,22 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
         size="large"
         source={{uri: mediaUrl + singleMedia.thumbnails.w160}}
       />
-      <RNEListItem.Content>
-        <RNEListItem.Title>{singleMedia.title}</RNEListItem.Title>
+      <RNEListItem.Content style={styles.listDescription}>
+        <RNEListItem.Title
+          style={{
+            fontSize: 20,
+            fontWeight: 'bold',
+            color: colorSchema.mainColor,
+          }}
+        >
+          {singleMedia.title}
+        </RNEListItem.Title>
         <RNEListItem.Subtitle>
           {descriptionParsed.description}
         </RNEListItem.Subtitle>
-        <RNEListItem.Subtitle>
+        {/* <RNEListItem.Subtitle>
           Type: {singleMedia.media_type}
-        </RNEListItem.Subtitle>
+        </RNEListItem.Subtitle> */}
         {myFilesOnly && (
           <ButtonGroup
             onPress={(index) => {
@@ -79,9 +87,13 @@ const styles = StyleSheet.create({
   listItemContainer: {
     marginBottom: 5,
   },
+  listDescription: {
+    alignSelf: 'flex-start',
+  },
   listPrice: {
     alignSelf: 'flex-start',
     fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 
