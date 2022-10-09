@@ -41,7 +41,7 @@ const Profile = ({navigation}) => {
       <Card>
         <Card.Title>
           <Icon name="person" />
-          <Text style={styles.A}>UsernameGoesHere</Text>
+          <Text style={styles.textStyle}>{user.username}</Text>
         </Card.Title>
         <Card.Divider />
 
@@ -62,13 +62,13 @@ const Profile = ({navigation}) => {
             }}
             containerStyle={{backgroundColor: '#aaa'}}
           />
-          <Text style={styles.textStyle}>emailGoesHere</Text>
+          <Text style={styles.textStyle}>{user.email}</Text>
         </ListItem>
         <ListItem>
-          <Text style={styles.textStyle}>Full name: FullnameGoesHere</Text>
+          <Text style={styles.textStyle}>Full name: {user.full_name}</Text>
         </ListItem>
         <ListItem>
-          <Text style={styles.textStyle}>userId: userIdGoesHere</Text>
+          <Text style={styles.textStyle}>userId: {user.user_id}</Text>
         </ListItem>
         <Button
           style={styles.buttonStyle}
