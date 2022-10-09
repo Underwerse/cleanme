@@ -64,12 +64,21 @@ const Upload = ({navigation}) => {
   });
 
   const onSubmit = async (data) => {
+    console.log(
+      '%cAddTask.js line:67 title',
+      'color: white; background-color: #26bfa5;',
+      data.title
+    );
     const formData = new FormData();
     formData.append('title', data.title);
-    formData.append('description', data.description);
-    formData.append('deadline', data.deadline);
-    formData.append('budget', data.budget);
-    formData.append('address', data.address);
+    const descriptionUnited = {
+      description: data.description,
+      deadline: data.deadline,
+      address: data.address,
+      budget: data.budget,
+      projectLabel: 'cleanme',
+    };
+    formData.append('description', JSON.stringify(descriptionUnited));
     if (!mediaFile) {
       Alert.alert('Check image', 'No image selected!');
       return;
@@ -129,7 +138,7 @@ const Upload = ({navigation}) => {
           control={control}
           rules={{
             required: true,
-            minLength: 5,
+            minLength: 1,
           }}
           render={({field: {onChange, onBlur, value}}) => (
             <Input
@@ -152,7 +161,7 @@ const Upload = ({navigation}) => {
           control={control}
           rules={{
             required: true,
-            minLength: 20,
+            minLength: 1,
           }}
           render={({field: {onChange, onBlur, value}}) => (
             <Input
@@ -178,7 +187,7 @@ const Upload = ({navigation}) => {
           control={control}
           rules={{
             required: true,
-            minLength: 10,
+            minLength: 1,
           }}
           render={({field: {onChange, onBlur, value}}) => (
             <Input
