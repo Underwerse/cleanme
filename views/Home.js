@@ -1,4 +1,4 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Header from '../components/Header';
 import List from '../components/List';
 import PropTypes from 'prop-types';

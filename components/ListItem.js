@@ -3,14 +3,16 @@ import PropTypes from 'prop-types';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {ListItem as RNEListItem, Avatar, ButtonGroup} from '@rneui/themed';
 import {useMedia} from '../hooks/ApiHooks';
-import {useContext} from 'react';
+import {useContext, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LikeEmpty from '../assets/like_empty.svg';
+import LikeFull from '../assets/like_full.svg';
 
 const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
   const {deleteMedia} = useMedia();
   const {update, setUpdate} = useContext(MainContext);
+  const [isLiked, setIsLiked] = useState(false);
   const descriptionParsed = JSON.parse(singleMedia.description);
   console.log(
     '%cListItem.js line:15 descriptionParsed',
@@ -57,13 +59,13 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
         >
           {singleMedia.title}
         </RNEListItem.Title>
-        {descriptionParsed.description.length < 70 ? (
+        {descriptionParsed.description.length < 60 ? (
           <RNEListItem.Subtitle>
             {descriptionParsed.description}
           </RNEListItem.Subtitle>
         ) : (
           <RNEListItem.Subtitle>
-            {descriptionParsed.description.substr(0, 70) + '...'}
+            {descriptionParsed.description.substr(0, 60)} ... view more
           </RNEListItem.Subtitle>
         )}
         {myFilesOnly && (
@@ -85,14 +87,35 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
           {descriptionParsed.budget} EUR
         </RNEListItem.Subtitle>
       </RNEListItem.Content>
-      <LikeEmpty
-        style={styles.likeEmpty}
-        height={35}
-        width={35}
-        onPress={() => {
-          navigation.navigate('AddTask');
-        }}
-      />
+      {!isLiked ? (
+        <LikeEmpty
+          style={styles.likeEmpty}
+          height={35}
+          width={35}
+          onPress={() => {
+            console.log(
+              '%cListItem.js line:96 isLiked',
+              'color: white; background-color: #26bfa5;',
+              isLiked
+            );
+            setIsLiked((isLiked) => !isLiked);
+          }}
+        />
+      ) : (
+        <LikeFull
+          style={styles.likeEmpty}
+          height={35}
+          width={35}
+          onPress={() => {
+            console.log(
+              '%cListItem.js line:96 isLiked',
+              'color: white; background-color: #26bfa5;',
+              isLiked
+            );
+            setIsLiked((isLiked) => !isLiked);
+          }}
+        />
+      )}
     </RNEListItem>
   );
 };
