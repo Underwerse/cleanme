@@ -10,6 +10,7 @@ import {MainContext} from '../contexts/MainContext';
 import {applicationTag, colorSchema} from '../utils/variables';
 import Header from '../components/Header';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {color} from '@rneui/base';
 
 const Upload = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
@@ -227,9 +228,15 @@ const Upload = ({navigation}) => {
         <Controller
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
-            <Text style={styles.dateInput} onPress={showDatepicker}>
-              Deadline: {value}
-            </Text>
+            <View style={styles.deadlineWrap}>
+              <Text style={styles.dateInput}>Deadline: </Text>
+              <Text
+                style={{...styles.dateInput, color: colorSchema.mainColor}}
+                onPress={showDatepicker}
+              >
+                {value}
+              </Text>
+            </View>
           )}
           name="deadline"
         />
@@ -245,7 +252,16 @@ const Upload = ({navigation}) => {
         )}
 
         <Button
-          buttonStyle={styles.btn}
+          buttonStyle={{
+            borderColor: 'rgba(78, 116, 289, 1)',
+          }}
+          type="clear"
+          titleStyle={{color: colorSchema.mainColor}}
+          containerStyle={{
+            marginHorizontal: 50,
+            marginTop: -10,
+            marginBottom: 20,
+          }}
           title="Select media"
           onPress={pickImage}
         />
@@ -286,6 +302,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 20,
     marginLeft: 10,
+  },
+  deadlineWrap: {
+    flexDirection: 'row',
   },
   btn: {
     marginBottom: 20,
