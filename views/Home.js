@@ -18,15 +18,15 @@ const Home = ({navigation}) => {
       <Header navigation={navigation} />
       <TouchableOpacity>
         <List navigation={navigation} />
-        <AddButton
-          style={styles.addBtn}
-          height={'16%'}
-          width={'16%'}
-          onPress={() => {
-            navigation.navigate('AddTask');
-          }}
-        />
       </TouchableOpacity>
+      <AddButton
+        style={styles.addBtn}
+        height={'12%'}
+        width={'12%'}
+        onPress={() => {
+          navigation.navigate('AddTask');
+        }}
+      />
     </>
   );
 };
@@ -34,8 +34,8 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   addBtn: {
     position: 'absolute',
-    bottom: 80,
-    left: '42%',
+    bottom: 0,
+    left: '44%',
   },
 });
 

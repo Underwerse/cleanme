@@ -22,7 +22,10 @@ const useMedia = (myFilesOnly) => {
 
         setMediaArray(await Promise.all(allMediaDataByTag));
       } else {
-        const json = await doFetch(apiUrl + 'media?limit=20');
+        let json = await doFetch(apiUrl + 'media?limit=20');
+        json = json.filter(
+          (item) => item.description.split('projectLabel')[1] != undefined
+        );
         const allMediaData = json.map(async (mediaItem) => {
           return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
         });
