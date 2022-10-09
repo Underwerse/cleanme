@@ -8,17 +8,13 @@ import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
+import {Text} from '@rneui/base';
 
 const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
   const {deleteMedia} = useMedia();
   const {update, setUpdate} = useContext(MainContext);
   const [isLiked, setIsLiked] = useState(false);
   const descriptionParsed = JSON.parse(singleMedia.description);
-  console.log(
-    '%cListItem.js line:15 descriptionParsed',
-    'color: white; color: #26bfa5;',
-    descriptionParsed
-  );
 
   const doDelete = () => {
     Alert.alert('Delete', 'Delete this file permanently?', [
@@ -65,7 +61,8 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
           </RNEListItem.Subtitle>
         ) : (
           <RNEListItem.Subtitle>
-            {descriptionParsed.description.substr(0, 60)} ... view more
+            {descriptionParsed.description.substr(0, 60)}
+            <Text style={{color: colorSchema.mainColor}}>   ...view more </Text>
           </RNEListItem.Subtitle>
         )}
         {myFilesOnly && (
