@@ -1,4 +1,4 @@
-import {Alert} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {mediaUrl} from '../utils/variables';
 import {ListItem as RNEListItem, Avatar, ButtonGroup} from '@rneui/themed';
@@ -8,9 +8,15 @@ import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
-  // console.log('myFilesOnly:', myFilesOnly);
   const {deleteMedia} = useMedia();
   const {update, setUpdate} = useContext(MainContext);
+  const descriptionParsed = JSON.parse(singleMedia.description);
+  console.log(
+    '%cListItem.js line:15 descriptionParsed',
+    'color: white; color: #26bfa5;',
+    descriptionParsed
+  );
+
   const doDelete = () => {
     Alert.alert('Delete', 'Delete this file permanently?', [
       {text: 'Cancel'},
@@ -31,7 +37,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
   };
   return (
     <RNEListItem
-      bottomDivider
+      style={styles.listItemContainer}
       onPress={() => {
         navigation.navigate('Single', {file: singleMedia});
       }}
@@ -43,7 +49,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
       <RNEListItem.Content>
         <RNEListItem.Title>{singleMedia.title}</RNEListItem.Title>
         <RNEListItem.Subtitle>
-          {JSON.parse(singleMedia.description).description}
+          {descriptionParsed.description}
         </RNEListItem.Subtitle>
         <RNEListItem.Subtitle>
           Type: {singleMedia.media_type}
@@ -62,9 +68,22 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
           />
         )}
       </RNEListItem.Content>
+      <RNEListItem.Subtitle style={styles.listPrice}>
+        {descriptionParsed.budget} EUR
+      </RNEListItem.Subtitle>
     </RNEListItem>
   );
 };
+
+const styles = StyleSheet.create({
+  listItemContainer: {
+    marginBottom: 5,
+  },
+  listPrice: {
+    alignSelf: 'flex-start',
+    fontSize: 20,
+  },
+});
 
 ListItem.propTypes = {
   singleMedia: PropTypes.object,

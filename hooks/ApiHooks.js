@@ -15,11 +15,6 @@ const useMedia = (myFilesOnly) => {
       if (myFilesOnly) {
         let jsonByTag = await useTag().getFilesByTag(applicationTag);
         console.log('User from ApiHooks', user);
-        console.log(
-          '%cApiHooks.js line:18 jsonByTag',
-          'color: white; background-color: #26bfa5;',
-          jsonByTag
-        );
         jsonByTag = jsonByTag
           .filter(
             (item) => item.description.split('projectLabel')[1] != undefined
@@ -32,11 +27,6 @@ const useMedia = (myFilesOnly) => {
         setMediaArray(await Promise.all(allMediaDataByTag));
       } else {
         let json = await doFetch(apiUrl + 'media?limit=200');
-        console.log(
-          '%cApiHooks.js line:35 json',
-          'color: white; background-color: #26bfa5;',
-          json
-        );
         json = json.filter(
           (item) => item.description.split('projectLabel')[1] != undefined
         );
