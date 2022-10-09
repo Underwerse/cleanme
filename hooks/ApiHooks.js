@@ -15,7 +15,11 @@ const useMedia = (myFilesOnly) => {
       if (myFilesOnly) {
         let jsonByTag = await useTag().getFilesByTag(applicationTag);
         console.log('User from ApiHooks', user);
-        jsonByTag = jsonByTag.filter((file) => file.user_id === user.user_id);
+        jsonByTag = jsonByTag
+          .filter(
+            (item) => item.description.split('projectLabel')[1] != undefined
+          )
+          .filter((file) => file.user_id === user.user_id);
         const allMediaDataByTag = jsonByTag.map(async (mediaItem) => {
           return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
         });
