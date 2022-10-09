@@ -42,7 +42,9 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
       />
       <RNEListItem.Content>
         <RNEListItem.Title>{singleMedia.title}</RNEListItem.Title>
-        <RNEListItem.Subtitle>{singleMedia.description}</RNEListItem.Subtitle>
+        <RNEListItem.Subtitle>
+          {JSON.parse(singleMedia.description).description}
+        </RNEListItem.Subtitle>
         <RNEListItem.Subtitle>
           Type: {singleMedia.media_type}
         </RNEListItem.Subtitle>

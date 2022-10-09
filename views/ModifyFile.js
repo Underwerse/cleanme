@@ -37,7 +37,7 @@ const ModifyFile = ({navigation, route}) => {
           text: 'OK',
           onPress: () => {
             setTimeout(() => {
-              navigation.navigate('MyFiles');
+              navigation.navigate('MyTasks');
             }, 1000);
           },
         },

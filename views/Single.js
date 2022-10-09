@@ -127,7 +127,9 @@ const Single = ({route}) => {
           ></Video>
         )}
         <Card.Divider />
-        <Text style={styles.description}>{file.description}</Text>
+        <Text style={styles.description}>
+          {JSON.parse(file.description).description}
+        </Text>
         <ListItem>
           <Avatar source={{uri: avatar}} />
           <Text>{owner.username}</Text>
