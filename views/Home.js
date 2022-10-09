@@ -1,4 +1,4 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import Header from '../components/Header';
 import List from '../components/List';
 import PropTypes from 'prop-types';
@@ -16,9 +16,7 @@ const Home = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
-      <TouchableOpacity>
-        <List navigation={navigation} />
-      </TouchableOpacity>
+      <List navigation={navigation} />
       <AddButton
         style={styles.addBtn}
         height={'12%'}
@@ -36,6 +34,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: '44%',
+  },
+  likeEmpty: {
+    position: 'absolute',
+    bottom: 20,
+    right: 10,
   },
 });
 

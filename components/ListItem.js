@@ -6,6 +6,7 @@ import {useMedia} from '../hooks/ApiHooks';
 import {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LikeEmpty from '../assets/like_empty.svg';
 
 const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
   const {deleteMedia} = useMedia();
@@ -56,12 +57,15 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
         >
           {singleMedia.title}
         </RNEListItem.Title>
-        <RNEListItem.Subtitle>
-          {descriptionParsed.description}
-        </RNEListItem.Subtitle>
-        {/* <RNEListItem.Subtitle>
-          Type: {singleMedia.media_type}
-        </RNEListItem.Subtitle> */}
+        {descriptionParsed.description.length < 70 ? (
+          <RNEListItem.Subtitle>
+            {descriptionParsed.description}
+          </RNEListItem.Subtitle>
+        ) : (
+          <RNEListItem.Subtitle>
+            {descriptionParsed.description.substr(0, 70) + '...'}
+          </RNEListItem.Subtitle>
+        )}
         {myFilesOnly && (
           <ButtonGroup
             onPress={(index) => {
@@ -76,9 +80,19 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
           />
         )}
       </RNEListItem.Content>
-      <RNEListItem.Subtitle style={styles.listPrice}>
-        {descriptionParsed.budget} EUR
-      </RNEListItem.Subtitle>
+      <RNEListItem.Content style={styles.borders}>
+        <RNEListItem.Subtitle style={styles.listPrice}>
+          {descriptionParsed.budget} EUR
+        </RNEListItem.Subtitle>
+      </RNEListItem.Content>
+      <LikeEmpty
+        style={styles.likeEmpty}
+        height={35}
+        width={35}
+        onPress={() => {
+          navigation.navigate('AddTask');
+        }}
+      />
     </RNEListItem>
   );
 };
@@ -86,14 +100,34 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
 const styles = StyleSheet.create({
   listItemContainer: {
     marginBottom: 5,
+    // borderWidth: 2,
+    // borderColor: 'red',
+    marginRight: -20,
+    // height: 150,
   },
   listDescription: {
     alignSelf: 'flex-start',
+    width: '70%',
+    flexGrow: 3,
+    // borderWidth: 2,
+    // borderColor: 'red',
   },
   listPrice: {
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-end',
+    justifyContent: 'space-between',
     fontSize: 20,
     fontWeight: 'bold',
+    marginLeft: -20,
+  },
+  likeEmpty: {
+    position: 'absolute',
+    top: 60,
+    right: 35,
+  },
+  borders: {
+    alignSelf: 'flex-start',
+    // borderWidth: 2,
+    // borderColor: 'red',
   },
 });
 
