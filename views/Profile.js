@@ -46,7 +46,7 @@ const Profile = ({navigation}) => {
         <Card.Divider />
 
         <Card.Image
-          style={{padding: 0}}
+          style={{padding: 0, borderRadius: 20}}
           source={{
             uri: avatar,
           }}
@@ -54,7 +54,7 @@ const Profile = ({navigation}) => {
         />
         <ListItem>
           <Avatar
-            style={styles.avatarStyle}
+            avatarStyle={{borderRadius: 20}}
             icon={{
               name: 'contact-mail',
               type: 'material',
@@ -71,7 +71,11 @@ const Profile = ({navigation}) => {
           <Text style={styles.textStyle}>userId: {user.user_id}</Text>
         </ListItem>
         <Button
-          style={styles.buttonStyle}
+          buttonStyle={{
+            borderRadius: 20,
+            marginTop: 5,
+            marginBottom: 5,
+          }}
           title={'MyFiles'}
           type="clear"
           onPress={() => {
@@ -79,14 +83,22 @@ const Profile = ({navigation}) => {
           }}
         />
         <Button
-          style={styles.buttonStyle}
+          buttonStyle={{
+            borderRadius: 20,
+            marginTop: 5,
+            marginBottom: 5,
+          }}
           title="Modify user"
           onPress={() => {
             navigation.navigate('Modify');
           }}
         />
         <Button
-          style={styles.buttonStyle}
+          buttonStyle={{
+            borderRadius: 20,
+            marginTop: 5,
+            marginBottom: 5,
+          }}
           title={'Logout'}
           type="clear"
           onPress={logout}
@@ -115,15 +127,6 @@ const styles = StyleSheet.create({
   textStyle: {
     color: 'blue',
     fontWeight: 'bold',
-  },
-  buttonStyle: {
-    borderRadius: 12,
-    marginTop: 20,
-    marginBottom: 20,
-    color: 'red',
-  },
-  avatarStyle: {
-    borderRadius: 12,
   },
 });
 
