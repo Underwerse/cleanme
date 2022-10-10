@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {ListItem as RNEListItem, Avatar, ButtonGroup} from '@rneui/themed';
 import {useFavourite, useMedia} from '../hooks/ApiHooks';
-import {useContext, useEffect, useState} from 'react';
+import React, {Children, useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LikeEmpty from '../assets/like_empty.svg';
@@ -21,6 +21,12 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
   const [isLiked, setIsLiked] = useState(false);
   const [userLike, setUserLike] = useState(false);
   const [likes, setLikes] = useState([]);
+  // const [tag, setTag] = useState(LikeEmpty);
+  // const Tag = React.createElement(tag);
+
+  // const setLikesTag = () => {
+  //   userLike ? setTag('LikeFull') : setTag('LikeEmpty');
+  // };
 
   const descriptionParsed = JSON.parse(singleMedia.description);
   const {postFavourite, getFavouritesByFileId, deleteFavourite} =
@@ -33,7 +39,10 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
       // TODO: check if user id of of logged in user is included in data and
       // set state userLike accordingly
       likesData.forEach((like) => {
-        like.user_id === user.user_id && setUserLike(true);
+        if (like.user_id === user.user_id) {
+          setUserLike(true);
+          // setTag(LikeFull);
+        }
       });
     } catch (error) {
       // TODO: how should user be notified?
@@ -139,22 +148,14 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
           {descriptionParsed.budget} EUR
         </RNEListItem.Subtitle>
       </RNEListItem.Content>
-      {!isLiked ? (
+      {!userLike ? (
         <LikeEmpty
           style={styles.likeEmpty}
           height={35}
           width={35}
           onPress={() => {
-            console.log(
-              '%cListItem.js line:96 isLiked',
-              'color: white; background-color: #26bfa5;',
-              isLiked,
-              singleMedia.file_id
-            );
-            {
-              isLiked ? removeFavourite() : createFavourite();
-            }
-            setIsLiked((isLiked) => !isLiked);
+            createFavourite();
+            // setIsLiked((isLiked) => !isLiked);
           }}
         />
       ) : (
@@ -163,16 +164,8 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
           height={35}
           width={35}
           onPress={() => {
-            console.log(
-              '%cListItem.js line:96 isLiked',
-              'color: white; background-color: #26bfa5;',
-              isLiked,
-              singleMedia.file_id
-            );
-            {
-              isLiked ? removeFavourite() : createFavourite();
-            }
-            setIsLiked((isLiked) => !isLiked);
+            removeFavourite();
+            // setIsLiked((isLiked) => !isLiked);
           }}
         />
       )}
