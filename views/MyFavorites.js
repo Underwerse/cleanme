@@ -7,7 +7,11 @@ const MyFavourites = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
-      <List navigation={navigation} favorites={true} myFilesOnly={false} />
+      <List
+        navigation={navigation}
+        myFilesOnly={false}
+        myFavoritesOnly={true}
+      />
     </>
   );
 };

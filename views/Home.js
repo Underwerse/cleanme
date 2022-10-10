@@ -3,6 +3,9 @@ import Header from '../components/Header';
 import List from '../components/List';
 import PropTypes from 'prop-types';
 import AddButton from '../assets/add-btn.svg';
+// import {useIsFocused} from '@react-navigation/native';
+// import {useContext, useEffect} from 'react';
+// import {MainContext} from '../contexts/MainContext';
 
 const Home = ({navigation}) => {
   // const {update, setUpdate} = useContext(MainContext);

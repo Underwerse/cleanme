@@ -3,30 +3,23 @@ import PropTypes from 'prop-types';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {ListItem as RNEListItem, Avatar, ButtonGroup} from '@rneui/themed';
 import {useFavourite, useMedia} from '../hooks/ApiHooks';
-import React, {Children, useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
 import {Text} from '@rneui/base';
 
-const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
+const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
   const {deleteMedia} = useMedia();
   const {update, setUpdate, user} = useContext(MainContext);
-  console.log(
-    '%cListItem.js line:16 user',
-    'color: white; background-color: #26bfa5;',
-    user
-  );
-  const [isLiked, setIsLiked] = useState(false);
+  // console.log(
+  //   '%cListItem.js line:16 user',
+  //   'color: white; background-color: #26bfa5;',
+  //   user
+  // );
   const [userLike, setUserLike] = useState(false);
   const [likes, setLikes] = useState([]);
-  // const [tag, setTag] = useState(LikeEmpty);
-  // const Tag = React.createElement(tag);
-
-  // const setLikesTag = () => {
-  //   userLike ? setTag('LikeFull') : setTag('LikeEmpty');
-  // };
 
   const descriptionParsed = JSON.parse(singleMedia.description);
   const {postFavourite, getFavouritesByFileId, deleteFavourite} =
@@ -68,7 +61,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
       response && setUserLike(false);
     } catch (error) {
       // TODO: what to do if user has not liked this image already?
-      console.error('removeFavourite error', error);
+      console.error('removeFavourite error', error.message);
     }
   };
 

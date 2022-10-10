@@ -14,8 +14,12 @@ const Single = ({route}) => {
   const videoRef = useRef(null);
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
-  const {postFavourite, getFavouritesByFileId, deleteFavourite} =
-    useFavourite();
+  const {
+    postFavourite,
+    getFavouritesByFileId,
+    getFavouritesByUser,
+    deleteFavourite,
+  } = useFavourite();
   const [owner, setOwner] = useState({username: 'fetching...'});
   const [avatar, setAvatar] = useState('http://placekitten.com/180');
   const [likes, setLikes] = useState([]);
@@ -62,6 +66,22 @@ const Single = ({route}) => {
       console.error('fetchLikes() error', error);
     }
   };
+
+ /*  const fetchAllLikesByUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const likesData = await getFavouritesByUser(token);
+      setLikes(likesData);
+      // TODO: check if user id of of logged in user is included in data and
+      // set state userLike accordingly
+      likesData.forEach((like) => {
+        like.user_id === user.user_id && setUserLike(true);
+      });
+    } catch (error) {
+      // TODO: how should user be notified?
+      console.error('fetchLikes() error', error);
+    }
+  }; */
 
   const createFavourite = async () => {
     try {

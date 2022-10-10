@@ -3,8 +3,8 @@ import {useMedia} from '../hooks/ApiHooks';
 import ListItem from './ListItem';
 import PropTypes from 'prop-types';
 
-const List = ({navigation, myFilesOnly = false, favorites = false}) => {
-  const {mediaArray, loading} = useMedia(myFilesOnly);
+const List = ({navigation, myFilesOnly = false, myFavoritesOnly = false}) => {
+  const {mediaArray, loading} = useMedia(myFilesOnly, myFavoritesOnly);
   console.log('List load', loading);
 
   return (
@@ -16,6 +16,7 @@ const List = ({navigation, myFilesOnly = false, favorites = false}) => {
           navigation={navigation}
           singleMedia={item}
           myFilesOnly={myFilesOnly}
+          myFavoritesOnly={myFavoritesOnly}
         />
       )}
     />
@@ -25,7 +26,7 @@ const List = ({navigation, myFilesOnly = false, favorites = false}) => {
 List.propTypes = {
   navigation: PropTypes.object,
   myFilesOnly: PropTypes.bool,
-  favorites: PropTypes.bool,
+  myFavoritesOnly: PropTypes.bool,
 };
 
 export default List;

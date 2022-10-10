@@ -4,17 +4,16 @@ import {MainContext} from '../contexts/MainContext';
 import {doFetch} from '../utils/http';
 import {apiUrl, applicationTag} from '../utils/variables';
 
-const useMedia = (myFilesOnly) => {
+const useMedia = (myFilesOnly, myFavoritesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {update, user} = useContext(MainContext);
+  const {update, setUpdate, user} = useContext(MainContext);
 
   const loadMedia = async () => {
     setLoading(true);
     try {
       if (myFilesOnly) {
         let jsonByTag = await useTag().getFilesByTag(applicationTag);
-        console.log('User from ApiHooks', user);
         jsonByTag = jsonByTag
           .filter(
             (item) => item.description.split('projectLabel')[1] != undefined
@@ -30,19 +29,34 @@ const useMedia = (myFilesOnly) => {
         json = json.filter(
           (item) => item.description.split('projectLabel')[1] != undefined
         );
-        console.log(
-          '%cApiHooks.js line:33 json',
-          'color: white; background-color: #26bfa5;',
-          json
-        );
-        const allMediaData = json.map(async (mediaItem) => {
+        let allMediaData = null;
+        if (myFavoritesOnly) {
+          const token = await AsyncStorage.getItem('userToken');
+          const favoritesByUser = await useFavourite().getFavouritesByUser(
+            token
+          );
+          console.log('json', json);
+          console.log('favoritesByUser', favoritesByUser);
+          json = json.filter((item) =>
+            favoritesByUser.some((f) => f.file_id === item.file_id)
+          );
+          // console.log('%cApiHooks.js line:44 json', 'color: #007acc;', json);
+        }
+
+        allMediaData = json.map(async (mediaItem) => {
           return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
         });
+        // console.log(
+        //   '%cApiHooks.js line:45 allMediaData',
+        //   'color: white; background-color: #26bfa5;',
+        //   allMediaData
+        // );
 
         setMediaArray(await Promise.all(allMediaData));
+        // setUpdate(update + 1);
       }
     } catch (error) {
-      console.log('media fetch failed', error);
+      console.log('media fetch failed', error.message);
       throw new Error('Get media error: ', error);
     } finally {
       setLoading(false);
@@ -247,9 +261,21 @@ const useFavourite = () => {
     };
     return await doFetch(`${apiUrl}favourites`, options);
   };
+
   const getFavouritesByFileId = async (fileId) => {
     return await doFetch(`${apiUrl}favourites/file/${fileId}`);
   };
+
+  const getFavouritesByUser = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await doFetch(`${apiUrl}favourites`, options);
+  };
+
   const deleteFavourite = async (fileId, token) => {
     const options = {
       method: 'DELETE',
@@ -259,7 +285,13 @@ const useFavourite = () => {
     };
     return await doFetch(`${apiUrl}favourites/file/${fileId}`, options);
   };
-  return {postFavourite, getFavouritesByFileId, deleteFavourite};
+
+  return {
+    postFavourite,
+    getFavouritesByFileId,
+    getFavouritesByUser,
+    deleteFavourite,
+  };
 };
 
 export {useMedia, useLogin, useUser, useTag, useFavourite};
