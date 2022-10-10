@@ -2,8 +2,8 @@ import {Alert, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {ListItem as RNEListItem, Avatar, ButtonGroup} from '@rneui/themed';
-import {useMedia} from '../hooks/ApiHooks';
-import {useContext, useState} from 'react';
+import {useFavourite, useMedia} from '../hooks/ApiHooks';
+import {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LikeEmpty from '../assets/like_empty.svg';
@@ -12,9 +12,56 @@ import {Text} from '@rneui/base';
 
 const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
   const {deleteMedia} = useMedia();
-  const {update, setUpdate} = useContext(MainContext);
+  const {update, setUpdate, user} = useContext(MainContext);
+  console.log(
+    '%cListItem.js line:16 user',
+    'color: white; background-color: #26bfa5;',
+    user
+  );
   const [isLiked, setIsLiked] = useState(false);
+  const [userLike, setUserLike] = useState(false);
+  const [likes, setLikes] = useState([]);
+
   const descriptionParsed = JSON.parse(singleMedia.description);
+  const {postFavourite, getFavouritesByFileId, deleteFavourite} =
+    useFavourite();
+
+  const fetchLikes = async () => {
+    try {
+      const likesData = await getFavouritesByFileId(singleMedia.file_id);
+      setLikes(likesData);
+      // TODO: check if user id of of logged in user is included in data and
+      // set state userLike accordingly
+      likesData.forEach((like) => {
+        like.user_id === user.user_id && setUserLike(true);
+      });
+    } catch (error) {
+      // TODO: how should user be notified?
+      console.error('fetchLikes() error', error);
+    }
+  };
+
+  const createFavourite = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const response = await postFavourite(singleMedia.file_id, token);
+      response && setUserLike(true);
+    } catch (error) {
+      // TODO: what to do if user has liked this image already?
+      console.error('createFavourite error', error);
+    }
+  };
+
+  const removeFavourite = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const response = await deleteFavourite(singleMedia.file_id, token);
+      response && setUserLike(false);
+    } catch (error) {
+      // TODO: what to do if user has not liked this image already?
+      console.error('removeFavourite error', error);
+    }
+  };
 
   const doDelete = () => {
     Alert.alert('Delete', 'Delete this file permanently?', [
@@ -34,6 +81,11 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
       },
     ]);
   };
+
+  useEffect(() => {
+    fetchLikes();
+  }, [userLike]);
+
   return (
     <RNEListItem
       style={styles.listItemContainer}
@@ -62,7 +114,10 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
         ) : (
           <RNEListItem.Subtitle>
             {descriptionParsed.description.substr(0, 60)}
-            <Text style={{color: colorSchema.mainColor}}>   ...view more </Text>
+            <Text style={{color: colorSchema.mainColor, fontWeight: 'bold'}}>
+              {' '}
+              ...view more{' '}
+            </Text>
           </RNEListItem.Subtitle>
         )}
         {myFilesOnly && (
@@ -79,7 +134,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
           />
         )}
       </RNEListItem.Content>
-      <RNEListItem.Content style={styles.borders}>
+      <RNEListItem.Content style={styles.budget}>
         <RNEListItem.Subtitle style={styles.listPrice}>
           {descriptionParsed.budget} EUR
         </RNEListItem.Subtitle>
@@ -93,8 +148,12 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
             console.log(
               '%cListItem.js line:96 isLiked',
               'color: white; background-color: #26bfa5;',
-              isLiked
+              isLiked,
+              singleMedia.file_id
             );
+            {
+              isLiked ? removeFavourite() : createFavourite();
+            }
             setIsLiked((isLiked) => !isLiked);
           }}
         />
@@ -107,12 +166,17 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
             console.log(
               '%cListItem.js line:96 isLiked',
               'color: white; background-color: #26bfa5;',
-              isLiked
+              isLiked,
+              singleMedia.file_id
             );
+            {
+              isLiked ? removeFavourite() : createFavourite();
+            }
             setIsLiked((isLiked) => !isLiked);
           }}
         />
       )}
+      <Text style={styles.likeQty}>{likes.length}</Text>
     </RNEListItem>
   );
 };
@@ -120,8 +184,6 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, favorites}) => {
 const styles = StyleSheet.create({
   listItemContainer: {
     marginBottom: 5,
-    // borderWidth: 2,
-    // borderColor: 'red',
     marginRight: -20,
     // height: 150,
   },
@@ -129,8 +191,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     width: '70%',
     flexGrow: 3,
-    // borderWidth: 2,
-    // borderColor: 'red',
   },
   listPrice: {
     alignSelf: 'flex-end',
@@ -144,7 +204,12 @@ const styles = StyleSheet.create({
     top: 60,
     right: 35,
   },
-  borders: {
+  likeQty: {
+    position: 'absolute',
+    top: 80,
+    right: 30,
+  },
+  budget: {
     alignSelf: 'flex-start',
     // borderWidth: 2,
     // borderColor: 'red',
