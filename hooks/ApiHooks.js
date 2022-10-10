@@ -7,7 +7,7 @@ import {apiUrl, applicationTag} from '../utils/variables';
 const useMedia = (myFilesOnly, myFavoritesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {update, setUpdate, user} = useContext(MainContext);
+  const {update, user} = useContext(MainContext);
 
   const loadMedia = async () => {
     setLoading(true);
@@ -40,20 +40,14 @@ const useMedia = (myFilesOnly, myFavoritesOnly) => {
           json = json.filter((item) =>
             favoritesByUser.some((f) => f.file_id === item.file_id)
           );
-          // console.log('%cApiHooks.js line:44 json', 'color: #007acc;', json);
         }
 
         allMediaData = json.map(async (mediaItem) => {
           return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
         });
-        // console.log(
-        //   '%cApiHooks.js line:45 allMediaData',
-        //   'color: white; background-color: #26bfa5;',
-        //   allMediaData
-        // );
 
+        // setUpdate(!update);
         setMediaArray(await Promise.all(allMediaData));
-        // setUpdate(update + 1);
       }
     } catch (error) {
       console.log('media fetch failed', error.message);
@@ -134,7 +128,6 @@ const useLogin = () => {
   };
 
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
-  console.log('%cApiHooks.js line:104 user', 'color: #007acc;', user);
 
   const {getUserByToken} = useUser();
 

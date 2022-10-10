@@ -13,11 +13,6 @@ import {Text} from '@rneui/base';
 const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
   const {deleteMedia} = useMedia();
   const {update, setUpdate, user} = useContext(MainContext);
-  // console.log(
-  //   '%cListItem.js line:16 user',
-  //   'color: white; background-color: #26bfa5;',
-  //   user
-  // );
   const [userLike, setUserLike] = useState(false);
   const [likes, setLikes] = useState([]);
 
@@ -29,16 +24,12 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
     try {
       const likesData = await getFavouritesByFileId(singleMedia.file_id);
       setLikes(likesData);
-      // TODO: check if user id of of logged in user is included in data and
-      // set state userLike accordingly
       likesData.forEach((like) => {
         if (like.user_id === user.user_id) {
           setUserLike(true);
-          // setTag(LikeFull);
         }
       });
     } catch (error) {
-      // TODO: how should user be notified?
       console.error('fetchLikes() error', error);
     }
   };
@@ -48,8 +39,8 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await postFavourite(singleMedia.file_id, token);
       response && setUserLike(true);
+      setUpdate(!update);
     } catch (error) {
-      // TODO: what to do if user has liked this image already?
       console.error('createFavourite error', error);
     }
   };
@@ -59,8 +50,8 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await deleteFavourite(singleMedia.file_id, token);
       response && setUserLike(false);
+      setUpdate(!update);
     } catch (error) {
-      // TODO: what to do if user has not liked this image already?
       console.error('removeFavourite error', error.message);
     }
   };
@@ -86,7 +77,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
 
   useEffect(() => {
     fetchLikes();
-  }, [userLike]);
+  }, [update]);
 
   return (
     <RNEListItem

@@ -24,7 +24,7 @@ const Single = ({route}) => {
   const [avatar, setAvatar] = useState('http://placekitten.com/180');
   const [likes, setLikes] = useState([]);
   const [userLike, setUserLike] = useState(false);
-  const {user} = useContext(MainContext);
+  const {update, setUpdate, user} = useContext(MainContext);
 
   const fetchOwner = async () => {
     try {
@@ -88,6 +88,7 @@ const Single = ({route}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await postFavourite(file.file_id, token);
       response && setUserLike(true);
+      setUpdate(!update);
     } catch (error) {
       // TODO: what to do if user has liked this image already?
       console.error('createFavourite error', error);
@@ -99,6 +100,7 @@ const Single = ({route}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await deleteFavourite(file.file_id, token);
       response && setUserLike(false);
+      setUpdate(!update);
     } catch (error) {
       // TODO: what to do if user has not liked this image already?
       console.error('removeFavourite error', error);

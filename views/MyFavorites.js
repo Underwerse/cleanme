@@ -3,7 +3,7 @@ import List from '../components/List';
 import {PropTypes} from 'prop-types';
 import Header from '../components/Header';
 
-const MyFavourites = ({navigation}) => {
+const MyFavorites = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
@@ -16,8 +16,8 @@ const MyFavourites = ({navigation}) => {
   );
 };
 
-MyFavourites.propTypes = {
+MyFavorites.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default MyFavourites;
+export default MyFavorites;

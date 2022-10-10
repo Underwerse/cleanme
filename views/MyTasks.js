@@ -7,7 +7,11 @@ const MyTasks = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
-      <List navigation={navigation} myFilesOnly={true} />
+      <List
+        navigation={navigation}
+        myFilesOnly={true}
+        myFavoritesOnly={false}
+      />
     </>
   );
 };

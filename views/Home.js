@@ -4,7 +4,7 @@ import List from '../components/List';
 import PropTypes from 'prop-types';
 import AddButton from '../assets/add-btn.svg';
 // import {useIsFocused} from '@react-navigation/native';
-// import {useContext, useEffect} from 'react';
+// import {useContext} from 'react';
 // import {MainContext} from '../contexts/MainContext';
 
 const Home = ({navigation}) => {
@@ -19,7 +19,11 @@ const Home = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
-      <List navigation={navigation} />
+      <List
+        navigation={navigation}
+        myFilesOnly={false}
+        myFavoritesOnly={false}
+      />
       <AddButton
         style={styles.addBtn}
         height={'12%'}
