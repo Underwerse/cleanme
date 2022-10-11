@@ -1,26 +1,25 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
-import {useTag} from '../hooks/ApiHooks';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {Button, ListItem, Text} from '@rneui/themed';
 import {ScrollView, ActivityIndicator} from 'react-native';
 import {Card} from 'react-native-elements';
+import {useUser} from '../hooks/ApiHooks';
 
 const Profile = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
   const [avatar, setAvatar] = useState('https://placekitten.com/640');
-  const {getFilesByTag} = useTag();
+  const {getAvatar} = useUser();
 
   const fetchAvatar = async () => {
     try {
-      const resultArray = await getFilesByTag('avatar_' + user.user_id);
-      const avatarFile = resultArray.pop();
-      setAvatar(mediaUrl + avatarFile.filename);
+      const avatarRes = await getAvatar(user.user_id);
+      avatarRes && setAvatar(mediaUrl + avatarRes.filename);
     } catch (error) {
-      console.log('fetchAvatar error: ', error.message);
+      console.error(error.message);
     }
   };
 
@@ -43,47 +42,75 @@ const Profile = ({navigation}) => {
         style={{
           fontWeight: '900',
           fontSize: 30,
-          color: colorSchema.mainColor,
+          color: colorSchema.primaryTextColor,
           paddingTop: 20,
           paddingBottom: 20,
         }}
       >
         Account details
       </Card.Title>
-      <Card.Image
+      <View
         style={{
-          padding: 20,
-          borderRadius: 100,
-          resizeMode: 'contain',
           alignSelf: 'center',
-          width: 200,
         }}
-        source={{
-          uri: avatar,
-        }}
-        PlaceholderContent={<ActivityIndicator />}
-      />
+      >
+        <Card.Image
+          style={{
+            borderRadius: 100,
+            resizeMode: 'contain',
+            height: 200,
+            width: 200,
+          }}
+          source={{
+            uri: avatar,
+          }}
+        />
+      </View>
       <ListItem>
         <Text style={styles.textStyle}>Username: </Text>
-        <Text style={{color: 'blue', fontSize: 20, textAlign: 'center'}}>
+        <Text
+          style={{
+            color: colorSchema.mainColor,
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
           {user.username}
         </Text>
       </ListItem>
       <ListItem>
         <Text style={styles.textStyle}>User ID: </Text>
-        <Text style={{color: 'blue', fontSize: 20, textAlign: 'center'}}>
+        <Text
+          style={{
+            color: colorSchema.mainColor,
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
           {user.user_id}
         </Text>
       </ListItem>
       <ListItem>
         <Text style={styles.textStyle}>Email: </Text>
-        <Text style={{color: 'blue', fontSize: 20, textAlign: 'center'}}>
+        <Text
+          style={{
+            color: colorSchema.mainColor,
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
           {user.email}
         </Text>
       </ListItem>
       <ListItem>
         <Text style={styles.textStyle}>Full name: </Text>
-        <Text style={{color: 'blue', fontSize: 20, textAlign: 'center'}}>
+        <Text
+          style={{
+            color: colorSchema.mainColor,
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
           {user.full_name}
         </Text>
       </ListItem>
@@ -125,7 +152,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   textStyle: {
-    color: colorSchema.mainColor,
+    color: colorSchema.primaryTextColor,
     fontWeight: 'bold',
     fontSize: 20,
   },

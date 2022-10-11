@@ -31,19 +31,11 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
           const favoritesByUser = await useFavourite().getFavouritesByUser(
             token
           );
-          console.log('json', json);
-          console.log('favoritesByUser', favoritesByUser);
           json = json.filter((item) =>
             favoritesByUser.some((f) => f.file_id === item.file_id)
           );
         }
       }
-
-      console.log(
-        '%cApiHooks.js line:42 filterWord',
-        'color: #007acc;',
-        filterWord
-      );
 
       if (filterWord) {
         json = json.filter((item) => {
@@ -55,12 +47,12 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
           );
         });
       }
-      console.log('json:', json);
 
       allMediaData = json.map(async (mediaItem) => {
         return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
       });
 
+      console.log('%cApiHooks.js line:55 json', 'color: #007acc;', json);
       setMediaArray(await Promise.all(allMediaData));
     } catch (error) {
       console.log('media fetch failed', error.message);
