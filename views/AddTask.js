@@ -10,7 +10,6 @@ import {MainContext} from '../contexts/MainContext';
 import {applicationTag, colorSchema} from '../utils/variables';
 import Header from '../components/Header';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {color} from '@rneui/base';
 
 const AddTask = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
@@ -21,6 +20,20 @@ const AddTask = ({navigation}) => {
 
   const {postMedia, loading} = useMedia();
   const {postTag} = useTag();
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      title: '',
+      description: '',
+      address: '',
+      deadline: date.toISOString().split('T')[0],
+    },
+  });
 
   const resetForm = () => {
     const tempDate = new Date();
@@ -49,26 +62,7 @@ const AddTask = ({navigation}) => {
     }
   };
 
-  const {
-    control,
-    handleSubmit,
-    setValue,
-    formState: {errors},
-  } = useForm({
-    defaultValues: {
-      title: '',
-      description: '',
-      address: '',
-      deadline: date.toISOString().split('T')[0],
-    },
-  });
-
   const onSubmit = async (data) => {
-    console.log(
-      '%cAddTask.js line:67 title',
-      'color: white; background-color: #26bfa5;',
-      data.title
-    );
     const formData = new FormData();
     formData.append('title', data.title);
     const descriptionUnited = {
@@ -101,7 +95,7 @@ const AddTask = ({navigation}) => {
       const tagResponse = await postTag(token, tag);
       console.log('postTag result:', tagResponse);
 
-      Alert.alert('Uploading status', mediaResponse.message, [
+      Alert.alert('Add Task status', mediaResponse.message, [
         {
           text: 'OK',
           onPress: () => {
