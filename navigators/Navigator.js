@@ -11,7 +11,6 @@ import {Icon} from '@rneui/themed';
 import AddTask from '../views/AddTask';
 import MyTasks from '../views/MyTasks';
 import ModifyFile from '../views/ModifyFile';
-import Modify from '../views/Modify';
 import OnboardingScreen from '../views/OnboardingScreen';
 import {colorSchema} from '../utils/variables';
 import MyFavorites from '../views/MyFavorites';

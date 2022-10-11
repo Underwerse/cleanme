@@ -211,7 +211,36 @@ const useUser = () => {
     }
   };
 
-  return {checkUsername, getUserByToken, postUser, putUser, getUserById};
+  const getOwner = async (userId, token) => {
+    try {
+      return await getUserById(userId, token);
+    } catch (error) {
+      // TODO: how should user be notified?
+      console.error('fetch owner error', error.message);
+    }
+  };
+
+  const getAvatar = async (userId) => {
+    try {
+      const avatarArray = await useTag().getFilesByTag('avatar_' + userId);
+      if (avatarArray.length === 0) {
+        return;
+      }
+      return avatarArray.pop();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  return {
+    checkUsername,
+    getUserByToken,
+    postUser,
+    putUser,
+    getOwner,
+    getAvatar,
+    getUserById,
+  };
 };
 
 const useTag = () => {

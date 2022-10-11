@@ -2,7 +2,7 @@ import {Alert, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {ListItem as RNEListItem, Avatar, ButtonGroup} from '@rneui/themed';
-import {useFavourite, useMedia} from '../hooks/ApiHooks';
+import {useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
 import React, {useContext, useEffect, useState} from 'react';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,10 +15,12 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
   const {update, setUpdate, user} = useContext(MainContext);
   const [userLike, setUserLike] = useState(false);
   const [likes, setLikes] = useState([]);
-
-  const descriptionParsed = JSON.parse(singleMedia.description);
+  const [avatar, setAvatar] = useState('http://placekitten.com/180');
   const {postFavourite, getFavouritesByFileId, deleteFavourite} =
     useFavourite();
+  const {getAvatar} = useUser();
+
+  const descriptionParsed = JSON.parse(singleMedia.description);
 
   const fetchLikes = async () => {
     try {
@@ -81,10 +83,23 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
     ]);
   };
 
+  const fetchAvatar = async (singleMedia) => {
+    try {
+      const avatarRes = await getAvatar(singleMedia.user_id);
+      avatarRes && setAvatar(mediaUrl + avatarRes.filename);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
     console.log('useEffect run');
     fetchLikes();
   }, [update, userLike]);
+
+  useEffect(() => {
+    fetchAvatar(singleMedia);
+  }, []);
 
   return (
     <RNEListItem
@@ -134,9 +149,10 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
           />
         )}
       </RNEListItem.Content>
+      <Avatar source={{uri: avatar}} />
       <RNEListItem.Content style={styles.budget}>
         <RNEListItem.Subtitle style={styles.listPrice}>
-          {descriptionParsed.budget} EUR
+          {descriptionParsed.budget} {'\u20AC'}
         </RNEListItem.Subtitle>
       </RNEListItem.Content>
       {console.log('render like-SVG run')}

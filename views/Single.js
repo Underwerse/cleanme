@@ -9,27 +9,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 
 const Single = ({route}) => {
-  // console.log('route:', route);
   const {file} = route.params;
   const videoRef = useRef(null);
-  const {getUserById} = useUser();
-  const {getFilesByTag} = useTag();
-  const {
-    postFavourite,
-    getFavouritesByFileId,
-    getFavouritesByUser,
-    deleteFavourite,
-  } = useFavourite();
+  // const {getUserById} = useUser();
+  // const {getFilesByTag} = useTag();
+  const {postFavourite, getFavouritesByFileId, deleteFavourite} =
+    useFavourite();
+  const {getOwner, getAvatar} = useUser();
   const [owner, setOwner] = useState({username: 'fetching...'});
   const [avatar, setAvatar] = useState('http://placekitten.com/180');
   const [likes, setLikes] = useState([]);
   const [userLike, setUserLike] = useState(false);
   const {update, setUpdate, user} = useContext(MainContext);
 
-  const fetchOwner = async () => {
+  const fetchOwner = async (file) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      const userData = await getUserById(file.user_id, token);
+      const userData = await getOwner(file.user_id, token);
       setOwner(userData);
     } catch (error) {
       // TODO: how should user be notified?
@@ -38,15 +34,10 @@ const Single = ({route}) => {
     }
   };
 
-  const fetchAvatar = async () => {
+  const fetchAvatar = async (file) => {
     try {
-      const avatarArray = await getFilesByTag('avatar_' + file.user_id);
-      if (avatarArray.length === 0) {
-        return;
-      }
-      const avatar = avatarArray.pop();
-      setAvatar(mediaUrl + avatar.filename);
-      console.log('single.js avatar ', avatar);
+      const avatarRes = await getAvatar(file.user_id);
+      avatarRes && setAvatar(mediaUrl + avatarRes.filename);
     } catch (error) {
       console.error(error.message);
     }
@@ -66,22 +57,6 @@ const Single = ({route}) => {
       console.error('fetchLikes() error', error);
     }
   };
-
- /*  const fetchAllLikesByUser = async () => {
-    try {
-      const token = await AsyncStorage.getItem('userToken');
-      const likesData = await getFavouritesByUser(token);
-      setLikes(likesData);
-      // TODO: check if user id of of logged in user is included in data and
-      // set state userLike accordingly
-      likesData.forEach((like) => {
-        like.user_id === user.user_id && setUserLike(true);
-      });
-    } catch (error) {
-      // TODO: how should user be notified?
-      console.error('fetchLikes() error', error);
-    }
-  }; */
 
   const createFavourite = async () => {
     try {
@@ -108,8 +83,8 @@ const Single = ({route}) => {
   };
 
   useEffect(() => {
-    fetchOwner();
-    fetchAvatar();
+    fetchOwner(file);
+    fetchAvatar(file);
   }, []);
 
   useEffect(() => {
