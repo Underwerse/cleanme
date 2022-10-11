@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import AddButton from '../assets/add-btn.svg';
 import {Input} from '@rneui/themed';
 import {colorSchema} from '../utils/variables';
+import React, {useContext, useEffect, useState, createRef} from 'react';
 // import {useIsFocused} from '@react-navigation/native';
-// import {useContext, useEffect} from 'react';
-// import {MainContext} from '../contexts/MainContext';
+import {MainContext} from '../contexts/MainContext';
 
 const Home = ({navigation}) => {
-  // const {update, setUpdate} = useContext(MainContext);
+  const {update, setUpdate} = useContext(MainContext);
   // setUpdate(!update);
 
   // useLayoutEffect(() => {
@@ -18,8 +18,23 @@ const Home = ({navigation}) => {
   //   console.log('update value:', update);
   // });
 
+  const [filterWord, setFilterWord] = useState('');
+  const input = createRef();
+  // input.current.clear();
+
+  useEffect(() => {
+    setTimeout(() => {
+      setUpdate(!update);
+    }, 1000);
+  }, [filterWord]);
+
   return (
     <>
+      {console.log(
+        'Home render run',
+        'color: white; background-color: #26bfa5;',
+        Object
+      )}
       <Header navigation={navigation} />
       <View style={styles.searchInput}>
         <Input
@@ -35,12 +50,17 @@ const Home = ({navigation}) => {
             paddingRight: 10,
           }}
           containerStyle={{backgroundColor: colorSchema.bgrColor}}
+          ref={input}
+          onChangeText={(value) => {
+            setFilterWord(value);
+          }}
         />
       </View>
       <List
         navigation={navigation}
         myFilesOnly={false}
         myFavoritesOnly={false}
+        filterWord={filterWord}
       />
       <AddButton
         style={styles.addBtn}

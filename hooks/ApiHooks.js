@@ -4,7 +4,7 @@ import {MainContext} from '../contexts/MainContext';
 import {doFetch} from '../utils/http';
 import {apiUrl, applicationTag} from '../utils/variables';
 
-const useMedia = (myFilesOnly, myFavoritesOnly) => {
+const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const {update, user} = useContext(MainContext);
@@ -12,24 +12,20 @@ const useMedia = (myFilesOnly, myFavoritesOnly) => {
   const loadMedia = async () => {
     setLoading(true);
     try {
+      let json = [];
+      let allMediaData = [];
       if (myFilesOnly) {
-        let jsonByTag = await useTag().getFilesByTag(applicationTag);
-        jsonByTag = jsonByTag
+        json = await useTag().getFilesByTag(applicationTag);
+        json = json
           .filter(
             (item) => item.description.split('projectLabel')[1] != undefined
           )
           .filter((file) => file.user_id === user.user_id);
-        const allMediaDataByTag = jsonByTag.map(async (mediaItem) => {
-          return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
-        });
-
-        setMediaArray(await Promise.all(allMediaDataByTag));
       } else {
-        let json = await doFetch(apiUrl + 'media?limit=200');
+        json = await doFetch(apiUrl + 'media?limit=200');
         json = json.filter(
           (item) => item.description.split('projectLabel')[1] != undefined
         );
-        let allMediaData = null;
         if (myFavoritesOnly) {
           const token = await AsyncStorage.getItem('userToken');
           const favoritesByUser = await useFavourite().getFavouritesByUser(
@@ -41,14 +37,32 @@ const useMedia = (myFilesOnly, myFavoritesOnly) => {
             favoritesByUser.some((f) => f.file_id === item.file_id)
           );
         }
-
-        allMediaData = json.map(async (mediaItem) => {
-          return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
-        });
-
-        // setUpdate(!update);
-        setMediaArray(await Promise.all(allMediaData));
       }
+
+      console.log(
+        '%cApiHooks.js line:42 filterWord',
+        'color: #007acc;',
+        filterWord
+      );
+
+      if (filterWord) {
+        json = json.filter((item) => {
+          const descriptionParsed = JSON.parse(item.description);
+          return (
+            item.title.includes(filterWord) ||
+            descriptionParsed.description.includes(filterWord) ||
+            descriptionParsed.address.includes(filterWord)
+          );
+        });
+      }
+      console.log('json:', json);
+
+      allMediaData = json.map(async (mediaItem) => {
+        return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
+      });
+
+      // setUpdate(!update);
+      setMediaArray(await Promise.all(allMediaData));
     } catch (error) {
       console.log('media fetch failed', error.message);
       throw new Error('Get media error: ', error);
