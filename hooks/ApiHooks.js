@@ -49,9 +49,9 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
         json = json.filter((item) => {
           const descriptionParsed = JSON.parse(item.description);
           return (
-            item.title.includes(filterWord) ||
-            descriptionParsed.description.includes(filterWord) ||
-            descriptionParsed.address.includes(filterWord)
+            item.title.toLowerCase().includes(filterWord) ||
+            descriptionParsed.description.toLowerCase().includes(filterWord) ||
+            descriptionParsed.address.toLowerCase().includes(filterWord)
           );
         });
       }
@@ -61,7 +61,6 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
         return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
       });
 
-      // setUpdate(!update);
       setMediaArray(await Promise.all(allMediaData));
     } catch (error) {
       console.log('media fetch failed', error.message);

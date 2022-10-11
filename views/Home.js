@@ -52,7 +52,7 @@ const Home = ({navigation}) => {
           containerStyle={{backgroundColor: colorSchema.bgrColor}}
           ref={input}
           onChangeText={(value) => {
-            setFilterWord(value);
+            setFilterWord(value.toLowerCase());
           }}
         />
       </View>
