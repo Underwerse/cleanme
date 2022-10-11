@@ -26,7 +26,9 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
       setLikes(likesData);
       likesData.forEach((like) => {
         if (like.user_id === user.user_id) {
+          console.log('userLike switched');
           setUserLike(true);
+          return;
         }
       });
     } catch (error) {
@@ -38,8 +40,10 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const response = await postFavourite(singleMedia.file_id, token);
-      response && setUserLike(true);
-      setUpdate(!update);
+      if (response) {
+        setUpdate(!update);
+        setUserLike(true);
+      }
     } catch (error) {
       console.error('createFavourite error', error);
     }
@@ -49,8 +53,10 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const response = await deleteFavourite(singleMedia.file_id, token);
-      response && setUserLike(false);
-      setUpdate(!update);
+      if (response) {
+        setUpdate(!update);
+        setUserLike(false);
+      }
     } catch (error) {
       console.error('removeFavourite error', error.message);
     }
@@ -66,7 +72,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
             const token = await AsyncStorage.getItem('userToken');
             console.log('token for delete file:', token);
             const response = await deleteMedia(token, singleMedia.file_id);
-            response && setUpdate(update + 1);
+            response && setUpdate(!update);
           } catch (error) {
             console.error(error);
           }
@@ -76,8 +82,9 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
   };
 
   useEffect(() => {
+    console.log('useEffect run');
     fetchLikes();
-  }, [update]);
+  }, [update, userLike]);
 
   return (
     <RNEListItem
@@ -132,6 +139,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
           {descriptionParsed.budget} EUR
         </RNEListItem.Subtitle>
       </RNEListItem.Content>
+      {console.log('render like-SVG run')}
       {!userLike ? (
         <LikeEmpty
           style={styles.likeEmpty}
@@ -139,7 +147,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
           width={35}
           onPress={() => {
             createFavourite();
-            // setIsLiked((isLiked) => !isLiked);
+            // setUserLike(true);
           }}
         />
       ) : (
@@ -149,7 +157,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
           width={35}
           onPress={() => {
             removeFavourite();
-            // setIsLiked((isLiked) => !isLiked);
+            // setUserLike(false);
           }}
         />
       )}
