@@ -1,25 +1,25 @@
 import React, {useContext, useEffect, useState} from 'react';
-// import {StyleSheet, SafeAreaView, Text, Button, Image} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
-import {useTag} from '../hooks/ApiHooks';
-import {mediaUrl} from '../utils/variables';
-import {Avatar, Button, Card, Icon, ListItem, Text} from '@rneui/themed';
+import {colorSchema, mediaUrl} from '../utils/variables';
+import {Button, ListItem, Text} from '@rneui/themed';
 import {ScrollView, ActivityIndicator} from 'react-native';
+import {Card} from 'react-native-elements';
+import {useUser} from '../hooks/ApiHooks';
 
 const Profile = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
   const [avatar, setAvatar] = useState('https://placekitten.com/640');
-  const {getFilesByTag} = useTag();
+  const {getAvatar} = useUser();
 
   const fetchAvatar = async () => {
     try {
-      const resultArray = await getFilesByTag('avatar_' + user.user_id);
-      const avatarFile = resultArray.pop();
-      setAvatar(mediaUrl + avatarFile.filename);
+      const avatarRes = await getAvatar(user.user_id);
+      avatarRes && setAvatar(mediaUrl + avatarRes.filename);
     } catch (error) {
-      console.log('fetchAvatar error: ', error.message);
+      console.error(error.message);
     }
   };
 
@@ -37,72 +37,123 @@ const Profile = ({navigation}) => {
   };
 
   return (
-    <ScrollView>
-      <Card>
-        <Card.Title>
-          <Icon name="person" />
-          <Text>
-            {user.username} (id: {user.user_id})
-          </Text>
-        </Card.Title>
-        <Card.Divider />
-
+    <ScrollView style={styles.container}>
+      <Card.Title
+        style={{
+          fontWeight: '900',
+          fontSize: 30,
+          color: colorSchema.primaryTextColor,
+          paddingTop: 20,
+          paddingBottom: 20,
+        }}
+      >
+        Account details
+      </Card.Title>
+      <View
+        style={{
+          alignSelf: 'center',
+        }}
+      >
         <Card.Image
-          style={{padding: 0}}
+          style={{
+            borderRadius: 100,
+            resizeMode: 'contain',
+            height: 200,
+            width: 200,
+          }}
           source={{
             uri: avatar,
           }}
-          PlaceholderContent={<ActivityIndicator />}
         />
-        <ListItem>
-          <Avatar
-            icon={{
-              name: 'contact-mail',
-              type: 'material',
-              color: 'black',
-            }}
-            containerStyle={{backgroundColor: '#aaa'}}
-          />
-          <Text>{user.email}</Text>
-        </ListItem>
-        <ListItem>
-          <Text>Full name: {user.fullname}</Text>
-        </ListItem>
-        <Button
-          title={'MyTasks'}
-          type="clear"
-          onPress={() => {
-            navigation.navigate('MyTasks');
+      </View>
+      <ListItem>
+        <Text style={styles.textStyle}>Username: </Text>
+        <Text
+          style={{
+            color: colorSchema.mainColor,
+            fontSize: 20,
+            textAlign: 'center',
           }}
-        />
-        <Button
-          title="Modify user"
-          onPress={() => {
-            navigation.navigate('ModifyUser');
+        >
+          {user.username}
+        </Text>
+      </ListItem>
+      <ListItem>
+        <Text style={styles.textStyle}>User ID: </Text>
+        <Text
+          style={{
+            color: colorSchema.mainColor,
+            fontSize: 20,
+            textAlign: 'center',
           }}
-        />
-        <Button title={'Logout'} type="clear" onPress={logout} />
-      </Card>
+        >
+          {user.user_id}
+        </Text>
+      </ListItem>
+      <ListItem>
+        <Text style={styles.textStyle}>Email: </Text>
+        <Text
+          style={{
+            color: colorSchema.mainColor,
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
+          {user.email}
+        </Text>
+      </ListItem>
+      <ListItem>
+        <Text style={styles.textStyle}>Full name: </Text>
+        <Text
+          style={{
+            color: colorSchema.mainColor,
+            fontSize: 20,
+            textAlign: 'center',
+          }}
+        >
+          {user.full_name}
+        </Text>
+      </ListItem>
+
+      <Button
+        buttonStyle={{
+          borderRadius: 20,
+          marginTop: 5,
+          marginBottom: 5,
+        }}
+        title="Modify user"
+        onPress={() => {
+          navigation.navigate('ModifyUser');
+        }}
+      />
+      <Button
+        buttonStyle={{
+          borderRadius: 20,
+          marginTop: 5,
+          marginBottom: 5,
+        }}
+        title={'Logout'}
+        onPress={logout}
+      />
     </ScrollView>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colorSchema.bgrColor,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  textStyle: {
+    color: colorSchema.primaryTextColor,
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+});
+
 Profile.propTypes = {
   navigation: PropTypes.object,
 };
-
-/* const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingTop: 40,
-  },
-  text: {
-    marginBottom: 10,
-    color: 'black',
-  },
-}); */
 
 export default Profile;

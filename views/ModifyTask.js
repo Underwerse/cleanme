@@ -6,9 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
 import {Alert, ActivityIndicator, StyleSheet, ScrollView} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
-import {mediaUrl} from '../utils/variables';
+import {colorSchema, mediaUrl} from '../utils/variables';
 
-const ModifyFile = ({navigation, route}) => {
+const ModifyTask = ({navigation, route}) => {
   const {file} = route.params;
   console.log('file:', file);
   const {update, setUpdate} = useContext(MainContext);
@@ -49,8 +49,8 @@ const ModifyFile = ({navigation, route}) => {
   };
 
   return (
-    <ScrollView>
-      <Card>
+    <>
+      <ScrollView style={styles.container}>
         <Controller
           control={control}
           rules={{
@@ -98,26 +98,38 @@ const ModifyFile = ({navigation, route}) => {
         <Card.Divider />
 
         <Button
-          title="Update media"
+          buttonStyle={styles.btn}
+          title="Apply changes"
           loading={loading}
           onPress={handleSubmit(onSubmit)}
         />
-      </Card>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colorSchema.bgrColor,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
   image: {
     width: '100%',
     height: undefined,
     aspectRatio: 1,
   },
+  btn: {
+    marginBottom: 20,
+    backgroundColor: colorSchema.mainColor,
+    borderRadius: 40,
+  },
 });
 
-ModifyFile.propTypes = {
+ModifyTask.propTypes = {
   navigation: PropTypes.object,
   route: PropTypes.object,
 };
 
-export default ModifyFile;
+export default ModifyTask;

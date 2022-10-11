@@ -10,7 +10,7 @@ import Login from '../views/Login';
 import {Icon} from '@rneui/themed';
 import AddTask from '../views/AddTask';
 import MyTasks from '../views/MyTasks';
-import ModifyFile from '../views/ModifyFile';
+import ModifyTask from '../views/ModifyTask';
 import OnboardingScreen from '../views/OnboardingScreen';
 import {colorSchema} from '../utils/variables';
 import MyFavorites from '../views/MyFavorites';
@@ -78,7 +78,7 @@ const StackScreen = () => {
           />
           <Stack.Screen name="Single" component={Single} />
           <Stack.Screen name="MyTasks" component={MyTasks} />
-          <Stack.Screen name="ModifyFile" component={ModifyFile} />
+          <Stack.Screen name="ModifyTask" component={ModifyTask} />
           <Stack.Screen name="ModifyUser" component={ModifyUser} />
           <Stack.Screen name="AddTask" component={AddTask} />
         </>

@@ -138,7 +138,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, filterWord}) => {
           <ButtonGroup
             onPress={(index) => {
               if (index === 0) {
-                navigation.navigate('ModifyFile', {file: singleMedia});
+                navigation.navigate('ModifyTask', {file: singleMedia});
               } else {
                 doDelete();
               }
