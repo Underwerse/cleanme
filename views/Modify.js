@@ -34,7 +34,7 @@ const Modify = ({navigation, route}) => {
             text: 'Ok',
             onPress: () => {
               setUpdate(update + 1);
-              navigation.navigate('MyFiles');
+              navigation.navigate('MyTasks');
             },
           },
         ]);

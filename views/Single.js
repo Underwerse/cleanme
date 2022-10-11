@@ -14,13 +14,17 @@ const Single = ({route}) => {
   const videoRef = useRef(null);
   const {getUserById} = useUser();
   const {getFilesByTag} = useTag();
-  const {postFavourite, getFavouritesByFileId, deleteFavourite} =
-    useFavourite();
+  const {
+    postFavourite,
+    getFavouritesByFileId,
+    getFavouritesByUser,
+    deleteFavourite,
+  } = useFavourite();
   const [owner, setOwner] = useState({username: 'fetching...'});
   const [avatar, setAvatar] = useState('http://placekitten.com/180');
   const [likes, setLikes] = useState([]);
   const [userLike, setUserLike] = useState(false);
-  const {user} = useContext(MainContext);
+  const {update, setUpdate, user} = useContext(MainContext);
 
   const fetchOwner = async () => {
     try {
@@ -63,11 +67,28 @@ const Single = ({route}) => {
     }
   };
 
+ /*  const fetchAllLikesByUser = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const likesData = await getFavouritesByUser(token);
+      setLikes(likesData);
+      // TODO: check if user id of of logged in user is included in data and
+      // set state userLike accordingly
+      likesData.forEach((like) => {
+        like.user_id === user.user_id && setUserLike(true);
+      });
+    } catch (error) {
+      // TODO: how should user be notified?
+      console.error('fetchLikes() error', error);
+    }
+  }; */
+
   const createFavourite = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const response = await postFavourite(file.file_id, token);
       response && setUserLike(true);
+      setUpdate(!update);
     } catch (error) {
       // TODO: what to do if user has liked this image already?
       console.error('createFavourite error', error);
@@ -79,6 +100,7 @@ const Single = ({route}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await deleteFavourite(file.file_id, token);
       response && setUserLike(false);
+      setUpdate(!update);
     } catch (error) {
       // TODO: what to do if user has not liked this image already?
       console.error('removeFavourite error', error);
