@@ -139,15 +139,9 @@ const Profile = ({navigation}) => {
   );
 };
 
-Profile.propTypes = {
-  navigation: PropTypes.object,
-};
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colorSchema.bgrColor,
-    /* justifyContent: 'center',
-    alignItems: 'center',*/
     paddingLeft: 20,
     paddingRight: 20,
   },
@@ -157,5 +151,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 });
+
+Profile.propTypes = {
+  navigation: PropTypes.object,
+};
 
 export default Profile;

@@ -86,11 +86,6 @@ export const RegisterForm = () => {
           )}
           name="username"
         />
-        {/* {errors.username?.type === 'required' && <Text>This is required.</Text>}
-        {errors.username?.type === 'minLength' && <Text>Minimum 3 chars!</Text>} */}
-        {errors.username?.type === 'validate' && (
-          <Text style={styles.checkUsername}>Username is already taken</Text>
-        )}
 
         <Controller
           control={control}
@@ -115,8 +110,6 @@ export const RegisterForm = () => {
           )}
           name="password"
         />
-        {/* {errors.password?.type === 'minLength' && <Text>Minimum 5 chars!</Text>}
-        {errors.password?.type === 'required' && <Text>This is required.</Text>} */}
 
         <Controller
           control={control}
@@ -150,8 +143,6 @@ export const RegisterForm = () => {
           )}
           name="passwordConfirm"
         />
-        {/* {errors.password?.type === 'minLength' && <Text>Minimum 5 chars!</Text>}
-        {errors.password?.type === 'required' && <Text>This is required.</Text>} */}
 
         <Controller
           control={control}
@@ -174,10 +165,6 @@ export const RegisterForm = () => {
           )}
           name="email"
         />
-        {/* {errors.email?.type === 'required' && <Text>This field is required</Text>}
-      {errors.email?.type === 'keyboardType' && (
-        <Text>This should be an email!</Text>
-      )} */}
 
         <Controller
           control={control}

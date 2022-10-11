@@ -12,7 +12,7 @@ import Header from '../components/Header';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {color} from '@rneui/base';
 
-const Upload = ({navigation}) => {
+const AddTask = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaType, setMediaType] = useState(null);
   const [date, setDate] = useState(new Date());
@@ -137,8 +137,15 @@ const Upload = ({navigation}) => {
         <Controller
           control={control}
           rules={{
-            required: true,
-            minLength: 1,
+            required: {value: true, message: 'This is required'},
+            minLength: {
+              value: 5,
+              message: 'Title must be at least 5 characters',
+            },
+            maxLength: {
+              value: 20,
+              message: 'Title must be maximum 20 characters',
+            },
           }}
           render={({field: {onChange, onBlur, value}}) => (
             <Input
@@ -152,16 +159,15 @@ const Upload = ({navigation}) => {
           )}
           name="title"
         />
-        {errors.title?.type === 'minLength' && <Text>Minimum 5 chars!</Text>}
-        {errors.title?.type === 'required' && (
-          <Text>This field is required.</Text>
-        )}
 
         <Controller
           control={control}
           rules={{
-            required: true,
-            minLength: 1,
+            required: {value: true, message: 'This is required'},
+            minLength: {
+              value: 20,
+              message: 'Description must be at least 20 characters',
+            },
           }}
           render={({field: {onChange, onBlur, value}}) => (
             <Input
@@ -176,18 +182,19 @@ const Upload = ({navigation}) => {
           )}
           name="description"
         />
-        {errors.description?.type === 'minLength' && (
-          <Text>Minimum 20 chars! Describe your task, don`&#39`t be lazy!</Text>
-        )}
-        {errors.description?.type === 'required' && (
-          <Text>This field is required.</Text>
-        )}
 
         <Controller
           control={control}
           rules={{
-            required: true,
-            minLength: 1,
+            required: {value: true, message: 'This is required'},
+            minLength: {
+              value: 5,
+              message: 'Address must be at least 5 characters',
+            },
+            maxLength: {
+              value: 50,
+              message: 'Address must be maximum 50 characters',
+            },
           }}
           render={({field: {onChange, onBlur, value}}) => (
             <Input
@@ -202,17 +209,19 @@ const Upload = ({navigation}) => {
           )}
           name="address"
         />
-        {errors.address?.type === 'minLength' && <Text>Minimum 10 chars!</Text>}
-        {errors.address?.type === 'required' && (
-          <Text>This field is required.</Text>
-        )}
 
         <Controller
           control={control}
           rules={{
-            required: true,
-            minLength: 1,
-            maxLength: 3,
+            required: {value: true, message: 'This is required'},
+            minLength: {
+              value: 1,
+              message: 'Minimum amount 1 EUR',
+            },
+            maxLength: {
+              value: 3,
+              message: 'Maximum amount 999 EUR',
+            },
           }}
           render={({field: {onChange, onBlur, value}}) => (
             <Input
@@ -228,11 +237,6 @@ const Upload = ({navigation}) => {
           )}
           name="budget"
         />
-        {errors.budget?.type === 'minLength' && <Text>Minimum 1 EUR!</Text>}
-        {errors.budget?.type === 'maxLength' && <Text>Maximum 999 EUR!</Text>}
-        {errors.budget?.type === 'required' && (
-          <Text>This field is required.</Text>
-        )}
 
         <Controller
           control={control}
@@ -292,7 +296,7 @@ const Upload = ({navigation}) => {
 
         <Button
           buttonStyle={styles.btn}
-          title="Upload media"
+          title="Add new task"
           disabled={!mediaFile}
           loading={loading}
           onPress={handleSubmit(onSubmit)}
@@ -304,8 +308,10 @@ const Upload = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 20,
-    marginRight: 20,
+    backgroundColor: colorSchema.bgrColor,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   dateInput: {
     fontSize: 20,
@@ -322,8 +328,8 @@ const styles = StyleSheet.create({
   },
 });
 
-Upload.propTypes = {
+AddTask.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default Upload;
+export default AddTask;
