@@ -10,7 +10,7 @@ import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
 import {Text} from '@rneui/base';
 
-const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
+const ListItem = ({navigation, singleMedia, myFilesOnly, filterWord}) => {
   const {deleteMedia} = useMedia();
   const {update, setUpdate, user} = useContext(MainContext);
   const [userLike, setUserLike] = useState(false);
@@ -28,7 +28,6 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
       setLikes(likesData);
       likesData.forEach((like) => {
         if (like.user_id === user.user_id) {
-          console.log('userLike switched');
           setUserLike(true);
           return;
         }
