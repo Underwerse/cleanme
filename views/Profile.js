@@ -79,7 +79,7 @@ const Profile = ({navigation}) => {
           title={'MyFiles'}
           type="clear"
           onPress={() => {
-            navigation.navigate('MyFiles');
+            navigation.navigate('MyTasks');
           }}
         />
         <Button
@@ -90,7 +90,7 @@ const Profile = ({navigation}) => {
           }}
           title="Modify user"
           onPress={() => {
-            navigation.navigate('Modify');
+            navigation.navigate('ModifyUser');
           }}
         />
         <Button

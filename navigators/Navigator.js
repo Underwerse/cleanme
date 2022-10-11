@@ -8,11 +8,13 @@ import Profile from '../views/Profile';
 import Single from '../views/Single';
 import Login from '../views/Login';
 import {Icon} from '@rneui/themed';
-import Upload from '../views/Upload';
-import MyFiles from '../views/MyFiles';
+import AddTask from '../views/AddTask';
+import MyTasks from '../views/MyTasks';
 import ModifyFile from '../views/ModifyFile';
-import Modify from '../views/Modify';
 import OnboardingScreen from '../views/OnboardingScreen';
+import {colorSchema} from '../utils/variables';
+import MyFavorites from '../views/MyFavorites';
+import ModifyUser from '../views/ModifyUser';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -25,13 +27,23 @@ const TabScreen = () => {
         component={Home}
         options={{
           tabBarIcon: ({color}) => <Icon name="home" color={color} />,
+          tabBarActiveTintColor: colorSchema.mainColor,
         }}
       />
       <Tab.Screen
-        name="Upload"
-        component={Upload}
+        name="MyTasks"
+        component={MyTasks}
         options={{
-          tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
+          tabBarIcon: ({color}) => <Icon name="fact-check" color={color} />,
+          tabBarActiveTintColor: colorSchema.mainColor,
+        }}
+      />
+      <Tab.Screen
+        name="MyFavorites"
+        component={MyFavorites}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="favorite" color={color} />,
+          tabBarActiveTintColor: colorSchema.mainColor,
         }}
       />
       <Tab.Screen
@@ -39,6 +51,14 @@ const TabScreen = () => {
         component={Profile}
         options={{
           tabBarIcon: ({color}) => <Icon name="person" color={color} />,
+          tabBarActiveTintColor: colorSchema.mainColor,
+        }}
+      />
+      <Tab.Screen
+        name="AddTask"
+        component={AddTask}
+        options={{
+          tabBarItemStyle: {display: 'none'},
         }}
       />
     </Tab.Navigator>
@@ -57,9 +77,10 @@ const StackScreen = () => {
             options={{headerShown: false}}
           />
           <Stack.Screen name="Single" component={Single} />
-          <Stack.Screen name="MyFiles" component={MyFiles} />
+          <Stack.Screen name="MyTasks" component={MyTasks} />
           <Stack.Screen name="ModifyFile" component={ModifyFile} />
-          <Stack.Screen name="Modify" component={Modify} />
+          <Stack.Screen name="ModifyUser" component={ModifyUser} />
+          <Stack.Screen name="AddTask" component={AddTask} />
         </>
       ) : (
         <>

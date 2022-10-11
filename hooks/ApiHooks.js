@@ -4,32 +4,56 @@ import {MainContext} from '../contexts/MainContext';
 import {doFetch} from '../utils/http';
 import {apiUrl, applicationTag} from '../utils/variables';
 
-const useMedia = (myFilesOnly) => {
+const useMedia = (myFilesOnly, myFavoritesOnly) => {
   const [mediaArray, setMediaArray] = useState([]);
+  const [loading, setLoading] = useState(false);
   const {update, user} = useContext(MainContext);
 
   const loadMedia = async () => {
+    setLoading(true);
     try {
       if (myFilesOnly) {
         let jsonByTag = await useTag().getFilesByTag(applicationTag);
-        console.log('User from ApiHooks', user);
-        jsonByTag = jsonByTag.filter((file) => file.user_id === user.user_id);
+        jsonByTag = jsonByTag
+          .filter(
+            (item) => item.description.split('projectLabel')[1] != undefined
+          )
+          .filter((file) => file.user_id === user.user_id);
         const allMediaDataByTag = jsonByTag.map(async (mediaItem) => {
           return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
         });
 
         setMediaArray(await Promise.all(allMediaDataByTag));
       } else {
-        const json = await doFetch(apiUrl + 'media?limit=20');
-        const allMediaData = json.map(async (mediaItem) => {
+        let json = await doFetch(apiUrl + 'media?limit=200');
+        json = json.filter(
+          (item) => item.description.split('projectLabel')[1] != undefined
+        );
+        let allMediaData = null;
+        if (myFavoritesOnly) {
+          const token = await AsyncStorage.getItem('userToken');
+          const favoritesByUser = await useFavourite().getFavouritesByUser(
+            token
+          );
+          console.log('json', json);
+          console.log('favoritesByUser', favoritesByUser);
+          json = json.filter((item) =>
+            favoritesByUser.some((f) => f.file_id === item.file_id)
+          );
+        }
+
+        allMediaData = json.map(async (mediaItem) => {
           return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
         });
 
+        // setUpdate(!update);
         setMediaArray(await Promise.all(allMediaData));
       }
     } catch (error) {
-      console.log('media fetch failed', error);
+      console.log('media fetch failed', error.message);
       throw new Error('Get media error: ', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,14 +62,17 @@ const useMedia = (myFilesOnly) => {
   }, [update]);
 
   const postMedia = async (token, formData) => {
+    setLoading(true);
     const options = {
       method: 'POST',
-      headers: {'x-access-token': token},
+      headers: {'x-access-token': token, 'Content-Type': 'multipart/form-data'},
       body: formData,
     };
 
     try {
-      return await doFetch(apiUrl + 'media', options);
+      const result = await doFetch(apiUrl + 'media', options);
+      result && setLoading(false);
+      return result;
     } catch (error) {
       console.log('postMedia error:', error.message);
     }
@@ -81,7 +108,7 @@ const useMedia = (myFilesOnly) => {
     }
   };
 
-  return {mediaArray, postMedia, putMedia, deleteMedia};
+  return {mediaArray, postMedia, putMedia, deleteMedia, loading};
 };
 
 const useLogin = () => {
@@ -101,7 +128,6 @@ const useLogin = () => {
   };
 
   const {setIsLoggedIn, user, setUser} = useContext(MainContext);
-  console.log('%cApiHooks.js line:104 user', 'color: #007acc;', user);
 
   const {getUserByToken} = useUser();
 
@@ -185,7 +211,36 @@ const useUser = () => {
     }
   };
 
-  return {checkUsername, getUserByToken, postUser, putUser, getUserById};
+  const getOwner = async (userId, token) => {
+    try {
+      return await getUserById(userId, token);
+    } catch (error) {
+      // TODO: how should user be notified?
+      console.error('fetch owner error', error.message);
+    }
+  };
+
+  const getAvatar = async (userId) => {
+    try {
+      const avatarArray = await useTag().getFilesByTag('avatar_' + userId);
+      if (avatarArray.length === 0) {
+        return;
+      }
+      return avatarArray.pop();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  return {
+    checkUsername,
+    getUserByToken,
+    postUser,
+    putUser,
+    getOwner,
+    getAvatar,
+    getUserById,
+  };
 };
 
 const useTag = () => {
@@ -228,9 +283,21 @@ const useFavourite = () => {
     };
     return await doFetch(`${apiUrl}favourites`, options);
   };
+
   const getFavouritesByFileId = async (fileId) => {
     return await doFetch(`${apiUrl}favourites/file/${fileId}`);
   };
+
+  const getFavouritesByUser = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await doFetch(`${apiUrl}favourites`, options);
+  };
+
   const deleteFavourite = async (fileId, token) => {
     const options = {
       method: 'DELETE',
@@ -240,7 +307,13 @@ const useFavourite = () => {
     };
     return await doFetch(`${apiUrl}favourites/file/${fileId}`, options);
   };
-  return {postFavourite, getFavouritesByFileId, deleteFavourite};
+
+  return {
+    postFavourite,
+    getFavouritesByFileId,
+    getFavouritesByUser,
+    deleteFavourite,
+  };
 };
 
 export {useMedia, useLogin, useUser, useTag, useFavourite};

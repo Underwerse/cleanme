@@ -1,9 +1,11 @@
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Header from '../components/Header';
 import List from '../components/List';
 import PropTypes from 'prop-types';
+import AddButton from '../assets/add-btn.svg';
+// import {useIsFocused} from '@react-navigation/native';
+// import {useContext, useEffect} from 'react';
 // import {MainContext} from '../contexts/MainContext';
-// import {useContext, useLayoutEffect} from 'react';
 
 const Home = ({navigation}) => {
   // const {update, setUpdate} = useContext(MainContext);
@@ -15,18 +17,36 @@ const Home = ({navigation}) => {
   // });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <>
       <Header navigation={navigation} />
-      <List navigation={navigation} />
-    </SafeAreaView>
+      <List
+        navigation={navigation}
+        myFilesOnly={false}
+        myFavoritesOnly={false}
+      />
+
+      <AddButton
+        style={styles.addBtn}
+        height={'12%'}
+        width={'12%'}
+        onPress={() => {
+          navigation.navigate('AddTask');
+        }}
+      />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'rgba(33,32,40,255)',
+  addBtn: {
+    position: 'absolute',
+    bottom: 0,
+    left: '44%',
+  },
+  likeEmpty: {
+    position: 'absolute',
+    bottom: 20,
+    right: 10,
   },
 });
 

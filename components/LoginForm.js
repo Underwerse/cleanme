@@ -4,6 +4,9 @@ import {useLogin} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import {Input, Button, Text, Card} from '@rneui/themed';
+import PropTypes from 'prop-types';
+import {ScrollView, StyleSheet} from 'react-native';
+import {colorSchema} from '../utils/variables';
 
 export const LoginForm = () => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -35,62 +38,89 @@ export const LoginForm = () => {
   };
 
   return (
-    <Card>
-      <Card.Title>Login</Card.Title>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-          minLength: 3,
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Username"
-            autoCapitalize="none"
-            errorMessage={
-              (errors.username?.type === 'required' && (
-                <Text>This is required.</Text>
-              )) ||
-              (errors.username?.type === 'minLength' && (
-                <Text>Min 3 chars!</Text>
-              ))
-            }
-          />
-        )}
-        name="username"
-      />
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-        }}
-        render={({field: {onChange, onBlur, value}}) => (
-          <Input
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            secureTextEntry={true}
-            placeholder="Password"
-            errorMessage={errors.password && <Text>This is required.</Text>}
-          />
-        )}
-        name="password"
-      />
+    <>
+      <ScrollView style={styles.container}>
+        <Card.Title style={{fontSize: 26, color: colorSchema.mainColor}}>
+          Login
+        </Card.Title>
+        <Controller
+          control={control}
+          rules={{
+            required: {value: true, message: 'This is required'},
+            minLength: {
+              value: 3,
+              message: 'Username must be at least 3 characters',
+            },
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder="Username"
+              autoCapitalize="none"
+              errorMessage={
+                (errors.username?.type === 'required' && (
+                  <Text>This is required.</Text>
+                )) ||
+                (errors.username?.type === 'minLength' && (
+                  <Text>Min 3 chars!</Text>
+                ))
+              }
+            />
+          )}
+          name="username"
+        />
 
-      <Button title="Sign in!" onPress={handleSubmit((data) => logIn(data))} />
-    </Card>
+        <Controller
+          control={control}
+          rules={{
+            required: {value: true, message: 'This is required'},
+          }}
+          render={({field: {onChange, onBlur, value}}) => (
+            <Input
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              secureTextEntry={true}
+              placeholder="Password"
+              errorMessage={errors.password && <Text>This is required.</Text>}
+            />
+          )}
+          name="password"
+        />
+
+        <Button
+          buttonStyle={styles.btn}
+          title="Sign in!"
+          onPress={handleSubmit((data) => logIn(data))}
+        />
+      </ScrollView>
+    </>
   );
 };
 
-/* const styles = StyleSheet.create({
-  header: {
-    textAlign: 'center',
-    marginTop: 24,
-    marginBottom: 10,
-    fontSize: 24,
-    fontWeight: 'bold',
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
-}); */
+  dateInput: {
+    fontSize: 20,
+    marginBottom: 20,
+    marginLeft: 10,
+  },
+  deadlineWrap: {
+    flexDirection: 'row',
+  },
+  btn: {
+    marginBottom: 20,
+    backgroundColor: colorSchema.mainColor,
+    borderRadius: 40,
+  },
+});
+
+LoginForm.propTypes = {
+  navigation: PropTypes.object,
+};

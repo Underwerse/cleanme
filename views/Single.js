@@ -9,23 +9,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 
 const Single = ({route}) => {
-  // console.log('route:', route);
   const {file} = route.params;
   const videoRef = useRef(null);
-  const {getUserById} = useUser();
-  const {getFilesByTag} = useTag();
+  // const {getUserById} = useUser();
+  // const {getFilesByTag} = useTag();
   const {postFavourite, getFavouritesByFileId, deleteFavourite} =
     useFavourite();
+  const {getOwner, getAvatar} = useUser();
   const [owner, setOwner] = useState({username: 'fetching...'});
   const [avatar, setAvatar] = useState('http://placekitten.com/180');
   const [likes, setLikes] = useState([]);
   const [userLike, setUserLike] = useState(false);
-  const {user} = useContext(MainContext);
+  const {update, setUpdate, user} = useContext(MainContext);
 
-  const fetchOwner = async () => {
+  const fetchOwner = async (file) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      const userData = await getUserById(file.user_id, token);
+      const userData = await getOwner(file.user_id, token);
       setOwner(userData);
     } catch (error) {
       // TODO: how should user be notified?
@@ -34,15 +34,10 @@ const Single = ({route}) => {
     }
   };
 
-  const fetchAvatar = async () => {
+  const fetchAvatar = async (file) => {
     try {
-      const avatarArray = await getFilesByTag('avatar_' + file.user_id);
-      if (avatarArray.length === 0) {
-        return;
-      }
-      const avatar = avatarArray.pop();
-      setAvatar(mediaUrl + avatar.filename);
-      console.log('single.js avatar ', avatar);
+      const avatarRes = await getAvatar(file.user_id);
+      avatarRes && setAvatar(mediaUrl + avatarRes.filename);
     } catch (error) {
       console.error(error.message);
     }
@@ -68,6 +63,7 @@ const Single = ({route}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await postFavourite(file.file_id, token);
       response && setUserLike(true);
+      setUpdate(!update);
     } catch (error) {
       // TODO: what to do if user has liked this image already?
       console.error('createFavourite error', error);
@@ -79,6 +75,7 @@ const Single = ({route}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await deleteFavourite(file.file_id, token);
       response && setUserLike(false);
+      setUpdate(!update);
     } catch (error) {
       // TODO: what to do if user has not liked this image already?
       console.error('removeFavourite error', error);
@@ -86,8 +83,8 @@ const Single = ({route}) => {
   };
 
   useEffect(() => {
-    fetchOwner();
-    fetchAvatar();
+    fetchOwner(file);
+    fetchAvatar(file);
   }, []);
 
   useEffect(() => {
@@ -127,7 +124,9 @@ const Single = ({route}) => {
           ></Video>
         )}
         <Card.Divider />
-        <Text style={styles.description}>{file.description}</Text>
+        <Text style={styles.description}>
+          {JSON.parse(file.description).description}
+        </Text>
         <ListItem>
           <Avatar source={{uri: avatar}} />
           <Text>{owner.username}</Text>

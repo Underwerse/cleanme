@@ -3,6 +3,7 @@ import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import LottieView from 'lottie-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {colorSchema} from '../utils/variables';
 
 const OnboardingScreen = ({navigation}) => {
   const animation = useRef(null);
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: 40,
     width: '50%',
-    backgroundColor: '#005AA1',
+    backgroundColor: colorSchema.mainColor,
     borderRadius: 40,
     alignItems: 'center',
     justifyContent: 'center',
