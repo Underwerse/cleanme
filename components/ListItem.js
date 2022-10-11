@@ -148,14 +148,16 @@ const ListItem = ({navigation, singleMedia, myFilesOnly}) => {
             rounded
           />
         )}
+        <RNEListItem.Subtitle style={styles.creatorAvatar}>
+          <Avatar source={{uri: avatar}} rounded />
+        </RNEListItem.Subtitle>
       </RNEListItem.Content>
-      <Avatar source={{uri: avatar}} />
       <RNEListItem.Content style={styles.budget}>
         <RNEListItem.Subtitle style={styles.listPrice}>
           {descriptionParsed.budget} {'\u20AC'}
         </RNEListItem.Subtitle>
       </RNEListItem.Content>
-      {console.log('render like-SVG run')}
+      {/* {console.log('render like-SVG run')} */}
       {!userLike ? (
         <LikeEmpty
           style={styles.likeEmpty}
@@ -214,6 +216,11 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     // borderWidth: 2,
     // borderColor: 'red',
+  },
+  creatorAvatar: {
+    position: 'absolute',
+    top: 50,
+    right: -40,
   },
 });
 
