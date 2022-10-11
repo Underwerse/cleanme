@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {mediaUrl} from '../utils/variables';
 import {Avatar, Button, Card, ListItem, Text} from 'react-native-elements';
 import {Video} from 'expo-av';
-import {useFavourite, useTag, useUser} from '../hooks/ApiHooks';
+import {useFavourite, useUser} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 
