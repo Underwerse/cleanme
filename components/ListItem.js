@@ -10,7 +10,12 @@ import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
 import {Text} from '@rneui/base';
 
-const ListItem = ({navigation, singleMedia, myFilesOnly, filterWord}) => {
+const ListCommentsItem = ({
+  navigation,
+  singleMedia,
+  myFilesOnly,
+  filterWord,
+}) => {
   const {deleteMedia} = useMedia();
   const {update, setUpdate, user} = useContext(MainContext);
   const [userLike, setUserLike] = useState(false);
@@ -92,7 +97,6 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, filterWord}) => {
   };
 
   useEffect(() => {
-    console.log('useEffect run');
     fetchLikes();
   }, [update, userLike]);
 
@@ -104,7 +108,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, filterWord}) => {
     <RNEListItem
       style={styles.listItemContainer}
       onPress={() => {
-        navigation.navigate('Single', {file: singleMedia});
+        navigation.navigate('SingleTask', {file: singleMedia});
       }}
     >
       <Avatar
@@ -223,10 +227,10 @@ const styles = StyleSheet.create({
   },
 });
 
-ListItem.propTypes = {
+ListCommentsItem.propTypes = {
   singleMedia: PropTypes.object,
   navigation: PropTypes.object,
   myFilesOnly: PropTypes.bool,
 };
 
-export default ListItem;
+export default ListCommentsItem;

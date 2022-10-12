@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {MainContext} from '../contexts/MainContext';
 import Home from '../views/Home';
 import Profile from '../views/Profile';
-import Single from '../views/Single';
+import SingleTask from '../views/SingleTask';
 import Login from '../views/Login';
 import {Icon} from '@rneui/themed';
 import AddTask from '../views/AddTask';
@@ -76,7 +76,7 @@ const StackScreen = () => {
             component={TabScreen}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="Single" component={Single} />
+          <Stack.Screen name="SingleTask" component={SingleTask} />
           <Stack.Screen name="MyTasks" component={MyTasks} />
           <Stack.Screen name="ModifyTask" component={ModifyTask} />
           <Stack.Screen name="ModifyUser" component={ModifyUser} />
