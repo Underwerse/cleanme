@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {Avatar, Button, Card, ListItem, Text} from 'react-native-elements';
 import {Video} from 'expo-av';
-import {useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
+import {useComment, useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
 import {ButtonGroup, Icon, Input} from '@rneui/themed';
@@ -19,21 +19,24 @@ import LikeFull from '../assets/like_full.svg';
 
 const SingleTask = ({navigation, route}) => {
   const {file} = route.params;
-  const {deleteMedia} = useMedia();
-  console.log('file: ', file);
   const videoRef = useRef(null);
-  // const {getUserById} = useUser();
-  // const {getFilesByTag} = useTag();
+  const {deleteMedia} = useMedia();
   const {postFavourite, getFavouritesByFileId, deleteFavourite} =
     useFavourite();
   const {getOwner, getAvatar} = useUser();
+  const {postComment, getCommentsByFile} = useComment();
   const [owner, setOwner] = useState({username: 'fetching...'});
   const [avatar, setAvatar] = useState('http://placekitten.com/180');
   const [likes, setLikes] = useState([]);
   const [userLike, setUserLike] = useState(false);
+  const [addComment, setAddComment] = useState('');
+  const [fileComments, setFileComments] = useState([]);
   const {update, setUpdate, user} = useContext(MainContext);
+  const addCommentInput = useRef();
 
   const descriptionParsed = JSON.parse(file.description);
+
+  console.log('file: ', file);
 
   const fetchOwner = async (file) => {
     try {
@@ -68,6 +71,33 @@ const SingleTask = ({navigation, route}) => {
       });
     } catch (error) {
       // TODO: how should user be notified?
+      console.error('fetchLikes() error', error);
+    }
+  };
+
+  const createComment = async (comment) => {
+    const commentData = {file_id: file.file_id, comment: comment};
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const response = await postComment(commentData, token);
+      if (response) {
+        console.log('Post Comment response: ', response);
+        setAddComment('');
+        addCommentInput.current.clear();
+      }
+    } catch (error) {
+      console.error('createFavourite error', error);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const response = await getCommentsByFile(file.file_id);
+      if (response) {
+        // setFileComments(response);
+        console.log('comments arr:', response);
+      }
+    } catch (error) {
       console.error('fetchLikes() error', error);
     }
   };
@@ -123,9 +153,14 @@ const SingleTask = ({navigation, route}) => {
   }, [update, userLike]);
 
   useEffect(() => {
+    fetchComments();
     fetchOwner(file);
     fetchAvatar(file);
   }, []);
+
+  useEffect(() => {
+    fetchComments();
+  }, [addComment]);
 
   return (
     <>
@@ -237,7 +272,8 @@ const SingleTask = ({navigation, route}) => {
               color: colorSchema.mainColor,
             }}
             containerStyle={{paddingRight: 65}}
-            // onChangeText={(value) => this.setState({comment: value})}
+            ref={addCommentInput}
+            onChangeText={(value) => setAddComment(value)}
           />
           <View
             style={{
@@ -252,7 +288,7 @@ const SingleTask = ({navigation, route}) => {
               color={colorSchema.mainColor}
               size={50}
               onPress={() => {
-                addComment();
+                createComment(addComment);
               }}
             />
           </View>

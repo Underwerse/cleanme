@@ -324,7 +324,7 @@ const useFavourite = () => {
 };
 
 const useComment = () => {
-  const postComment = async (comment, token) => {
+  const postComment = async (data, token) => {
     try {
       const options = {
         method: 'POST',
@@ -332,7 +332,7 @@ const useComment = () => {
           'x-access-token': token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(comment),
+        body: JSON.stringify(data),
       };
       return await doFetch(apiUrl + 'comments', options);
     } catch (error) {
