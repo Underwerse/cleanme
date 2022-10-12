@@ -1,17 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Keyboard,
-  TouchableOpacity,
-  View,
-  Text,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Text, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import {useLogin} from '../hooks/ApiHooks';
 import {LoginForm} from '../components/LoginForm';
 import {RegisterForm} from '../components/RegisterForm';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import Header from '../components/Header';
 import {colorSchema} from '../utils/variables';
 

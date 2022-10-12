@@ -1,7 +1,7 @@
 import {FlatList} from 'react-native';
+import PropTypes from 'prop-types';
 import {useMedia} from '../hooks/ApiHooks';
 import ListItem from './ListItem';
-import PropTypes from 'prop-types';
 
 const List = ({
   navigation,
@@ -14,7 +14,6 @@ const List = ({
     myFavoritesOnly,
     filterWord
   );
-  console.log('List load', loading);
 
   return (
     <FlatList

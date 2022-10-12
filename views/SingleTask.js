@@ -7,13 +7,13 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {colorSchema, mediaUrl} from '../utils/variables';
+import {ButtonGroup, Icon, Input} from '@rneui/themed';
 import {Avatar, Button, Card, ListItem, Text} from 'react-native-elements';
 import {Video} from 'expo-av';
-import {useComment, useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {colorSchema, mediaUrl} from '../utils/variables';
+import {useComment, useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
-import {ButtonGroup, Icon, Input} from '@rneui/themed';
 import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
 import ListComments from '../components/ListComments';
@@ -37,14 +37,11 @@ const SingleTask = ({navigation, route}) => {
 
   const descriptionParsed = JSON.parse(file.description);
 
-  console.log('file: ', file);
-
   const fetchOwner = async (file) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const userData = await getOwner(file.user_id, token);
       setOwner(userData);
-      console.log('Owner: ', userData);
     } catch (error) {
       // TODO: how should user be notified?
       console.error('fetch owner error', error);
@@ -82,7 +79,6 @@ const SingleTask = ({navigation, route}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await postComment(commentData, token);
       if (response) {
-        console.log('Post Comment response: ', response);
         setAddComment('');
         addCommentInput.current.clear();
       }
@@ -96,7 +92,6 @@ const SingleTask = ({navigation, route}) => {
       const response = await getCommentsByFile(file.file_id);
       if (response) {
         setFileComments(response);
-        console.log('comments arr:', response);
       }
     } catch (error) {
       console.error('fetchLikes() error', error);
@@ -137,7 +132,6 @@ const SingleTask = ({navigation, route}) => {
         onPress: async () => {
           try {
             const token = await AsyncStorage.getItem('userToken');
-            console.log('token for delete file:', token);
             const response = await deleteMedia(token, singleMedia.file_id);
             response && setUpdate(!update);
           } catch (error) {
@@ -149,7 +143,6 @@ const SingleTask = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    console.log('useEffect run');
     fetchLikes();
   }, [update, userLike]);
 

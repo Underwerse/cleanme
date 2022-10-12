@@ -1,13 +1,13 @@
 import React, {useContext} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
+import {Icon} from '@rneui/themed';
 import {MainContext} from '../contexts/MainContext';
 import Home from '../views/Home';
 import Profile from '../views/Profile';
 import SingleTask from '../views/SingleTask';
 import Login from '../views/Login';
-import {Icon} from '@rneui/themed';
 import AddTask from '../views/AddTask';
 import MyTasks from '../views/MyTasks';
 import ModifyTask from '../views/ModifyTask';

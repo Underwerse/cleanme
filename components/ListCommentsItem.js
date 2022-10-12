@@ -1,10 +1,10 @@
+import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
+import {Text} from '@rneui/base';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {ListItem as RNEListItem, Avatar} from '@rneui/themed';
 import {useUser} from '../hooks/ApiHooks';
-import React, {useEffect, useState} from 'react';
-import {Text} from '@rneui/base';
 
 const ListCommentsItem = ({singleMedia, navigation}) => {
   const [avatar, setAvatar] = useState('http://placekitten.com/180');

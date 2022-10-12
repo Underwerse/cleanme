@@ -1,26 +1,18 @@
+import React, {useContext, useEffect, useState, createRef} from 'react';
 import {StyleSheet, View} from 'react-native';
+import PropTypes from 'prop-types';
+import {Input} from '@rneui/themed';
 import Header from '../components/Header';
 import List from '../components/List';
-import PropTypes from 'prop-types';
 import AddButton from '../assets/add-btn.svg';
-import {Input} from '@rneui/themed';
 import {colorSchema} from '../utils/variables';
-import React, {useContext, useEffect, useState, createRef} from 'react';
-// import {useIsFocused} from '@react-navigation/native';
 import {MainContext} from '../contexts/MainContext';
 
 const Home = ({navigation}) => {
   const {update, setUpdate} = useContext(MainContext);
-  // setUpdate(!update);
-
-  // useLayoutEffect(() => {
-  // setUpdate(!update);
-  //   console.log('update value:', update);
-  // });
 
   const [filterWord, setFilterWord] = useState('');
   const input = createRef();
-  // input.current.clear();
 
   useEffect(() => {
     setTimeout(() => {
@@ -30,11 +22,6 @@ const Home = ({navigation}) => {
 
   return (
     <>
-      {console.log(
-        'Home render run',
-        'color: white; background-color: #26bfa5;',
-        Object
-      )}
       <Header navigation={navigation} />
       <View style={styles.searchInput}>
         <Input

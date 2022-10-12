@@ -1,10 +1,10 @@
 import React from 'react';
 import {Text, ScrollView, StyleSheet, Alert} from 'react-native';
+import PropTypes from 'prop-types';
+import {Input, Button, Card} from '@rneui/themed';
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
-import {Input, Button, Card} from '@rneui/themed';
 import {colorSchema} from '../utils/variables';
-import PropTypes from 'prop-types';
 
 export const RegisterForm = () => {
   const {checkUsername, postUser} = useUser();
@@ -33,10 +33,8 @@ export const RegisterForm = () => {
     };
     try {
       const newUser = await postUser(userData);
-      console.log('posted user: ', newUser);
     } catch (error) {
       console.log('Register error: ', error);
-      // TODO: notify user when wrong login/pass
     }
   };
 
