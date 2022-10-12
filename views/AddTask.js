@@ -1,15 +1,15 @@
 import React, {useContext, useState} from 'react';
-import {useForm, Controller} from 'react-hook-form';
-import {Input, Button, Text, Card} from '@rneui/themed';
-import {useMedia, useTag} from '../hooks/ApiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import PropTypes from 'prop-types';
-import * as ImagePicker from 'expo-image-picker';
 import {Alert, ScrollView, StyleSheet, View} from 'react-native';
-import {MainContext} from '../contexts/MainContext';
-import {applicationTag, colorSchema} from '../utils/variables';
-import Header from '../components/Header';
+import PropTypes from 'prop-types';
+import {Input, Button, Text, Card} from '@rneui/themed';
+import {useForm, Controller} from 'react-hook-form';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import * as ImagePicker from 'expo-image-picker';
+import {applicationTag, colorSchema} from '../utils/variables';
+import {useMedia, useTag} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
+import Header from '../components/Header';
 
 const AddTask = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
@@ -89,11 +89,9 @@ const AddTask = ({navigation}) => {
       const token = await AsyncStorage.getItem('userToken');
       const mediaResponse = await postMedia(token, formData);
       setUpdate(!update);
-      console.log('postMedia result: ', mediaResponse);
 
       const tag = {file_id: mediaResponse.file_id, tag: applicationTag};
       const tagResponse = await postTag(token, tag);
-      console.log('postTag result:', tagResponse);
 
       Alert.alert('Add Task status', mediaResponse.message, [
         {
@@ -116,7 +114,6 @@ const AddTask = ({navigation}) => {
     const date = new Date(selectedDate);
     setDate(selectedDate);
     setValue('deadline', date.toISOString().split('T')[0]);
-    console.log('date.getFullYear()', date.getFullYear());
   };
 
   const showDatepicker = () => {

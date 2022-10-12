@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import {Alert, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet} from 'react-native';
+import {PropTypes} from 'prop-types';
 import {useForm, Controller} from 'react-hook-form';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {colorSchema} from '../utils/variables';
 import {useUser} from '../hooks/ApiHooks';
 import {Input, Button} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {PropTypes} from 'prop-types';
-import {colorSchema} from '../utils/variables';
 
 const ModifyUser = ({navigation}) => {
   const {checkUsername, putUser} = useUser();
@@ -28,7 +28,6 @@ const ModifyUser = ({navigation}) => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       delete data.confirmPassword;
       if (data.password === '') {

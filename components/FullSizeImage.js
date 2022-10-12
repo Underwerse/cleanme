@@ -1,7 +1,7 @@
-import {Card} from '@rneui/themed';
-import {PropTypes} from 'prop-types';
 import {useState} from 'react';
 import {Image} from 'react-native';
+import {PropTypes} from 'prop-types';
+import {Card} from '@rneui/themed';
 
 const FullSizeImage = ({style, ...props}) => {
   const [ratio, setRatio] = useState(1);
@@ -13,7 +13,6 @@ const FullSizeImage = ({style, ...props}) => {
   } catch (error) {
     console.error(error.message);
   }
-  console.log('component rendered');
   return (
     <Card.Image
       {...props}

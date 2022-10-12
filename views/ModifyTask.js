@@ -1,9 +1,9 @@
 import React, {useContext, useState} from 'react';
-import {useForm, Controller} from 'react-hook-form';
-import {Input, Button, Text, Card} from '@rneui/themed';
-import {useMedia, useTag} from '../hooks/ApiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import PropTypes from 'prop-types';
+import {Input, Button, Text, Card} from '@rneui/themed';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useForm, Controller} from 'react-hook-form';
+import {useMedia} from '../hooks/ApiHooks';
 import {
   Alert,
   ActivityIndicator,
@@ -17,7 +17,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 const ModifyTask = ({navigation, route}) => {
   const {file} = route.params;
-  console.log('file:', file);
   const {update, setUpdate} = useContext(MainContext);
   const {putMedia, loading} = useMedia();
   const [date, setDate] = useState(new Date());
@@ -41,7 +40,6 @@ const ModifyTask = ({navigation, route}) => {
   });
 
   const onSubmit = async (data) => {
-    console.log('data', data);
     const descriptionUnited = {...data, projectLabel: 'cleanme'};
     delete descriptionUnited.title;
     data = {
@@ -53,7 +51,6 @@ const ModifyTask = ({navigation, route}) => {
       const token = await AsyncStorage.getItem('userToken');
       const response = await putMedia(token, data, file.file_id);
       setUpdate(!update);
-      console.log('putMedia result: ', response);
 
       Alert.alert('Task update status status', response.message, [
         {
@@ -75,7 +72,6 @@ const ModifyTask = ({navigation, route}) => {
     const date = new Date(selectedDate);
     setDate(selectedDate);
     setValue('deadline', date.toISOString().split('T')[0]);
-    console.log('date.getFullYear()', date.getFullYear());
   };
 
   const showDatepicker = () => {

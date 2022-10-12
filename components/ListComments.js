@@ -1,7 +1,7 @@
+import {useEffect} from 'react';
 import {FlatList, LogBox} from 'react-native';
 import PropTypes from 'prop-types';
 import ListCommentsItem from './ListCommentsItem';
-import {useEffect} from 'react';
 
 const ListComments = ({commentsArray, navigation}) => {
   useEffect(() => {

@@ -1,8 +1,8 @@
 import {useContext, useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
-import {doFetch} from '../utils/http';
 import {apiUrl, applicationTag} from '../utils/variables';
+import {doFetch} from '../utils/http';
 
 const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
   const [mediaArray, setMediaArray] = useState([]);
@@ -48,13 +48,10 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
         });
       }
 
-      console.log('json qty:', json.length);
-
       allMediaData = json.map(async (mediaItem) => {
         return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
       });
 
-      console.log('%cApiHooks.js line:55 json', 'color: #007acc;', json);
       setMediaArray(await Promise.all(allMediaData));
     } catch (error) {
       console.log('media fetch failed', error.message);
@@ -145,11 +142,8 @@ const useLogin = () => {
     }
     try {
       const userData = await getUserByToken(userToken);
-      console.log('checkToken USER:', userData);
-      console.log('USER:', user);
       setUser(userData);
       setIsLoggedIn(true);
-      console.log('%cApiHooks.js line:118 user', 'color: #007acc;', user);
     } catch (error) {
       console.error(error);
     }
@@ -162,7 +156,6 @@ const useUser = () => {
   const checkUsername = async (username) => {
     try {
       const result = await doFetch(apiUrl + 'users/username/' + username);
-      console.log('checkUsername(): ', result);
       return result.available;
     } catch (error) {
       console.log('CheckUsername failed', error.message);

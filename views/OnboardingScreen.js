@@ -1,8 +1,8 @@
 import React, {useEffect, useRef} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import PropTypes from 'prop-types';
-import LottieView from 'lottie-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import LottieView from 'lottie-react-native';
 import {colorSchema} from '../utils/variables';
 
 const OnboardingScreen = ({navigation}) => {

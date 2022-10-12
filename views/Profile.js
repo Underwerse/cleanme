@@ -1,12 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {MainContext} from '../contexts/MainContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
-import {colorSchema, mediaUrl} from '../utils/variables';
 import {Button, ListItem, Text} from '@rneui/themed';
-import {ScrollView, ActivityIndicator} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Card} from 'react-native-elements';
+import {colorSchema, mediaUrl} from '../utils/variables';
+import {MainContext} from '../contexts/MainContext';
 import {useUser} from '../hooks/ApiHooks';
 
 const Profile = ({navigation}) => {

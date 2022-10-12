@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
-import {useForm, Controller} from 'react-hook-form';
-import {useLogin} from '../hooks/ApiHooks';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {MainContext} from '../contexts/MainContext';
-import {Input, Button, Text, Card} from '@rneui/themed';
-import PropTypes from 'prop-types';
 import {ScrollView, StyleSheet} from 'react-native';
+import PropTypes from 'prop-types';
+import {Input, Button, Text, Card} from '@rneui/themed';
+import {useForm, Controller} from 'react-hook-form';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useLogin} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
 import {colorSchema} from '../utils/variables';
 
 export const LoginForm = () => {
@@ -26,7 +26,6 @@ export const LoginForm = () => {
   const logIn = async (loginCredentials) => {
     try {
       const userData = await postLogin(loginCredentials);
-      console.log('Login USER: ', userData.user);
       await AsyncStorage.setItem('userToken', userData.token);
       await AsyncStorage.setItem('isLoggedIn', 'true');
       setUser(userData.user);

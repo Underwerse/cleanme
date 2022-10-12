@@ -1,14 +1,18 @@
+import React, {useContext, useEffect, useState} from 'react';
 import {Alert, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
-import {colorSchema, mediaUrl} from '../utils/variables';
-import {ListItem as RNEListItem, Avatar, ButtonGroup} from '@rneui/themed';
-import {useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
-import React, {useContext, useEffect, useState} from 'react';
-import {MainContext} from '../contexts/MainContext';
+import {
+  ListItem as RNEListItem,
+  Avatar,
+  ButtonGroup,
+  Text,
+} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {colorSchema, mediaUrl} from '../utils/variables';
+import {useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
+import {MainContext} from '../contexts/MainContext';
 import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
-import {Text} from '@rneui/base';
 
 const ListCommentsItem = ({
   navigation,
@@ -76,7 +80,6 @@ const ListCommentsItem = ({
         onPress: async () => {
           try {
             const token = await AsyncStorage.getItem('userToken');
-            console.log('token for delete file:', token);
             const response = await deleteMedia(token, singleMedia.file_id);
             response && setUpdate(!update);
           } catch (error) {
@@ -160,7 +163,6 @@ const ListCommentsItem = ({
           {descriptionParsed.budget} {'\u20AC'}
         </RNEListItem.Subtitle>
       </RNEListItem.Content>
-      {/* {console.log('render like-SVG run')} */}
       {!userLike ? (
         <LikeEmpty
           style={styles.likeEmpty}
@@ -168,7 +170,6 @@ const ListCommentsItem = ({
           width={35}
           onPress={() => {
             createFavourite();
-            // setUserLike(true);
           }}
         />
       ) : (
@@ -178,7 +179,6 @@ const ListCommentsItem = ({
           width={35}
           onPress={() => {
             removeFavourite();
-            // setUserLike(false);
           }}
         />
       )}

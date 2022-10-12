@@ -1,7 +1,7 @@
+import {StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {MainProvider} from './contexts/MainContext';
 import Navigator from './navigators/Navigator';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {StyleSheet} from 'react-native';
 
 const App = () => {
   return (
