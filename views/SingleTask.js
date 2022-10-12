@@ -16,6 +16,7 @@ import {MainContext} from '../contexts/MainContext';
 import {ButtonGroup, Icon, Input} from '@rneui/themed';
 import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
+import ListComments from '../components/ListComments';
 
 const SingleTask = ({navigation, route}) => {
   const {file} = route.params;
@@ -94,7 +95,7 @@ const SingleTask = ({navigation, route}) => {
     try {
       const response = await getCommentsByFile(file.file_id);
       if (response) {
-        // setFileComments(response);
+        setFileComments(response);
         console.log('comments arr:', response);
       }
     } catch (error) {
@@ -293,11 +294,11 @@ const SingleTask = ({navigation, route}) => {
             />
           </View>
         </View>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.textDetailsValue}>
-            {/* {descriptionParsed.address} */}
-          </Text>
-        </ListItem>
+        <ListComments
+          commentsArray={fileComments.reverse()}
+          navigation={navigation}
+          containerStyle={{marginBottom: 30, paddingBottom: 30}}
+        ></ListComments>
       </ScrollView>
       {!userLike ? (
         <LikeEmpty
