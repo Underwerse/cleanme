@@ -19,7 +19,11 @@ const Login = ({navigation}) => {
     <>
       <Header navigation={navigation} />
       <ScrollView style={styles.container}>
-        {showRegForm ? <RegisterForm /> : <LoginForm />}
+        {showRegForm ? (
+          <RegisterForm navigation={navigation} />
+        ) : (
+          <LoginForm navigation={navigation} />
+        )}
         <Text
           onPress={() => {
             setShowRegForm(!showRegForm);
