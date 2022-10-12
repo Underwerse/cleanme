@@ -323,4 +323,38 @@ const useFavourite = () => {
   };
 };
 
-export {useMedia, useLogin, useUser, useTag, useFavourite};
+const useComment = () => {
+  const postComment = async (comment, token) => {
+    try {
+      const options = {
+        method: 'POST',
+        headers: {
+          'x-access-token': token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(comment),
+      };
+      return await doFetch(apiUrl + 'comments', options);
+    } catch (error) {
+      console.log('Post comment failed', error.message);
+    }
+  };
+
+  const getCommentsByFile = async (fileId) => {
+    try {
+      const options = {
+        method: 'GET',
+      };
+      return await doFetch(apiUrl + 'comments/file/' + fileId, options);
+    } catch (error) {
+      console.log('Get comments by fileID failed', error.message);
+    }
+  };
+
+  return {
+    postComment,
+    getCommentsByFile,
+  };
+};
+
+export {useMedia, useLogin, useUser, useTag, useFavourite, useComment};

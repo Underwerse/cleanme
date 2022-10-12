@@ -104,7 +104,7 @@ const ListItem = ({navigation, singleMedia, myFilesOnly, filterWord}) => {
     <RNEListItem
       style={styles.listItemContainer}
       onPress={() => {
-        navigation.navigate('Single', {file: singleMedia});
+        navigation.navigate('SingleTask', {file: singleMedia});
       }}
     >
       <Avatar
