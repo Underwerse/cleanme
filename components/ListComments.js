@@ -10,7 +10,7 @@ const ListComments = ({commentsArray, navigation}) => {
 
   return (
     <FlatList
-      data={commentsArray}
+      data={commentsArray.reverse()}
       keyExtractor={(item) => item.comment_id.toString()}
       renderItem={({item}) => (
         <ListCommentsItem navigation={navigation} singleMedia={item} />

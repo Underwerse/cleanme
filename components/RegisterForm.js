@@ -6,7 +6,7 @@ import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
 import {colorSchema} from '../utils/variables';
 
-export const RegisterForm = () => {
+export const RegisterForm = ({navigation}) => {
   const {checkUsername, postUser} = useUser();
 
   const {
@@ -33,6 +33,16 @@ export const RegisterForm = () => {
     };
     try {
       const newUser = await postUser(userData);
+      if (newUser) {
+        Alert.alert('Success', 'User created successfully.', [
+          {
+            text: 'OK',
+            onPress: () => {
+              navigation.navigate('Login');
+            },
+          },
+        ]);
+      }
     } catch (error) {
       console.log('Register error: ', error);
     }
@@ -71,7 +81,16 @@ export const RegisterForm = () => {
               message: 'Username must be at least 3 characters',
             },
             validate: async (value) => {
-              return await checkUsername(value);
+              try {
+                const available = await checkUsername(value);
+                if (available) {
+                  return true;
+                } else {
+                  return 'Username is already taken.';
+                }
+              } catch (error) {
+                throw new Error(error.message);
+              }
             },
           }}
           render={({field: {onChange, onBlur, value}}) => (
@@ -80,6 +99,7 @@ export const RegisterForm = () => {
               onChangeText={onChange}
               value={value}
               placeholder="username *"
+              errorMessage={errors.username && errors.username.message}
             />
           )}
           name="username"
@@ -147,7 +167,8 @@ export const RegisterForm = () => {
           rules={{
             required: {value: true, message: 'this is required'},
             pattern: {
-              value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i,
+              value:
+                /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i,
               message: 'must be a valid email!',
             },
           }}
@@ -230,5 +251,6 @@ const styles = StyleSheet.create({
 });
 
 RegisterForm.propTypes = {
+  setFormToggle: PropTypes.func,
   navigation: PropTypes.object,
 };
