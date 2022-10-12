@@ -258,7 +258,13 @@ const SingleTask = ({navigation, route}) => {
           <Button
             buttonStyle={styles.btn}
             title="I'm ready to do that!"
-            // onPress={handleSubmit(onSubmit)}
+            onPress={() => {
+              Alert.alert(
+                'Job request',
+                'Would you like to send your proposal to the Customer?',
+                [{text: 'Cancel'}, {text: 'OK'}]
+              );
+            }}
           />
         )}
         <Card.Title style={{fontSize: 22, marginBottom: 20}}>
