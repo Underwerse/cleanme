@@ -22,7 +22,7 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
           )
           .filter((file) => file.user_id === user.user_id);
       } else {
-        json = await doFetch(apiUrl + 'media?limit=200');
+        json = await doFetch(apiUrl + 'media?limit=300');
         json = json.filter(
           (item) => item.description.split('projectLabel')[1] != undefined
         );
@@ -47,6 +47,8 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
           );
         });
       }
+
+      console.log('json qty:', json.length);
 
       allMediaData = json.map(async (mediaItem) => {
         return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
