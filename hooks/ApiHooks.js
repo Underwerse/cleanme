@@ -22,7 +22,7 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
           )
           .filter((file) => file.user_id === user.user_id);
       } else {
-        json = await doFetch(apiUrl + 'media?limit=200');
+        json = await doFetch(apiUrl + 'media?limit=300');
         json = json.filter(
           (item) => item.description.split('projectLabel')[1] != undefined
         );
@@ -47,6 +47,8 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
           );
         });
       }
+
+      console.log('json qty:', json.length);
 
       allMediaData = json.map(async (mediaItem) => {
         return await doFetch(apiUrl + 'media/' + mediaItem.file_id);
@@ -321,4 +323,38 @@ const useFavourite = () => {
   };
 };
 
-export {useMedia, useLogin, useUser, useTag, useFavourite};
+const useComment = () => {
+  const postComment = async (data, token) => {
+    try {
+      const options = {
+        method: 'POST',
+        headers: {
+          'x-access-token': token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      };
+      return await doFetch(apiUrl + 'comments', options);
+    } catch (error) {
+      console.log('Post comment failed', error.message);
+    }
+  };
+
+  const getCommentsByFile = async (fileId) => {
+    try {
+      const options = {
+        method: 'GET',
+      };
+      return await doFetch(apiUrl + 'comments/file/' + fileId, options);
+    } catch (error) {
+      console.log('Get comments by fileID failed', error.message);
+    }
+  };
+
+  return {
+    postComment,
+    getCommentsByFile,
+  };
+};
+
+export {useMedia, useLogin, useUser, useTag, useFavourite, useComment};

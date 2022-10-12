@@ -116,25 +116,13 @@ const Profile = ({navigation}) => {
       </ListItem>
 
       <Button
-        buttonStyle={{
-          borderRadius: 20,
-          marginTop: 5,
-          marginBottom: 5,
-        }}
+        buttonStyle={styles.btn}
         title="Modify user"
         onPress={() => {
           navigation.navigate('ModifyUser');
         }}
       />
-      <Button
-        buttonStyle={{
-          borderRadius: 20,
-          marginTop: 5,
-          marginBottom: 5,
-        }}
-        title={'Logout'}
-        onPress={logout}
-      />
+      <Button buttonStyle={styles.btn} title={'Logout'} onPress={logout} />
     </ScrollView>
   );
 };
@@ -149,6 +137,12 @@ const styles = StyleSheet.create({
     color: colorSchema.primaryTextColor,
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  btn: {
+    backgroundColor: colorSchema.mainColor,
+    borderRadius: 20,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
 
