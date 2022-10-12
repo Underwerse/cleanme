@@ -84,11 +84,11 @@ const StackScreen = () => {
         </>
       ) : (
         <>
-          {/* <Stack.Screen
+          <Stack.Screen
             name="OnboardingScreen"
             component={OnboardingScreen}
             options={{headerShown: false}}
-          /> */}
+          />
           <Stack.Screen
             name="Login"
             component={Login}
