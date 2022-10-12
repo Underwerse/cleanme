@@ -13,7 +13,7 @@ import {Video} from 'expo-av';
 import {useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {MainContext} from '../contexts/MainContext';
-import {ButtonGroup} from '@rneui/themed';
+import {ButtonGroup, Icon, Input} from '@rneui/themed';
 import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
 
@@ -123,6 +123,7 @@ const SingleTask = ({navigation, route}) => {
   }, [update, userLike]);
 
   useEffect(() => {
+    fetchOwner(file);
     fetchAvatar(file);
   }, []);
 
@@ -227,13 +228,38 @@ const SingleTask = ({navigation, route}) => {
         <Card.Title style={{fontSize: 22, marginBottom: 20}}>
           Comments
         </Card.Title>
+        <View style={styles.listItem}>
+          <Input
+            placeholder="Comment"
+            leftIcon={{
+              type: 'font-awesome',
+              name: 'comment',
+              color: colorSchema.mainColor,
+            }}
+            containerStyle={{paddingRight: 65}}
+            // onChangeText={(value) => this.setState({comment: value})}
+          />
+          <View
+            style={{
+              position: 'absolute',
+              right: 20,
+              top: 5,
+            }}
+          >
+            <Icon
+              name="sc-telegram"
+              type="evilicon"
+              color={colorSchema.mainColor}
+              size={50}
+              onPress={() => {
+                addComment();
+              }}
+            />
+          </View>
+        </View>
         <ListItem style={styles.listItem}>
-          <Text style={styles.textDetailsTitle}>Add comment </Text>
-        </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.textDetailsTitle}>Address: </Text>
           <Text style={styles.textDetailsValue}>
-            {descriptionParsed.address}
+            {/* {descriptionParsed.address} */}
           </Text>
         </ListItem>
       </ScrollView>
