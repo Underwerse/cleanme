@@ -93,7 +93,7 @@ const AddTask = ({navigation}) => {
       const tag = {file_id: mediaResponse.file_id, tag: applicationTag};
       const tagResponse = await postTag(token, tag);
 
-      Alert.alert('Add Task status', mediaResponse.message, [
+      Alert.alert('Add Task status', 'Task has been added successfully', [
         {
           text: 'OK',
           onPress: () => {

@@ -17,6 +17,7 @@ const Profile = ({navigation}) => {
     try {
       const avatarRes = await getAvatar(user.user_id);
       avatarRes && setAvatar(mediaUrl + avatarRes.filename);
+      console.log(avatar);
     } catch (error) {
       console.error(error.message);
     }
