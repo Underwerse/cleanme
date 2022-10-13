@@ -125,7 +125,8 @@ const useLogin = () => {
       body: JSON.stringify(userCredentials),
     };
     try {
-      return await doFetch(apiUrl + 'login', options);
+      const response = await doFetch(apiUrl + 'login', options);
+      return response;
     } catch (error) {
       throw new Error(error.message);
     }
@@ -224,7 +225,7 @@ const useUser = () => {
     try {
       const avatarArray = await useTag().getFilesByTag('avatar_' + userId);
       if (avatarArray.length === 0) {
-        return;
+        return null;
       }
       return avatarArray.pop();
     } catch (error) {

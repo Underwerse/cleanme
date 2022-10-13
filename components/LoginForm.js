@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import {Alert, ScrollView, StyleSheet} from 'react-native';
 import PropTypes from 'prop-types';
 import {Input, Button, Text, Card} from '@rneui/themed';
 import {useForm, Controller} from 'react-hook-form';
@@ -26,10 +26,19 @@ export const LoginForm = () => {
   const logIn = async (loginCredentials) => {
     try {
       const userData = await postLogin(loginCredentials);
-      await AsyncStorage.setItem('userToken', userData.token);
-      await AsyncStorage.setItem('isLoggedIn', 'true');
-      setUser(userData.user);
-      setIsLoggedIn(true);
+      if (userData) {
+        await AsyncStorage.setItem('userToken', userData.token);
+        await AsyncStorage.setItem('isLoggedIn', 'true');
+        setUser(userData.user);
+        setIsLoggedIn(true);
+      } else {
+        Alert.alert('Wrong login or password', 'Check your login/password', [
+          {
+            text: 'OK',
+            onPress: () => {},
+          },
+        ]);
+      }
     } catch (error) {
       console.error('Login - logIn', error);
       // TODO: nofify user about wrong username/password/net error?

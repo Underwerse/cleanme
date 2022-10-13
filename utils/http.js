@@ -6,7 +6,8 @@ const doFetch = async (url, options = {}) => {
       return data;
     } else {
       // http status code 401 or 404
-      throw new Error(data.message);
+      // throw new Error(data.message);
+      return null;
     }
   } catch (error) {
     throw new Error(error.message);

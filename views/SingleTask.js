@@ -294,7 +294,7 @@ const SingleTask = ({navigation, route}) => {
           </View>
         </View>
         <ListComments
-          commentsArray={fileComments.reverse()}
+          commentsArray={fileComments}
           navigation={navigation}
           containerStyle={{marginBottom: 30, paddingBottom: 30}}
         ></ListComments>
