@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import PropTypes from 'prop-types';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Icon} from '@rneui/themed';
@@ -15,60 +16,72 @@ import OnboardingScreen from '../views/OnboardingScreen';
 import {colorSchema} from '../utils/variables';
 import MyFavorites from '../views/MyFavorites';
 import ModifyUser from '../views/ModifyUser';
+import AddButton from '../assets/add-btn_v2.svg';
+import {StyleSheet} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const TabScreen = () => {
+const TabScreen = ({navigation}) => {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} />,
-          tabBarActiveTintColor: colorSchema.mainColor,
+    <>
+      <Tab.Navigator screenOptions={{headerShown: false}}>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({color}) => <Icon name="home" color={color} />,
+            tabBarActiveTintColor: colorSchema.mainColor,
+          }}
+        />
+        <Tab.Screen
+          name="MyTasks"
+          component={MyTasks}
+          options={{
+            tabBarIcon: ({color}) => <Icon name="fact-check" color={color} />,
+            tabBarActiveTintColor: colorSchema.mainColor,
+          }}
+        />
+        <Tab.Screen
+          name="MyFavorites"
+          component={MyFavorites}
+          options={{
+            tabBarIcon: ({color}) => <Icon name="favorite" color={color} />,
+            tabBarActiveTintColor: colorSchema.mainColor,
+          }}
+        />
+        <Tab.Screen
+          name="Profile"
+          component={Profile}
+          options={{
+            tabBarIcon: ({color}) => <Icon name="person" color={color} />,
+            tabBarActiveTintColor: colorSchema.mainColor,
+          }}
+        />
+        <Tab.Screen
+          name="AddTask"
+          component={AddTask}
+          options={{
+            tabBarItemStyle: {display: 'none'},
+          }}
+        />
+      </Tab.Navigator>
+      <AddButton
+        style={styles.addBtn}
+        height={'16%'}
+        width={'16%'}
+        onPress={() => {
+          navigation.navigate('AddTask');
         }}
       />
-      <Tab.Screen
-        name="MyTasks"
-        component={MyTasks}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="fact-check" color={color} />,
-          tabBarActiveTintColor: colorSchema.mainColor,
-        }}
-      />
-      <Tab.Screen
-        name="MyFavorites"
-        component={MyFavorites}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="favorite" color={color} />,
-          tabBarActiveTintColor: colorSchema.mainColor,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
-          tabBarActiveTintColor: colorSchema.mainColor,
-        }}
-      />
-      <Tab.Screen
-        name="AddTask"
-        component={AddTask}
-        options={{
-          tabBarItemStyle: {display: 'none'},
-        }}
-      />
-    </Tab.Navigator>
+    </>
   );
 };
 
-const StackScreen = () => {
+const StackScreen = ({navigation}) => {
   const {isLoggedIn} = useContext(MainContext);
   return (
-    <Stack.Navigator>
+    <Stack.Navigator navigation={navigation}>
       {isLoggedIn ? (
         <>
           <Stack.Screen
@@ -106,6 +119,22 @@ const Navigator = () => {
       <StackScreen />
     </NavigationContainer>
   );
+};
+
+const styles = StyleSheet.create({
+  addBtn: {
+    position: 'absolute',
+    bottom: -10,
+    left: '42%',
+  },
+});
+
+TabScreen.propTypes = {
+  navigation: PropTypes.object,
+};
+
+StackScreen.propTypes = {
+  navigation: PropTypes.object,
 };
 
 export default Navigator;

@@ -1,10 +1,9 @@
 import React, {useContext, useEffect, useState, createRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {Input} from '@rneui/themed';
+import {Input, SearchBar} from '@rneui/themed';
 import Header from '../components/Header';
 import List from '../components/List';
-import AddButton from '../assets/add-btn.svg';
 import {colorSchema} from '../utils/variables';
 import {MainContext} from '../contexts/MainContext';
 
@@ -24,57 +23,59 @@ const Home = ({navigation}) => {
     <>
       <Header navigation={navigation} />
       <View style={styles.searchInput}>
-        <Input
-          leftIcon={{
-            type: 'font-awesome',
-            name: 'search',
-            color: colorSchema.mainColor,
-          }}
+        <SearchBar
+          ref={input}
           placeholder="Type to filter list"
+          onChangeText={(value) => {
+            setFilterWord(value);
+          }}
+          value={filterWord}
           inputStyle={{
             backgroundColor: colorSchema.bgrColor,
-            paddingLeft: 10,
-            paddingRight: 10,
+            color: colorSchema.mainColor,
           }}
-          containerStyle={{backgroundColor: colorSchema.bgrColor}}
-          ref={input}
-          onChangeText={(value) => {
-            setFilterWord(value.toLowerCase());
+          containerStyle={{
+            backgroundColor: colorSchema.bgrColor,
+            borderBottomColor: colorSchema.mainColor,
+            borderTopWidth: 0,
           }}
-        />
+          inputContainerStyle={{
+            backgroundColor: colorSchema.bgrColor,
+            height: 25,
+          }}
+          searchIcon={{
+            size: 30,
+            color: colorSchema.mainColor,
+          }}
+          clearIcon={{
+            size: 30,
+            color: colorSchema.mainColor,
+          }}
+        ></SearchBar>
       </View>
       <List
         navigation={navigation}
         myFilesOnly={false}
         myFavoritesOnly={false}
-        filterWord={filterWord}
-      />
-      <AddButton
-        style={styles.addBtn}
-        height={'12%'}
-        width={'12%'}
-        onPress={() => {
-          navigation.navigate('AddTask');
-        }}
+        filterWord={filterWord.toLowerCase()}
       />
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  addBtn: {
-    position: 'absolute',
-    bottom: 0,
-    left: '44%',
-  },
   likeEmpty: {
     position: 'absolute',
     bottom: 20,
     right: 10,
   },
   searchInput: {
+    backgroundColor: colorSchema.bgrColor,
     width: '100%',
     alignSelf: 'center',
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 10,
   },
 });
 
