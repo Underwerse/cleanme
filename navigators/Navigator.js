@@ -16,7 +16,7 @@ import OnboardingScreen from '../views/OnboardingScreen';
 import {colorSchema} from '../utils/variables';
 import MyFavorites from '../views/MyFavorites';
 import ModifyUser from '../views/ModifyUser';
-import AddButton from '../assets/add-btn.svg';
+import AddButton from '../assets/add-btn_v2.svg';
 import {StyleSheet} from 'react-native';
 
 const Tab = createBottomTabNavigator();

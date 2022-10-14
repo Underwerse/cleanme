@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {Input} from '@rneui/themed';
 import Header from '../components/Header';
 import List from '../components/List';
-import AddButton from '../assets/add-btn.svg';
 import {colorSchema} from '../utils/variables';
 import {MainContext} from '../contexts/MainContext';
 
@@ -54,11 +53,6 @@ const Home = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  addBtn: {
-    position: 'absolute',
-    bottom: -40,
-    left: '42%',
-  },
   likeEmpty: {
     position: 'absolute',
     bottom: 20,
