@@ -49,14 +49,6 @@ const Home = ({navigation}) => {
         myFavoritesOnly={false}
         filterWord={filterWord}
       />
-      <AddButton
-        style={styles.addBtn}
-        height={'12%'}
-        width={'12%'}
-        onPress={() => {
-          navigation.navigate('AddTask');
-        }}
-      />
     </>
   );
 };
@@ -64,8 +56,8 @@ const Home = ({navigation}) => {
 const styles = StyleSheet.create({
   addBtn: {
     position: 'absolute',
-    bottom: 0,
-    left: '44%',
+    bottom: -40,
+    left: '42%',
   },
   likeEmpty: {
     position: 'absolute',

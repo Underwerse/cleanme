@@ -158,7 +158,7 @@ const SingleTask = ({navigation, route}) => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
+      <ScrollView containerStyle={{paddingBottom: 50}} style={styles.container}>
         <Card.Title style={{fontSize: 26}}>{file.title}</Card.Title>
         <ListItem>
           <Text style={styles.text}>{descriptionParsed.description}</Text>
@@ -326,6 +326,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colorSchema.bgrColor,
     paddingTop: 20,
+    margiBottom: 50,
+    paddingBottom: 50,
     paddingLeft: 20,
     paddingRight: 20,
   },

@@ -51,9 +51,9 @@ const AddTask = ({navigation}) => {
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      // allowsEditing: true,
+      allowsEditing: true,
       // aspect: [4, 3],
-      quality: 0.7,
+      quality: 0.3,
     });
 
     if (!result.cancelled) {
