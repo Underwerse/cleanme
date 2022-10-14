@@ -40,6 +40,7 @@ const ListCommentsItem = ({
           setUserLike(true);
           return;
         }
+        // setUpdate(!update);
       });
     } catch (error) {
       console.error('fetchLikes() error', error);

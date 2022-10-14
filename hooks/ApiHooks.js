@@ -7,34 +7,28 @@ import {doFetch} from '../utils/http';
 const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {update, user} = useContext(MainContext);
+  const {update, setUpdate, user} = useContext(MainContext);
 
   const loadMedia = async () => {
     setLoading(true);
     try {
       let json = [];
       let allMediaData = [];
+
+      json = await doFetch(apiUrl + 'media?limit=300');
+      json = json.filter(
+        (item) => item.description.split('projectLabel')[1] != undefined
+      );
+
       if (myFilesOnly) {
-        json = await useTag().getFilesByTag(applicationTag);
-        json = json
-          .filter(
-            (item) => item.description.split('projectLabel')[1] != undefined
-          )
-          .filter((file) => file.user_id === user.user_id);
-      } else {
-        json = await doFetch(apiUrl + 'media?limit=300');
-        json = json.filter(
-          (item) => item.description.split('projectLabel')[1] != undefined
+        json = json.filter((item) => item.user_id === user.user_id);
+      }
+      if (myFavoritesOnly) {
+        const token = await AsyncStorage.getItem('userToken');
+        const favoritesByUser = await useFavourite().getFavouritesByUser(token);
+        json = json.filter((item) =>
+          favoritesByUser.some((f) => f.file_id === item.file_id)
         );
-        if (myFavoritesOnly) {
-          const token = await AsyncStorage.getItem('userToken');
-          const favoritesByUser = await useFavourite().getFavouritesByUser(
-            token
-          );
-          json = json.filter((item) =>
-            favoritesByUser.some((f) => f.file_id === item.file_id)
-          );
-        }
       }
 
       if (filterWord) {
@@ -53,6 +47,8 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
       });
 
       setMediaArray(await Promise.all(allMediaData));
+      console.log('setUpdate after loadMedia run');
+      // setUpdate(!update);
     } catch (error) {
       console.log('media fetch failed', error.message);
       throw new Error('Get media error: ', error);

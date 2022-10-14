@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState, createRef} from 'react';
 import {StyleSheet, View} from 'react-native';
 import PropTypes from 'prop-types';
-import {Input, SearchBar} from '@rneui/themed';
+import {SearchBar} from '@rneui/themed';
 import Header from '../components/Header';
 import List from '../components/List';
 import {colorSchema} from '../utils/variables';
@@ -18,6 +18,10 @@ const Home = ({navigation}) => {
       setUpdate(!update);
     }, 1000);
   }, [filterWord]);
+
+  useEffect(() => {
+    // setUpdate(!update);
+  }, []);
 
   return (
     <>
