@@ -17,7 +17,7 @@ import {colorSchema} from '../utils/variables';
 import MyFavorites from '../views/MyFavorites';
 import ModifyUser from '../views/ModifyUser';
 import AddButton from '../assets/add-btn_v2.svg';
-import {StyleSheet} from 'react-native';
+import Styles from '../utils/Styles';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -34,6 +34,9 @@ const TabScreen = ({navigation}) => {
           options={{
             tabBarIcon: ({color}) => <Icon name="home" color={color} />,
             tabBarActiveTintColor: colorSchema.mainColor,
+            bottomTab: {
+              iconInsets: {top: 0, left: 0, bottom: 0, right: 0},
+            },
           }}
         />
         <Tab.Screen
@@ -42,6 +45,13 @@ const TabScreen = ({navigation}) => {
           options={{
             tabBarIcon: ({color}) => <Icon name="fact-check" color={color} />,
             tabBarActiveTintColor: colorSchema.mainColor,
+          }}
+        />
+        <Tab.Screen
+          name="AddTask"
+          component={AddTask}
+          options={{
+            tabBarItemStyle: {display: 'none'},
           }}
         />
         <Tab.Screen
@@ -81,21 +91,13 @@ const TabScreen = ({navigation}) => {
             tabBarItemStyle: {display: 'none'},
           }}
         />
-        <Tab.Screen
-          name="AddTask"
-          component={AddTask}
-          options={{
-            tabBarItemStyle: {display: 'none'},
-          }}
-        />
       </Tab.Navigator>
       <AddButton
-        screenOptions={{tabBarHideOnKeyboard: true}}
-        style={styles.addBtn}
-        height={'16%'}
+        style={Styles.btnAddTask}
+        height={'8%'}
         width={'16%'}
         onPress={() => {
-          navigation.navigate('AddTask', {name: 'Ololo'});
+          navigation.navigate('AddTask');
         }}
       />
     </>
@@ -139,14 +141,6 @@ const Navigator = () => {
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  addBtn: {
-    position: 'absolute',
-    bottom: -10,
-    left: '42%',
-  },
-});
 
 TabScreen.propTypes = {
   navigation: PropTypes.object,

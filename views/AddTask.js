@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Alert, ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, ScrollView, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {Input, Button, Text, Card} from '@rneui/themed';
 import {useForm, Controller} from 'react-hook-form';
@@ -10,6 +10,7 @@ import {applicationTag, colorSchema} from '../utils/variables';
 import {useMedia, useTag} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import Header from '../components/Header';
+import Styles from '../utils/Styles';
 
 const AddTask = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
@@ -123,8 +124,8 @@ const AddTask = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
-      <ScrollView style={styles.container}>
-        <Card.Title style={{fontSize: 26}}>Add new task</Card.Title>
+      <Card.Title style={Styles.titleMain}>Add new task</Card.Title>
+      <ScrollView style={Styles.container}>
         <Controller
           control={control}
           rules={{
@@ -145,7 +146,7 @@ const AddTask = ({navigation}) => {
               value={value}
               placeholder="Title *"
               autoCapitalize="sentences"
-              errorMessage={errors.title && <Text>{errors.title.message}</Text>}
+              errorMessage={errors.title && errors.title.message}
             />
           )}
           name="title"
@@ -166,9 +167,7 @@ const AddTask = ({navigation}) => {
               onChangeText={onChange}
               value={value}
               placeholder="Description *"
-              errorMessage={
-                errors.description && <Text>{errors.description.message}</Text>
-              }
+              errorMessage={errors.description && errors.description.message}
             />
           )}
           name="description"
@@ -193,9 +192,7 @@ const AddTask = ({navigation}) => {
               onChangeText={onChange}
               value={value}
               placeholder="Address *"
-              errorMessage={
-                errors.address && <Text>{errors.address.message}</Text>
-              }
+              errorMessage={errors.address && errors.address.message}
             />
           )}
           name="address"
@@ -221,9 +218,7 @@ const AddTask = ({navigation}) => {
               onChangeText={onChange}
               value={value}
               placeholder="Budget (EUR) *"
-              errorMessage={
-                errors.budget && <Text>{errors.budget.message}</Text>
-              }
+              errorMessage={errors.budget && errors.budget.message}
             />
           )}
           name="budget"
@@ -232,10 +227,10 @@ const AddTask = ({navigation}) => {
         <Controller
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
-            <View style={styles.deadlineWrap}>
-              <Text style={styles.dateInput}>Deadline: </Text>
+            <View style={Styles.deadlineWrap}>
+              <Text style={Styles.dateInput}>Deadline: </Text>
               <Text
-                style={{...styles.dateInput, color: colorSchema.mainColor}}
+                style={{...Styles.dateInput, color: colorSchema.mainColor}}
                 onPress={showDatepicker}
               >
                 {value}
@@ -249,44 +244,32 @@ const AddTask = ({navigation}) => {
         )}
 
         {mediaFile && (
-          <Card.Image
-            style={{resizeMode: 'contain', marginBottom: 20}}
-            source={{uri: mediaFile}}
-          />
+          <View style={Styles.imageContainer}>
+            <Card.Image
+              source={{uri: mediaFile}}
+              containerStyle={Styles.singleImage}
+            />
+          </View>
         )}
 
         <Button
-          buttonStyle={{
-            borderColor: 'rgba(78, 116, 289, 1)',
-          }}
           type="clear"
           titleStyle={{color: colorSchema.mainColor}}
-          containerStyle={{
-            marginHorizontal: 50,
-            marginTop: -10,
-            marginBottom: 20,
-          }}
+          containerStyle={Styles.btnEmptyContainer}
           title="Select media"
           onPress={pickImage}
         />
 
         <Button
-          buttonStyle={{
-            borderColor: 'rgba(78, 116, 289, 1)',
-          }}
           type="clear"
-          titleStyle={{color: colorSchema.mainColor}}
-          containerStyle={{
-            marginHorizontal: 50,
-            marginTop: -10,
-            marginBottom: 20,
-          }}
+          titleStyle={Styles.btnEmptyTitle}
+          containerStyle={Styles.btnEmptyContainer}
           title="Reset form"
           onPress={resetForm}
         />
 
         <Button
-          buttonStyle={styles.btn}
+          buttonStyle={Styles.btnBase}
           title="Add new task"
           disabled={!mediaFile}
           loading={loading}
@@ -296,28 +279,6 @@ const AddTask = ({navigation}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colorSchema.bgrColor,
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  dateInput: {
-    fontSize: 20,
-    marginBottom: 20,
-    marginLeft: 10,
-  },
-  deadlineWrap: {
-    flexDirection: 'row',
-  },
-  btn: {
-    marginBottom: 20,
-    backgroundColor: colorSchema.mainColor,
-    borderRadius: 40,
-  },
-});
 
 AddTask.propTypes = {
   navigation: PropTypes.object,

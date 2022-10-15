@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text, ScrollView, StyleSheet, Alert} from 'react-native';
+import {Text, ScrollView, Alert} from 'react-native';
 import PropTypes from 'prop-types';
 import {Input, Button, Card} from '@rneui/themed';
 import {useForm, Controller} from 'react-hook-form';
 import {useUser} from '../hooks/ApiHooks';
 import {colorSchema} from '../utils/variables';
+import Styles from '../utils/Styles';
 
 export const RegisterForm = ({navigation}) => {
   const {checkUsername, postUser} = useUser();
@@ -68,10 +69,8 @@ export const RegisterForm = ({navigation}) => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
-        <Card.Title style={{fontSize: 26, color: colorSchema.mainColor}}>
-          Registration
-        </Card.Title>
+      <Card.Title style={Styles.titleMain}>Registration</Card.Title>
+      <ScrollView>
         <Controller
           control={control}
           rules={{
@@ -199,7 +198,7 @@ export const RegisterForm = ({navigation}) => {
         />
 
         <Button
-          buttonStyle={styles.btn}
+          buttonStyle={Styles.btnBase}
           title="Register!"
           onPress={handleSubmit(register)}
         />
@@ -223,32 +222,6 @@ export const RegisterForm = ({navigation}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  dateInput: {
-    fontSize: 20,
-    marginBottom: 20,
-    marginLeft: 10,
-  },
-  deadlineWrap: {
-    flexDirection: 'row',
-  },
-  checkUsername: {
-    color: colorSchema.red,
-    marginLeft: 10,
-    marginTop: -20,
-  },
-  btn: {
-    marginBottom: 20,
-    backgroundColor: colorSchema.mainColor,
-    borderRadius: 40,
-  },
-});
 
 RegisterForm.propTypes = {
   setFormToggle: PropTypes.func,

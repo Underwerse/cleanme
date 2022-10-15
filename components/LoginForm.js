@@ -1,12 +1,12 @@
 import React, {useContext} from 'react';
-import {Alert, ScrollView, StyleSheet} from 'react-native';
+import {Alert, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import {Input, Button, Text, Card} from '@rneui/themed';
 import {useForm, Controller} from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useLogin} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
-import {colorSchema} from '../utils/variables';
+import Styles from '../utils/Styles';
 
 export const LoginForm = () => {
   const {setIsLoggedIn, setUser} = useContext(MainContext);
@@ -21,6 +21,7 @@ export const LoginForm = () => {
       username: '',
       password: '',
     },
+    mode: 'onBlur',
   });
 
   const logIn = async (loginCredentials) => {
@@ -47,10 +48,8 @@ export const LoginForm = () => {
 
   return (
     <>
-      <ScrollView style={styles.container}>
-        <Card.Title style={{fontSize: 26, color: colorSchema.mainColor}}>
-          Login
-        </Card.Title>
+      <Card.Title style={Styles.titleMain}>Login</Card.Title>
+      <ScrollView>
         <Controller
           control={control}
           rules={{
@@ -65,16 +64,9 @@ export const LoginForm = () => {
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
-              placeholder="Username"
+              placeholder="username"
               autoCapitalize="none"
-              errorMessage={
-                (errors.username?.type === 'required' && (
-                  <Text>This is required.</Text>
-                )) ||
-                (errors.username?.type === 'minLength' && (
-                  <Text>Min 3 chars!</Text>
-                ))
-              }
+              errorMessage={errors.username && errors.username.message}
             />
           )}
           name="username"
@@ -91,15 +83,15 @@ export const LoginForm = () => {
               onChangeText={onChange}
               value={value}
               secureTextEntry={true}
-              placeholder="Password"
-              errorMessage={errors.password && <Text>This is required.</Text>}
+              placeholder="password"
+              errorMessage={errors.password && errors.password.message}
             />
           )}
           name="password"
         />
 
         <Button
-          buttonStyle={styles.btn}
+          buttonStyle={Styles.btnBase}
           title="Sign in!"
           onPress={handleSubmit((data) => logIn(data))}
         />
@@ -107,27 +99,6 @@ export const LoginForm = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  dateInput: {
-    fontSize: 20,
-    marginBottom: 20,
-    marginLeft: 10,
-  },
-  deadlineWrap: {
-    flexDirection: 'row',
-  },
-  btn: {
-    marginBottom: 20,
-    backgroundColor: colorSchema.mainColor,
-    borderRadius: 40,
-  },
-});
 
 LoginForm.propTypes = {
   navigation: PropTypes.object,

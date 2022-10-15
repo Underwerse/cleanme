@@ -4,17 +4,12 @@ import {Input, Button, Text, Card} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 import {useMedia} from '../hooks/ApiHooks';
-import {
-  Alert,
-  ActivityIndicator,
-  StyleSheet,
-  ScrollView,
-  View,
-} from 'react-native';
+import {Alert, ActivityIndicator, ScrollView, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Header from '../components/Header';
+import Styles from '../utils/Styles';
 
 const ModifyTask = ({navigation, route}) => {
   const {file} = route.params;
@@ -82,7 +77,14 @@ const ModifyTask = ({navigation, route}) => {
   return (
     <>
       <Header></Header>
-      <ScrollView style={styles.container}>
+      <Card.Title style={Styles.titleMain}>
+        Edit task &quot;
+        <Text style={{fontWeight: 'bold', color: colorSchema.mainColor}}>
+          {file.title.trim()}
+        </Text>
+        &quot;
+      </Card.Title>
+      <ScrollView contentContainerStyle={Styles.container}>
         <Controller
           control={control}
           rules={{
@@ -190,10 +192,10 @@ const ModifyTask = ({navigation, route}) => {
         <Controller
           control={control}
           render={({field: {onChange, onBlur, value}}) => (
-            <View style={styles.deadlineWrap}>
-              <Text style={styles.dateInput}>Deadline: </Text>
+            <View style={Styles.deadlineWrap}>
+              <Text style={Styles.dateInput}>Deadline: </Text>
               <Text
-                style={{...styles.dateInput, color: colorSchema.mainColor}}
+                style={{...Styles.dateInput, color: colorSchema.mainColor}}
                 onPress={showDatepicker}
               >
                 {value}
@@ -206,16 +208,16 @@ const ModifyTask = ({navigation, route}) => {
           <DateTimePicker onChange={onChangeDate} mode={'date'} value={date} />
         )}
 
-        <Card.Image
-          source={{uri: mediaUrl + file.filename}}
-          style={styles.image}
-          PlaceholderContent={<ActivityIndicator />}
-        />
-
-        <Card.Divider />
+        <View style={Styles.imageContainer}>
+          <Card.Image
+            source={{uri: mediaUrl + file.filename}}
+            containerStyle={Styles.singleImage}
+            PlaceholderContent={<ActivityIndicator />}
+          />
+        </View>
 
         <Button
-          buttonStyle={styles.btn}
+          buttonStyle={Styles.btnBase}
           title="Apply changes"
           loading={loading}
           onPress={handleSubmit(onSubmit)}
@@ -224,34 +226,6 @@ const ModifyTask = ({navigation, route}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colorSchema.bgrColor,
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  image: {
-    width: '100%',
-    height: undefined,
-    aspectRatio: 1,
-  },
-  dateInput: {
-    fontSize: 20,
-    marginBottom: 20,
-    marginLeft: 10,
-  },
-  deadlineWrap: {
-    flexDirection: 'row',
-  },
-  btn: {
-    marginTop: 20,
-    marginBottom: 50,
-    backgroundColor: colorSchema.mainColor,
-    borderRadius: 40,
-  },
-});
 
 ModifyTask.propTypes = {
   navigation: PropTypes.object,

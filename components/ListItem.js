@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Alert, StyleSheet} from 'react-native';
+import {Alert} from 'react-native';
 import PropTypes from 'prop-types';
 import {
   ListItem as RNEListItem,
@@ -13,6 +13,7 @@ import {useFavourite, useMedia, useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
+import Styles from '../utils/Styles';
 
 const ListCommentsItem = ({
   navigation,
@@ -110,7 +111,7 @@ const ListCommentsItem = ({
 
   return (
     <RNEListItem
-      style={styles.listItemContainer}
+      style={Styles.listItemContainer}
       onPress={() => {
         navigation.navigate('SingleTask', {
           file: singleMedia,
@@ -122,7 +123,7 @@ const ListCommentsItem = ({
         size="large"
         source={{uri: mediaUrl + singleMedia.thumbnails.w160}}
       />
-      <RNEListItem.Content style={styles.listDescription}>
+      <RNEListItem.Content style={Styles.listDescription}>
         <RNEListItem.Title
           style={{
             fontSize: 20,
@@ -158,18 +159,22 @@ const ListCommentsItem = ({
             rounded
           />
         )}
-        <RNEListItem.Subtitle style={styles.creatorAvatar}>
+        <RNEListItem.Subtitle style={Styles.creatorAvatar}>
           <Avatar source={{uri: avatar}} rounded />
         </RNEListItem.Subtitle>
       </RNEListItem.Content>
-      <RNEListItem.Content style={styles.budget}>
-        <RNEListItem.Subtitle style={styles.listPrice}>
+      <RNEListItem.Content
+        style={{
+          alignSelf: 'flex-start',
+        }}
+      >
+        <RNEListItem.Subtitle style={Styles.listPrice}>
           {descriptionParsed.budget} {'\u20AC'}
         </RNEListItem.Subtitle>
       </RNEListItem.Content>
       {!userLike ? (
         <LikeEmpty
-          style={styles.likeEmpty}
+          style={{...Styles.like, top: 60, right: 35}}
           height={35}
           width={35}
           onPress={() => {
@@ -178,7 +183,7 @@ const ListCommentsItem = ({
         />
       ) : (
         <LikeFull
-          style={styles.likeEmpty}
+          style={{...Styles.like, top: 60, right: 35}}
           height={35}
           width={35}
           onPress={() => {
@@ -186,55 +191,18 @@ const ListCommentsItem = ({
           }}
         />
       )}
-      <Text style={styles.likeQty}>{likes.length}</Text>
+      <Text style={{...Styles.likeQty, top: 80, right: 30}}>
+        {likes.length}
+      </Text>
     </RNEListItem>
   );
 };
-
-const styles = StyleSheet.create({
-  listItemContainer: {
-    marginBottom: 5,
-    marginRight: -20,
-    // height: 150,
-  },
-  listDescription: {
-    alignSelf: 'flex-start',
-    width: '70%',
-    flexGrow: 3,
-  },
-  listPrice: {
-    alignSelf: 'flex-end',
-    justifyContent: 'space-between',
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginLeft: -20,
-  },
-  likeEmpty: {
-    position: 'absolute',
-    top: 60,
-    right: 35,
-  },
-  likeQty: {
-    position: 'absolute',
-    top: 80,
-    right: 30,
-  },
-  budget: {
-    alignSelf: 'flex-start',
-    // borderWidth: 2,
-    // borderColor: 'red',
-  },
-  creatorAvatar: {
-    position: 'absolute',
-    top: 50,
-    right: -40,
-  },
-});
 
 ListCommentsItem.propTypes = {
   singleMedia: PropTypes.object,
   navigation: PropTypes.object,
   myFilesOnly: PropTypes.bool,
+  filterWord: PropTypes.string,
 };
 
 export default ListCommentsItem;

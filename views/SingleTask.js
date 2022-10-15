@@ -1,11 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {ActivityIndicator, Alert, ScrollView, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {ButtonGroup, Icon, Input} from '@rneui/themed';
 import {Avatar, Button, Card, ListItem, Text} from 'react-native-elements';
@@ -18,6 +12,7 @@ import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
 import ListComments from '../components/ListComments';
 import Header from '../components/Header';
+import Styles from '../utils/Styles';
 
 const SingleTask = ({navigation, route}) => {
   const {file} = route.params;
@@ -76,15 +71,21 @@ const SingleTask = ({navigation, route}) => {
 
   const createComment = async (comment) => {
     const commentData = {file_id: file.file_id, comment: comment};
-    try {
-      const token = await AsyncStorage.getItem('userToken');
-      const response = await postComment(commentData, token);
-      if (response) {
-        setAddComment('');
-        addCommentInput.current.clear();
+    if (comment !== '') {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        const response = await postComment(commentData, token);
+        if (response) {
+          setAddComment('');
+          addCommentInput.current.clear();
+        }
+      } catch (error) {
+        console.error('createFavourite error', error);
       }
-    } catch (error) {
-      console.error('createFavourite error', error);
+    } else {
+      Alert.alert('Empty comment', 'Please write your comment before send', [
+        {text: 'OK'},
+      ]);
     }
   };
 
@@ -160,30 +161,23 @@ const SingleTask = ({navigation, route}) => {
   return (
     <>
       <Header></Header>
-      <ScrollView
-        contentContainerStyle={{paddingBottom: 50}}
-        style={styles.container}
-      >
-        <Card.Title style={{fontSize: 26}}>{file.title}</Card.Title>
+      <Card.Title style={Styles.titleMain}>{file.title}</Card.Title>
+      <ScrollView contentContainerStyle={Styles.container}>
         <ListItem>
-          <Text style={styles.text}>{descriptionParsed.description}</Text>
+          <Text style={Styles.text}>{descriptionParsed.description}</Text>
         </ListItem>
         {file.media_type === 'image' ? (
-          <View
-            style={{
-              alignSelf: 'center',
-            }}
-          >
+          <View style={Styles.imageContainer}>
             <Card.Image
               source={{uri: mediaUrl + file.filename}}
-              style={styles.image}
+              containerStyle={Styles.singleImage}
               PlaceholderContent={<ActivityIndicator />}
             />
           </View>
         ) : (
           <Video
             ref={videoRef}
-            style={styles.image}
+            style={Styles.singleImage}
             source={{
               uri: mediaUrl + file.filename,
             }}
@@ -199,34 +193,36 @@ const SingleTask = ({navigation, route}) => {
             }}
           ></Video>
         )}
-        <ListItem style={styles.listItem}>
-          <Text style={styles.textDetailsTitle}>Customer: </Text>
+        <ListItem style={Styles.textItem}>
+          <Text style={Styles.singleTextDetailsTitle}>Customer: </Text>
           <Avatar source={{uri: avatar}} />
-          <Text style={styles.textDetailsValue}>
+          <Text style={Styles.singleTextDetailsValue}>
             {owner.full_name != '' ? owner.full_name : 'No name set up'}
           </Text>
         </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.textDetailsTitle}>Task creation date: </Text>
-          <Text style={styles.textDetailsValue}>
+        <ListItem style={Styles.textItem}>
+          <Text style={Styles.singleTextDetailsTitle}>
+            Task creation date:{' '}
+          </Text>
+          <Text style={Styles.singleTextDetailsValue}>
             {file.time_added.split('T')[0]}
           </Text>
         </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.textDetailsTitle}>Task deadline: </Text>
-          <Text style={styles.textDetailsValue}>
+        <ListItem style={Styles.textItem}>
+          <Text style={Styles.singleTextDetailsTitle}>Task deadline: </Text>
+          <Text style={Styles.singleTextDetailsValue}>
             {descriptionParsed.deadline}
           </Text>
         </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.textDetailsTitle}>Task budget: </Text>
-          <Text style={{...styles.textDetailsValue, fontWeight: 'bold'}}>
+        <ListItem style={Styles.textItem}>
+          <Text style={Styles.singleTextDetailsTitle}>Task budget: </Text>
+          <Text style={{...Styles.singleTextDetailsValue, fontWeight: 'bold'}}>
             {descriptionParsed.budget} {'\u20AC'}
           </Text>
         </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.textDetailsTitle}>Address: </Text>
-          <Text style={styles.textDetailsValue}>
+        <ListItem style={Styles.textItem}>
+          <Text style={Styles.singleTextDetailsTitle}>Address: </Text>
+          <Text style={Styles.singleTextDetailsValue}>
             {descriptionParsed.address}
           </Text>
         </ListItem>
@@ -254,7 +250,7 @@ const SingleTask = ({navigation, route}) => {
           />
         ) : (
           <Button
-            buttonStyle={styles.btn}
+            buttonStyle={Styles.btnGreen}
             title="I'm ready to do that!"
             onPress={() => {
               Alert.alert(
@@ -268,25 +264,15 @@ const SingleTask = ({navigation, route}) => {
         <Card.Title style={{fontSize: 22, marginBottom: 20}}>
           Comments
         </Card.Title>
-        <View style={styles.listItem}>
+        <View style={Styles.textItem}>
           <Input
-            placeholder="Comment"
-            leftIcon={{
-              type: 'font-awesome',
-              name: 'comment',
-              color: colorSchema.mainColor,
-            }}
-            containerStyle={{paddingRight: 65}}
+            placeholder="Type your comment"
+            leftIcon={Styles.commentIcon}
+            containerStyle={{paddingRight: 55}}
             ref={addCommentInput}
             onChangeText={(value) => setAddComment(value)}
           />
-          <View
-            style={{
-              position: 'absolute',
-              right: 20,
-              top: 5,
-            }}
-          >
+          <View style={Styles.btnSendComment}>
             <Icon
               name="sc-telegram"
               type="evilicon"
@@ -306,7 +292,7 @@ const SingleTask = ({navigation, route}) => {
       </ScrollView>
       {!userLike ? (
         <LikeEmpty
-          style={styles.likeEmpty}
+          style={Styles.like}
           height={35}
           width={35}
           onPress={() => {
@@ -315,7 +301,7 @@ const SingleTask = ({navigation, route}) => {
         />
       ) : (
         <LikeFull
-          style={styles.likeEmpty}
+          style={Styles.like}
           height={35}
           width={35}
           onPress={() => {
@@ -326,64 +312,6 @@ const SingleTask = ({navigation, route}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colorSchema.bgrColor,
-    paddingTop: 20,
-    margiBottom: 50,
-    paddingBottom: 50,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  image: {
-    width: '80%',
-    height: undefined,
-    aspectRatio: 1,
-    marginBottom: 30,
-    // alignSelf: 'center',
-  },
-  description: {
-    marginBottom: 10,
-  },
-  text: {
-    fontSize: 20,
-    marginTop: -10,
-    marginBottom: 10,
-    marginLeft: -10,
-    marginRight: -10,
-  },
-  listItem: {
-    fontSize: 20,
-    marginTop: -15,
-    marginLeft: -10,
-    marginRight: -10,
-  },
-  textDetailsTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  textDetailsValue: {
-    fontSize: 20,
-    color: colorSchema.mainColor,
-  },
-  btn: {
-    marginTop: 20,
-    marginBottom: 50,
-    backgroundColor: colorSchema.green,
-    borderRadius: 40,
-  },
-  likeEmpty: {
-    position: 'absolute',
-    top: 60,
-    right: 20,
-  },
-  likeQty: {
-    position: 'absolute',
-    top: 80,
-    right: 30,
-  },
-});
 
 SingleTask.propTypes = {
   navigation: PropTypes.object,

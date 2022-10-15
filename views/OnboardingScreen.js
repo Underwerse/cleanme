@@ -13,18 +13,27 @@ const OnboardingScreen = ({navigation}) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.animationContainer}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        flexDirection: 'column',
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
         <LottieView
           autoPlay
           ref={animation}
           source={require('../assets/clean.json')}
         />
       </View>
-      <View style={{marginBottom: 20}}>
+      <View style={{marginBottom: 50}}>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity
-            style={[styles.startBtn]}
+            style={styles.startBtn}
             onPress={() => {
               navigation.replace('Login');
             }}
@@ -38,15 +47,7 @@ const OnboardingScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  animationContainer: {
-    flex: 1,
-  },
   startBtn: {
-    // flex: 1,
     height: 40,
     width: '50%',
     backgroundColor: colorSchema.mainColor,

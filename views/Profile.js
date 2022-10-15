@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
+import {View, ScrollView} from 'react-native';
 import PropTypes from 'prop-types';
 import {Button, ListItem, Text} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +8,7 @@ import {colorSchema, mediaUrl} from '../utils/variables';
 import {MainContext} from '../contexts/MainContext';
 import {useUser} from '../hooks/ApiHooks';
 import Header from '../components/Header';
+import Styles from '../utils/Styles';
 
 const Profile = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
@@ -40,21 +41,11 @@ const Profile = ({navigation}) => {
   return (
     <>
       <Header></Header>
+      <Card.Title style={Styles.titleMain}>Account details</Card.Title>
       <ScrollView
-        style={styles.container}
+        style={Styles.container}
         contentContainerStyle={{paddingBottom: 50}}
       >
-        <Card.Title
-          style={{
-            fontWeight: '900',
-            fontSize: 30,
-            color: colorSchema.primaryTextColor,
-            paddingTop: 20,
-            paddingBottom: 20,
-          }}
-        >
-          Account details
-        </Card.Title>
         <View
           style={{
             alignSelf: 'center',
@@ -73,7 +64,7 @@ const Profile = ({navigation}) => {
           />
         </View>
         <ListItem>
-          <Text style={styles.textStyle}>Username: </Text>
+          <Text style={Styles.singleTextDetailsTitle}>Username: </Text>
           <Text
             style={{
               color: colorSchema.mainColor,
@@ -85,7 +76,7 @@ const Profile = ({navigation}) => {
           </Text>
         </ListItem>
         <ListItem>
-          <Text style={styles.textStyle}>User ID: </Text>
+          <Text style={Styles.singleTextDetailsTitle}>User ID: </Text>
           <Text
             style={{
               color: colorSchema.mainColor,
@@ -97,7 +88,7 @@ const Profile = ({navigation}) => {
           </Text>
         </ListItem>
         <ListItem>
-          <Text style={styles.textStyle}>Email: </Text>
+          <Text style={Styles.singleTextDetailsTitle}>Email: </Text>
           <Text
             style={{
               color: colorSchema.mainColor,
@@ -109,7 +100,7 @@ const Profile = ({navigation}) => {
           </Text>
         </ListItem>
         <ListItem>
-          <Text style={styles.textStyle}>Full name: </Text>
+          <Text style={Styles.singleTextDetailsTitle}>Full name: </Text>
           <Text
             style={{
               color: colorSchema.mainColor,
@@ -122,36 +113,23 @@ const Profile = ({navigation}) => {
         </ListItem>
 
         <Button
-          buttonStyle={styles.btn}
+          buttonStyle={Styles.btnBase}
           title="Modify user"
           onPress={() => {
             navigation.navigate('ModifyUser');
           }}
         />
-        <Button buttonStyle={styles.btn} title={'Logout'} onPress={logout} />
+        <Button
+          type="clear"
+          titleStyle={{color: colorSchema.mainColor}}
+          containerStyle={Styles.btnEmptyContainer}
+          title="Logout"
+          onPress={logout}
+        />
       </ScrollView>
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colorSchema.bgrColor,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  textStyle: {
-    color: colorSchema.primaryTextColor,
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  btn: {
-    backgroundColor: colorSchema.mainColor,
-    borderRadius: 20,
-    marginTop: 5,
-    marginBottom: 5,
-  },
-});
 
 Profile.propTypes = {
   navigation: PropTypes.object,
