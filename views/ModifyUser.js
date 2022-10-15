@@ -7,6 +7,7 @@ import {colorSchema} from '../utils/variables';
 import {useUser} from '../hooks/ApiHooks';
 import {Input, Button} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
+import {Card} from '@rneui/themed';
 
 const ModifyUser = ({navigation}) => {
   const {checkUsername, putUser} = useUser();
@@ -49,6 +50,16 @@ const ModifyUser = ({navigation}) => {
   return (
     <>
       <ScrollView style={styles.container}>
+        <Card.Title
+          style={{
+            fontWeight: '900',
+            fontSize: 30,
+            color: colorSchema.primaryTextColor,
+            paddingTop: 20,
+          }}
+        >
+          Modify account details
+        </Card.Title>
         <Controller
           control={control}
           rules={{
@@ -92,7 +103,8 @@ const ModifyUser = ({navigation}) => {
             },
 
             pattern: {
-              value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i,
+              value:
+                /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i,
               message: 'must be a valid email!',
             },
           }}

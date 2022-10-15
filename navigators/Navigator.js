@@ -25,7 +25,9 @@ const Stack = createNativeStackNavigator();
 const TabScreen = ({navigation}) => {
   return (
     <>
-      <Tab.Navigator screenOptions={{headerShown: false}}>
+      <Tab.Navigator
+        screenOptions={{headerShown: false, tabBarHideOnKeyboard: true}}
+      >
         <Tab.Screen
           name="Home"
           component={Home}
@@ -59,6 +61,13 @@ const TabScreen = ({navigation}) => {
           }}
         />
         <Tab.Screen
+          name="ModifyUser"
+          component={ModifyUser}
+          options={{
+            tabBarItemStyle: {display: 'none'},
+          }}
+        />
+        <Tab.Screen
           name="AddTask"
           component={AddTask}
           options={{
@@ -67,11 +76,12 @@ const TabScreen = ({navigation}) => {
         />
       </Tab.Navigator>
       <AddButton
+        screenOptions={{tabBarHideOnKeyboard: true}}
         style={styles.addBtn}
         height={'16%'}
         width={'16%'}
         onPress={() => {
-          navigation.navigate('AddTask');
+          navigation.navigate('AddTask', {name: 'Ololo'});
         }}
       />
     </>
@@ -92,8 +102,8 @@ const StackScreen = ({navigation}) => {
           <Stack.Screen name="SingleTask" component={SingleTask} />
           <Stack.Screen name="MyTasks" component={MyTasks} />
           <Stack.Screen name="ModifyTask" component={ModifyTask} />
-          <Stack.Screen name="ModifyUser" component={ModifyUser} />
-          <Stack.Screen name="AddTask" component={AddTask} />
+          {/* <Stack.Screen name="ModifyUser" component={ModifyUser} /> */}
+          {/* <Stack.Screen name="AddTask" component={AddTask} /> */}
         </>
       ) : (
         <>
