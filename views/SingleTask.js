@@ -17,6 +17,7 @@ import {MainContext} from '../contexts/MainContext';
 import LikeEmpty from '../assets/like_empty.svg';
 import LikeFull from '../assets/like_full.svg';
 import ListComments from '../components/ListComments';
+import Header from '../components/Header';
 
 const SingleTask = ({navigation, route}) => {
   const {file} = route.params;
@@ -158,6 +159,7 @@ const SingleTask = ({navigation, route}) => {
 
   return (
     <>
+      <Header></Header>
       <ScrollView
         contentContainerStyle={{paddingBottom: 50}}
         style={styles.container}

@@ -7,6 +7,7 @@ import {Card} from 'react-native-elements';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import {MainContext} from '../contexts/MainContext';
 import {useUser} from '../hooks/ApiHooks';
+import Header from '../components/Header';
 
 const Profile = ({navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
@@ -37,93 +38,99 @@ const Profile = ({navigation}) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Card.Title
-        style={{
-          fontWeight: '900',
-          fontSize: 30,
-          color: colorSchema.primaryTextColor,
-          paddingTop: 20,
-          paddingBottom: 20,
-        }}
+    <>
+      <Header></Header>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{paddingBottom: 50}}
       >
-        Account details
-      </Card.Title>
-      <View
-        style={{
-          alignSelf: 'center',
-        }}
-      >
-        <Card.Image
+        <Card.Title
           style={{
-            borderRadius: 100,
-            resizeMode: 'contain',
-            height: 200,
-            width: 200,
+            fontWeight: '900',
+            fontSize: 30,
+            color: colorSchema.primaryTextColor,
+            paddingTop: 20,
+            paddingBottom: 20,
           }}
-          source={{
-            uri: avatar,
+        >
+          Account details
+        </Card.Title>
+        <View
+          style={{
+            alignSelf: 'center',
+          }}
+        >
+          <Card.Image
+            style={{
+              borderRadius: 100,
+              resizeMode: 'contain',
+              height: 200,
+              width: 200,
+            }}
+            source={{
+              uri: avatar,
+            }}
+          />
+        </View>
+        <ListItem>
+          <Text style={styles.textStyle}>Username: </Text>
+          <Text
+            style={{
+              color: colorSchema.mainColor,
+              fontSize: 20,
+              textAlign: 'center',
+            }}
+          >
+            {user.username}
+          </Text>
+        </ListItem>
+        <ListItem>
+          <Text style={styles.textStyle}>User ID: </Text>
+          <Text
+            style={{
+              color: colorSchema.mainColor,
+              fontSize: 20,
+              textAlign: 'center',
+            }}
+          >
+            {user.user_id}
+          </Text>
+        </ListItem>
+        <ListItem>
+          <Text style={styles.textStyle}>Email: </Text>
+          <Text
+            style={{
+              color: colorSchema.mainColor,
+              fontSize: 20,
+              textAlign: 'center',
+            }}
+          >
+            {user.email}
+          </Text>
+        </ListItem>
+        <ListItem>
+          <Text style={styles.textStyle}>Full name: </Text>
+          <Text
+            style={{
+              color: colorSchema.mainColor,
+              fontSize: 20,
+              textAlign: 'center',
+            }}
+          >
+            {user.full_name}
+          </Text>
+        </ListItem>
+
+        <Button
+          buttonStyle={styles.btn}
+          title="Modify user"
+          onPress={() => {
+            navigation.navigate('ModifyUser');
           }}
         />
-      </View>
-      <ListItem>
-        <Text style={styles.textStyle}>Username: </Text>
-        <Text
-          style={{
-            color: colorSchema.mainColor,
-            fontSize: 20,
-            textAlign: 'center',
-          }}
-        >
-          {user.username}
-        </Text>
-      </ListItem>
-      <ListItem>
-        <Text style={styles.textStyle}>User ID: </Text>
-        <Text
-          style={{
-            color: colorSchema.mainColor,
-            fontSize: 20,
-            textAlign: 'center',
-          }}
-        >
-          {user.user_id}
-        </Text>
-      </ListItem>
-      <ListItem>
-        <Text style={styles.textStyle}>Email: </Text>
-        <Text
-          style={{
-            color: colorSchema.mainColor,
-            fontSize: 20,
-            textAlign: 'center',
-          }}
-        >
-          {user.email}
-        </Text>
-      </ListItem>
-      <ListItem>
-        <Text style={styles.textStyle}>Full name: </Text>
-        <Text
-          style={{
-            color: colorSchema.mainColor,
-            fontSize: 20,
-            textAlign: 'center',
-          }}
-        >
-          {user.full_name}
-        </Text>
-      </ListItem>
-
-      <Button
-        buttonStyle={styles.btn}
-        title="Modify user"
-        onPress={() => {
-          navigation.navigate('ModifyUser');
-        }}
-      />
-      <Button buttonStyle={styles.btn} title={'Logout'} onPress={logout} />
-    </ScrollView>
+        <Button buttonStyle={styles.btn} title={'Logout'} onPress={logout} />
+      </ScrollView>
+    </>
   );
 };
 

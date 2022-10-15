@@ -4,10 +4,12 @@ import List from '../components/List';
 import {Card} from '@rneui/themed';
 import {colorSchema} from '../utils/variables';
 import {StyleSheet, View} from 'react-native';
+import Header from '../components/Header';
 
 const MyTasks = ({navigation}) => {
   return (
     <>
+      <Header></Header>
       <View style={styles.container}>
         <Card.Title
           style={{

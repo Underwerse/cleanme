@@ -4,10 +4,12 @@ import List from '../components/List';
 import {StyleSheet, View} from 'react-native';
 import {Card} from '@rneui/themed';
 import {colorSchema} from '../utils/variables';
+import Header from '../components/Header';
 
 const MyFavorites = ({navigation}) => {
   return (
     <>
+      <Header></Header>
       <View style={styles.container}>
         <Card.Title
           style={{

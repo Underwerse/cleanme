@@ -8,6 +8,7 @@ import {useUser} from '../hooks/ApiHooks';
 import {Input, Button} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import {Card} from '@rneui/themed';
+import Header from '../components/Header';
 
 const ModifyUser = ({navigation}) => {
   const {checkUsername, putUser} = useUser();
@@ -49,6 +50,7 @@ const ModifyUser = ({navigation}) => {
 
   return (
     <>
+      <Header></Header>
       <ScrollView style={styles.container}>
         <Card.Title
           style={{

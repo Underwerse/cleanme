@@ -14,6 +14,7 @@ import {
 import {MainContext} from '../contexts/MainContext';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Header from '../components/Header';
 
 const ModifyTask = ({navigation, route}) => {
   const {file} = route.params;
@@ -80,6 +81,7 @@ const ModifyTask = ({navigation, route}) => {
 
   return (
     <>
+      <Header></Header>
       <ScrollView style={styles.container}>
         <Controller
           control={control}
