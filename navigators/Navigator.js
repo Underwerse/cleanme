@@ -75,6 +75,13 @@ const TabScreen = ({navigation}) => {
           }}
         />
         <Tab.Screen
+          name="SingleTask"
+          component={SingleTask}
+          options={{
+            tabBarItemStyle: {display: 'none'},
+          }}
+        />
+        <Tab.Screen
           name="AddTask"
           component={AddTask}
           options={{
@@ -106,11 +113,6 @@ const StackScreen = ({navigation}) => {
             component={TabScreen}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="SingleTask" component={SingleTask} />
-          <Stack.Screen name="MyTasks" component={MyTasks} />
-          {/* <Stack.Screen name="ModifyTask" component={ModifyTask} /> */}
-          {/* <Stack.Screen name="ModifyUser" component={ModifyUser} /> */}
-          {/* <Stack.Screen name="AddTask" component={AddTask} /> */}
         </>
       ) : (
         <>
