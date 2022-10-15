@@ -112,7 +112,10 @@ const ListCommentsItem = ({
     <RNEListItem
       style={styles.listItemContainer}
       onPress={() => {
-        navigation.navigate('SingleTask', {file: singleMedia});
+        navigation.navigate('SingleTask', {
+          file: singleMedia,
+          name: singleMedia.title,
+        });
       }}
     >
       <Avatar

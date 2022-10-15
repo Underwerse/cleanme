@@ -158,7 +158,10 @@ const SingleTask = ({navigation, route}) => {
 
   return (
     <>
-      <ScrollView containerStyle={{paddingBottom: 50}} style={styles.container}>
+      <ScrollView
+        contentContainerStyle={{paddingBottom: 50}}
+        style={styles.container}
+      >
         <Card.Title style={{fontSize: 26}}>{file.title}</Card.Title>
         <ListItem>
           <Text style={styles.text}>{descriptionParsed.description}</Text>
