@@ -39,27 +39,43 @@ To start this project run
 Then follow the instructions on your screen (e.g. for run on Android-device type "a" etc.)
 ## Screenshots
 
-![App Screenshot](https://i2.paste.pics/J4JX1.png)
+![App Screenshot](https://i2.paste.pics/J7G6C.png)
 
-![App Screenshot](https://i2.paste.pics/J4JXV.png)
+![App Screenshot](https://i2.paste.pics/J7G6J.png)
 
-![App Screenshot](https://i2.paste.pics/J4JY8.png)
+![App Screenshot](https://i2.paste.pics/J7G6M.png)
 
-![App Screenshot](https://i2.paste.pics/J4JYD.png)
+![App Screenshot](https://i2.paste.pics/J7G6Q.png)
 
-![App Screenshot](https://i2.paste.pics/J4JYF.png)
+![App Screenshot](https://i2.paste.pics/J7G6S.png)
 
-![App Screenshot](https://i2.paste.pics/J4JYJ.png)
+![App Screenshot](https://i2.paste.pics/J7G6X.png)
 
-![App Screenshot](https://i2.paste.pics/J4JYL.png)
+![App Screenshot](https://i2.paste.pics/J7G76.png)
 
-![App Screenshot](https://i2.paste.pics/J4JYQ.png)
+![App Screenshot](https://i2.paste.pics/J7G79.png)
 
-![App Screenshot](https://i2.paste.pics/J4JYS.png)
+![App Screenshot](https://i2.paste.pics/J7G7B.png)
 
-![App Screenshot](https://i2.paste.pics/J4JYX.png)
+![App Screenshot](https://i2.paste.pics/J7G7C.png)
 
-![App Screenshot](https://i2.paste.pics/J4K02.png)
+![App Screenshot](https://i2.paste.pics/J7G7D.png)
+
+![App Screenshot](https://i2.paste.pics/J7G7E.png)
+
+![App Screenshot](https://i2.paste.pics/J7G7F.png)
+
+![App Screenshot](https://i2.paste.pics/J7G7H.png)
+
+![App Screenshot](https://i2.paste.pics/J7G7N.png)
+
+![App Screenshot](https://i2.paste.pics/J7G7S.png)
+
+![App Screenshot](https://i2.paste.pics/J7G7V.png)
+
+![App Screenshot](https://i2.paste.pics/J7G80.png)
+
+![App Screenshot](https://i2.paste.pics/J7G82.png)
 
 ## Authors
 

@@ -15,43 +15,43 @@
 
 ### Updated Screenshots
 
-![App Screenshot](https://i2.paste.pics/J7G1U.png)
+![App Screenshot](https://i2.paste.pics/J7G6C.png)
 
-![App Screenshot](https://i2.paste.pics/J7G21.png)
+![App Screenshot](https://i2.paste.pics/J7G6J.png)
 
-![App Screenshot](https://i2.paste.pics/J7G24.png)
+![App Screenshot](https://i2.paste.pics/J7G6M.png)
 
-![App Screenshot](https://i2.paste.pics/J7G25.png)
+![App Screenshot](https://i2.paste.pics/J7G6Q.png)
 
-![App Screenshot](https://i2.paste.pics/J7G2B.png)
+![App Screenshot](https://i2.paste.pics/J7G6S.png)
 
-![App Screenshot](https://i2.paste.pics/J7G2G.png)
+![App Screenshot](https://i2.paste.pics/J7G6X.png)
 
-![App Screenshot](https://i2.paste.pics/J7G2M.png)
+![App Screenshot](https://i2.paste.pics/J7G76.png)
 
-![App Screenshot](https://i2.paste.pics/J7G2P.png)
+![App Screenshot](https://i2.paste.pics/J7G79.png)
 
-![App Screenshot](https://i2.paste.pics/J7G2S.png)
+![App Screenshot](https://i2.paste.pics/J7G7B.png)
 
-![App Screenshot](https://i2.paste.pics/J7G2V.png)
+![App Screenshot](https://i2.paste.pics/J7G7C.png)
 
-![App Screenshot](https://i2.paste.pics/J7G31.png)
+![App Screenshot](https://i2.paste.pics/J7G7D.png)
 
-![App Screenshot](https://i2.paste.pics/J7G35.png)
+![App Screenshot](https://i2.paste.pics/J7G7E.png)
 
-![App Screenshot](https://i2.paste.pics/J7G3E.png)
+![App Screenshot](https://i2.paste.pics/J7G7F.png)
 
-![App Screenshot](https://i2.paste.pics/J7G3H.png)
+![App Screenshot](https://i2.paste.pics/J7G7H.png)
 
-![App Screenshot](https://i2.paste.pics/J7G3J.png)
+![App Screenshot](https://i2.paste.pics/J7G7N.png)
 
-![App Screenshot](https://i2.paste.pics/J7G3L.png)
+![App Screenshot](https://i2.paste.pics/J7G7S.png)
 
-![App Screenshot](https://i2.paste.pics/J7G3O.png)
+![App Screenshot](https://i2.paste.pics/J7G7V.png)
 
-![App Screenshot](https://i2.paste.pics/J7G3U.png)
+![App Screenshot](https://i2.paste.pics/J7G80.png)
 
-![App Screenshot](https://i2.paste.pics/J7G40.png)
+![App Screenshot](https://i2.paste.pics/J7G82.png)
 
 ### Changes in details (auto-generated):
 
