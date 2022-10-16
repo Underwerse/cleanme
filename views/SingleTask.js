@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
-import {ActivityIndicator, Alert, ScrollView, View} from 'react-native';
+import {Alert, ScrollView, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {ButtonGroup, Icon, Input} from '@rneui/themed';
 import {Avatar, Button, Card, ListItem, Text} from 'react-native-elements';
@@ -49,7 +49,9 @@ const SingleTask = ({navigation, route}) => {
   const fetchAvatar = async (file) => {
     try {
       const avatarRes = await getAvatar(file.user_id);
-      avatarRes && setAvatar(mediaUrl + avatarRes.filename);
+      if (avatarRes) {
+        setAvatar(mediaUrl + avatarRes.filename);
+      }
     } catch (error) {
       console.error(error.message);
     }
@@ -193,7 +195,7 @@ const SingleTask = ({navigation, route}) => {
         )}
         <ListItem style={Styles.textItem}>
           <Text style={Styles.singleTextDetailsTitle}>Customer: </Text>
-          <Avatar source={{uri: avatar}} />
+          <Avatar source={{uri: avatar}} rounded />
           <Text style={Styles.singleTextDetailsValue}>
             {owner.full_name != '' ? owner.full_name : 'No name set up'}
           </Text>

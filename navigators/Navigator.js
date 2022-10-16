@@ -106,7 +106,6 @@ const TabScreen = ({navigation}) => {
 };
 
 const StackScreen = ({navigation, isLoggedIn}) => {
-  console.log('isLoggedIn: ', isLoggedIn);
   return (
     <Stack.Navigator navigation={navigation} isLoggedIn={isLoggedIn}>
       {isLoggedIn ? (

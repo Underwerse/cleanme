@@ -47,8 +47,6 @@ const useMedia = (myFilesOnly, myFavoritesOnly, filterWord) => {
       });
 
       setMediaArray(await Promise.all(allMediaData));
-      console.log('setUpdate after loadMedia run');
-      // setUpdate(!update);
     } catch (error) {
       console.log('media fetch failed', error.message);
       throw new Error('Get media error: ', error);

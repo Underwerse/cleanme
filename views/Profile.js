@@ -12,20 +12,16 @@ import Styles from '../utils/Styles';
 
 const Profile = ({route, navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
-  console.log('user Profile: ', user);
   const [avatar, setAvatar] = useState(
     route.avatarUri || 'https://placekitten.com/640'
   );
-  console.log('route.avatarUri: ', route.avatarUri);
   const {getAvatar} = useUser();
 
   const fetchAvatar = async () => {
     try {
       const avatarRes = await getAvatar(user.user_id);
-      console.log('AvatarRes: ', avatarRes);
       if (avatarRes) {
         setAvatar(mediaUrl + avatarRes.filename);
-        console.log('Profile avatar: ', avatar);
       }
     } catch (error) {
       console.error(error.message);

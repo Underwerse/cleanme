@@ -67,9 +67,6 @@ const ModifyUser = ({navigation}) => {
       if (avatarRes) {
         setAvatar(mediaUrl + avatarRes.filename);
         setAvatarId(avatarRes.file_id);
-        console.log('avatarRes', avatarRes);
-        console.log('avatar', avatar);
-        console.log('avatarId', avatarId);
       }
     } catch (error) {
       console.error(error.message);
@@ -99,7 +96,6 @@ const ModifyUser = ({navigation}) => {
           tag: 'avatar_' + user.user_id,
         };
         const tagResponse = await postTag(token, tag);
-        console.log('tagResponse', tagResponse);
 
         Alert.alert(
           'Change avatar status',
@@ -148,7 +144,6 @@ const ModifyUser = ({navigation}) => {
           {
             text: 'OK',
             onPress: () => {
-              console.log('result', result);
               updateAvatar(result.uri);
               setMediaFile(result.uri);
             },

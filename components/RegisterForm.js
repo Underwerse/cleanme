@@ -45,7 +45,7 @@ export const RegisterForm = ({navigation}) => {
         ]);
       }
     } catch (error) {
-      console.log('Register error: ', error);
+      console.log('Register error: ', error.message);
     }
   };
 
