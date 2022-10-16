@@ -135,6 +135,7 @@ const useLogin = () => {
   const checkToken = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     if (!userToken) {
+      // setIsLoggedIn(false);
       return;
     }
     try {

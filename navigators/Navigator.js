@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -18,6 +18,7 @@ import MyFavorites from '../views/MyFavorites';
 import ModifyUser from '../views/ModifyUser';
 import AddButton from '../assets/add-btn_v2.svg';
 import Styles from '../utils/Styles';
+import {useLogin} from '../hooks/ApiHooks';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,18 +105,16 @@ const TabScreen = ({navigation}) => {
   );
 };
 
-const StackScreen = ({navigation}) => {
-  const {isLoggedIn} = useContext(MainContext);
+const StackScreen = ({navigation, isLoggedIn}) => {
+  console.log('isLoggedIn: ', isLoggedIn);
   return (
-    <Stack.Navigator navigation={navigation}>
+    <Stack.Navigator navigation={navigation} isLoggedIn={isLoggedIn}>
       {isLoggedIn ? (
-        <>
-          <Stack.Screen
-            name="Tabs"
-            component={TabScreen}
-            options={{headerShown: false}}
-          />
-        </>
+        <Stack.Screen
+          name="Tabs"
+          component={TabScreen}
+          options={{headerShown: false}}
+        />
       ) : (
         <>
           <Stack.Screen
@@ -135,9 +134,16 @@ const StackScreen = ({navigation}) => {
 };
 
 const Navigator = () => {
+  const {checkToken} = useLogin();
+  const {isLoggedIn} = useContext(MainContext);
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
   return (
     <NavigationContainer>
-      <StackScreen />
+      <StackScreen isLoggedIn={isLoggedIn} />
     </NavigationContainer>
   );
 };
@@ -148,6 +154,7 @@ TabScreen.propTypes = {
 
 StackScreen.propTypes = {
   navigation: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
 };
 
 export default Navigator;
