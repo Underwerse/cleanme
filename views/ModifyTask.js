@@ -10,6 +10,7 @@ import {colorSchema, mediaUrl} from '../utils/variables';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Header from '../components/Header';
 import Styles from '../utils/Styles';
+import FullSizeImage from '../components/FullSizeImage';
 
 const ModifyTask = ({navigation, route}) => {
   const {file} = route.params;
@@ -208,13 +209,10 @@ const ModifyTask = ({navigation, route}) => {
           <DateTimePicker onChange={onChangeDate} mode={'date'} value={date} />
         )}
 
-        <View style={Styles.imageContainer}>
-          <Card.Image
-            source={{uri: mediaUrl + file.filename}}
-            containerStyle={Styles.singleImage}
-            PlaceholderContent={<ActivityIndicator />}
-          />
-        </View>
+        <FullSizeImage
+          source={{uri: mediaUrl + file.filename}}
+          style={Styles.image}
+        />
 
         <Button
           buttonStyle={Styles.btnBase}

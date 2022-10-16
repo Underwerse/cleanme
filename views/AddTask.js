@@ -11,6 +11,7 @@ import {useMedia, useTag} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import Header from '../components/Header';
 import Styles from '../utils/Styles';
+import FullSizeImage from '../components/FullSizeImage';
 
 const AddTask = ({navigation}) => {
   const [mediaFile, setMediaFile] = useState(null);
@@ -125,7 +126,7 @@ const AddTask = ({navigation}) => {
     <>
       <Header navigation={navigation} />
       <Card.Title style={Styles.titleMain}>Add new task</Card.Title>
-      <ScrollView style={Styles.container}>
+      <ScrollView contentContainerStyle={Styles.container}>
         <Controller
           control={control}
           rules={{
@@ -244,19 +245,14 @@ const AddTask = ({navigation}) => {
         )}
 
         {mediaFile && (
-          <View style={Styles.imageContainer}>
-            <Card.Image
-              source={{uri: mediaFile}}
-              containerStyle={Styles.singleImage}
-            />
-          </View>
+          <FullSizeImage source={{uri: mediaFile}} style={Styles.image} />
         )}
 
         <Button
           type="clear"
           titleStyle={{color: colorSchema.mainColor}}
           containerStyle={Styles.btnEmptyContainer}
-          title="Select media"
+          title={mediaFile ? 'Change media' : 'Select media'}
           onPress={pickImage}
         />
 

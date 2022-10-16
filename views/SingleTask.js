@@ -13,6 +13,7 @@ import LikeFull from '../assets/like_full.svg';
 import ListComments from '../components/ListComments';
 import Header from '../components/Header';
 import Styles from '../utils/Styles';
+import FullSizeImage from '../components/FullSizeImage';
 
 const SingleTask = ({navigation, route}) => {
   const {file} = route.params;
@@ -134,7 +135,7 @@ const SingleTask = ({navigation, route}) => {
         onPress: async () => {
           try {
             const token = await AsyncStorage.getItem('userToken');
-            const response = await deleteMedia(token, singleMedia.file_id);
+            const response = await deleteMedia(token, file.file_id);
             response && setUpdate(!update);
           } catch (error) {
             console.error(error);
@@ -167,13 +168,10 @@ const SingleTask = ({navigation, route}) => {
           <Text style={Styles.text}>{descriptionParsed.description}</Text>
         </ListItem>
         {file.media_type === 'image' ? (
-          <View style={Styles.imageContainer}>
-            <Card.Image
-              source={{uri: mediaUrl + file.filename}}
-              containerStyle={Styles.singleImage}
-              PlaceholderContent={<ActivityIndicator />}
-            />
-          </View>
+          <FullSizeImage
+            source={{uri: mediaUrl + file.filename}}
+            style={Styles.image}
+          />
         ) : (
           <Video
             ref={videoRef}

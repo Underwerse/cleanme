@@ -122,15 +122,9 @@ const Styles = StyleSheet.create({
     marginLeft: -10,
     marginRight: -10,
   },
-  imageContainer: {
-    alignItems: 'center',
-  },
-  singleImage: {
-    width: '50%',
-    height: undefined,
-    resizeMode: 'cover',
-    aspectRatio: 1,
-    marginBottom: -60,
+  image: {
+    marginTop: 30,
+    marginBottom: 30,
   },
   creatorAvatar: {
     position: 'absolute',
