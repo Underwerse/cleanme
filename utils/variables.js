@@ -8,6 +8,8 @@ const colorSchema = {
   primaryTextColor: '#010A10',
   secondaryTextColor: 'rgba(0, 0, 0, .25)',
   green: '#00AE00',
+  black: '#000',
+  white: '#fff',
   red: 'rgb(255, 0, 0)',
 };
 

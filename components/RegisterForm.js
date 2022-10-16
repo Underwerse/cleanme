@@ -167,7 +167,7 @@ export const RegisterForm = ({navigation}) => {
             required: {value: true, message: 'this is required'},
             pattern: {
               value:
-                /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i,
+                /^[a-z0-9\-\+]+(?:[a-z0-9\.\-\+]+)*@[a-z0-9\-\+]{2,20}?\.(?:[a-zA-Z]{2,10})$/i,
               message: 'must be a valid email!',
             },
           }}

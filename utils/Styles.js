@@ -51,6 +51,12 @@ const Styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  textField: {
+    color: colorSchema.mainColor,
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: -5,
+  },
   singleTextDetailsValue: {
     fontSize: 20,
     color: colorSchema.mainColor,
@@ -130,6 +136,29 @@ const Styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     right: -40,
+  },
+  profileAvatar: {
+    borderRadius: 100,
+    resizeMode: 'contain',
+    height: 200,
+    width: 200,
+  },
+  changeAvatarLink: {
+    position: 'absolute',
+    width: 100,
+    height: 25,
+    lineHeight: 25,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    top: '70%',
+    left: 50,
+    backgroundColor: colorSchema.white,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: colorSchema.mainColor,
+    color: colorSchema.mainColor,
+    opacity: 0.9,
+    flex: 1,
   },
 });
 

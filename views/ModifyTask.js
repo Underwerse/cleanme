@@ -4,7 +4,7 @@ import {Input, Button, Text, Card} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm, Controller} from 'react-hook-form';
 import {useMedia} from '../hooks/ApiHooks';
-import {Alert, ActivityIndicator, ScrollView, View} from 'react-native';
+import {Alert, ScrollView, View} from 'react-native';
 import {MainContext} from '../contexts/MainContext';
 import {colorSchema, mediaUrl} from '../utils/variables';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -49,7 +49,7 @@ const ModifyTask = ({navigation, route}) => {
       const response = await putMedia(token, data, file.file_id);
       setUpdate(!update);
 
-      Alert.alert('Task update status status', response.message, [
+      Alert.alert('Task update status status', 'Task has been updated', [
         {
           text: 'OK',
           onPress: () => {
@@ -100,14 +100,19 @@ const ModifyTask = ({navigation, route}) => {
             },
           }}
           render={({field: {onChange, onBlur, value}}) => (
-            <Input
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="Title *"
-              autoCapitalize="sentences"
-              errorMessage={errors.title && <Text>{errors.title.message}</Text>}
-            />
+            <>
+              <Text style={Styles.textField}>Title:</Text>
+              <Input
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                placeholder="Title *"
+                autoCapitalize="sentences"
+                errorMessage={
+                  errors.title && <Text>{errors.title.message}</Text>
+                }
+              />
+            </>
           )}
           name="title"
         />
@@ -122,15 +127,20 @@ const ModifyTask = ({navigation, route}) => {
             },
           }}
           render={({field: {onChange, onBlur, value}}) => (
-            <Input
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="Description *"
-              errorMessage={
-                errors.description && <Text>{errors.description.message}</Text>
-              }
-            />
+            <>
+              <Text style={Styles.textField}>Description:</Text>
+              <Input
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                placeholder="Description *"
+                errorMessage={
+                  errors.description && (
+                    <Text>{errors.description.message}</Text>
+                  )
+                }
+              />
+            </>
           )}
           name="description"
         />
@@ -149,15 +159,18 @@ const ModifyTask = ({navigation, route}) => {
             },
           }}
           render={({field: {onChange, onBlur, value}}) => (
-            <Input
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="Address *"
-              errorMessage={
-                errors.address && <Text>{errors.address.message}</Text>
-              }
-            />
+            <>
+              <Text style={Styles.textField}>Address:</Text>
+              <Input
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                placeholder="Address *"
+                errorMessage={
+                  errors.address && <Text>{errors.address.message}</Text>
+                }
+              />
+            </>
           )}
           name="address"
         />
@@ -176,16 +189,19 @@ const ModifyTask = ({navigation, route}) => {
             },
           }}
           render={({field: {onChange, onBlur, value}}) => (
-            <Input
-              keyboardType="phone-pad"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-              placeholder="Budget (EUR) *"
-              errorMessage={
-                errors.budget && <Text>{errors.budget.message}</Text>
-              }
-            />
+            <>
+              <Text style={Styles.textField}>Budget:</Text>
+              <Input
+                keyboardType="phone-pad"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                placeholder="Budget (EUR) *"
+                errorMessage={
+                  errors.budget && <Text>{errors.budget.message}</Text>
+                }
+              />
+            </>
           )}
           name="budget"
         />

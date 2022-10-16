@@ -10,16 +10,23 @@ import {useUser} from '../hooks/ApiHooks';
 import Header from '../components/Header';
 import Styles from '../utils/Styles';
 
-const Profile = ({navigation}) => {
+const Profile = ({route, navigation}) => {
   const {setIsLoggedIn, user} = useContext(MainContext);
-  const [avatar, setAvatar] = useState('https://placekitten.com/640');
+  console.log('user Profile: ', user);
+  const [avatar, setAvatar] = useState(
+    route.avatarUri || 'https://placekitten.com/640'
+  );
+  console.log('route.avatarUri: ', route.avatarUri);
   const {getAvatar} = useUser();
 
   const fetchAvatar = async () => {
     try {
       const avatarRes = await getAvatar(user.user_id);
-      avatarRes && setAvatar(mediaUrl + avatarRes.filename);
-      console.log(avatar);
+      console.log('AvatarRes: ', avatarRes);
+      if (avatarRes) {
+        setAvatar(mediaUrl + avatarRes.filename);
+        console.log('Profile avatar: ', avatar);
+      }
     } catch (error) {
       console.error(error.message);
     }
@@ -42,22 +49,14 @@ const Profile = ({navigation}) => {
     <>
       <Header></Header>
       <Card.Title style={Styles.titleMain}>Account details</Card.Title>
-      <ScrollView
-        style={Styles.container}
-        contentContainerStyle={{paddingBottom: 50}}
-      >
+      <ScrollView contentContainerStyle={Styles.container}>
         <View
           style={{
             alignSelf: 'center',
           }}
         >
           <Card.Image
-            style={{
-              borderRadius: 100,
-              resizeMode: 'contain',
-              height: 200,
-              width: 200,
-            }}
+            style={Styles.profileAvatar}
             source={{
               uri: avatar,
             }}
@@ -132,6 +131,7 @@ const Profile = ({navigation}) => {
 };
 
 Profile.propTypes = {
+  route: PropTypes.object,
   navigation: PropTypes.object,
 };
 
