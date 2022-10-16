@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState, createRef} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import PropTypes from 'prop-types';
 import {SearchBar} from '@rneui/themed';
 import Header from '../components/Header';
 import List from '../components/List';
 import {colorSchema} from '../utils/variables';
 import {MainContext} from '../contexts/MainContext';
+import Styles from '../utils/Styles';
 
 const Home = ({navigation}) => {
   const {update, setUpdate} = useContext(MainContext);
@@ -26,7 +27,7 @@ const Home = ({navigation}) => {
   return (
     <>
       <Header navigation={navigation} />
-      <View style={styles.searchInput}>
+      <View style={Styles.searchInput}>
         <SearchBar
           ref={input}
           placeholder="Type to filter list"
@@ -66,22 +67,6 @@ const Home = ({navigation}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  likeEmpty: {
-    position: 'absolute',
-    bottom: 20,
-    right: 10,
-  },
-  searchInput: {
-    backgroundColor: colorSchema.bgrColor,
-    width: '100%',
-    alignSelf: 'center',
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 10,
-  },
-});
 
 Home.propTypes = {
   navigation: PropTypes.object,

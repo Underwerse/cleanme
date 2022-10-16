@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {Alert, ScrollView, StyleSheet} from 'react-native';
+import {Alert, ScrollView} from 'react-native';
 import {PropTypes} from 'prop-types';
 import {useForm, Controller} from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,6 +9,7 @@ import {Input, Button} from 'react-native-elements';
 import {MainContext} from '../contexts/MainContext';
 import {Card} from '@rneui/themed';
 import Header from '../components/Header';
+import Styles from '../utils/Styles';
 
 const ModifyUser = ({navigation}) => {
   const {checkUsername, putUser} = useUser();
@@ -51,17 +52,8 @@ const ModifyUser = ({navigation}) => {
   return (
     <>
       <Header></Header>
-      <ScrollView style={styles.container}>
-        <Card.Title
-          style={{
-            fontWeight: '900',
-            fontSize: 30,
-            color: colorSchema.primaryTextColor,
-            paddingTop: 20,
-          }}
-        >
-          Modify account details
-        </Card.Title>
+      <Card.Title style={Styles.titleMain}>Modify account details</Card.Title>
+      <ScrollView style={Styles.container}>
         <Controller
           control={control}
           rules={{
@@ -196,7 +188,7 @@ const ModifyUser = ({navigation}) => {
         />
 
         <Button
-          buttonStyle={styles.btn}
+          buttonStyle={Styles.btnBase}
           title="Apply changes"
           onPress={handleSubmit(onSubmit)}
         />
@@ -204,20 +196,6 @@ const ModifyUser = ({navigation}) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colorSchema.bgrColor,
-    paddingTop: 20,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  btn: {
-    marginBottom: 20,
-    backgroundColor: colorSchema.mainColor,
-    borderRadius: 40,
-  },
-});
 
 ModifyUser.propTypes = {
   navigation: PropTypes.object,
