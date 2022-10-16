@@ -13,6 +13,46 @@
 - All the UI-styles (excl. some inline) have been moved into separate utils/Styles-file;
 - All the screens re-done following common UI-style (incl. fix margins, paddings, Header everywhere etc.);
 
+### Updated Screenshots
+
+![App Screenshot](https://i2.paste.pics/J7G1U.png)
+
+![App Screenshot](https://i2.paste.pics/J7G21.png)
+
+![App Screenshot](https://i2.paste.pics/J7G24.png)
+
+![App Screenshot](https://i2.paste.pics/J7G25.png)
+
+![App Screenshot](https://i2.paste.pics/J7G2B.png)
+
+![App Screenshot](https://i2.paste.pics/J7G2G.png)
+
+![App Screenshot](https://i2.paste.pics/J7G2M.png)
+
+![App Screenshot](https://i2.paste.pics/J7G2P.png)
+
+![App Screenshot](https://i2.paste.pics/J7G2S.png)
+
+![App Screenshot](https://i2.paste.pics/J7G2V.png)
+
+![App Screenshot](https://i2.paste.pics/J7G31.png)
+
+![App Screenshot](https://i2.paste.pics/J7G35.png)
+
+![App Screenshot](https://i2.paste.pics/J7G3E.png)
+
+![App Screenshot](https://i2.paste.pics/J7G3H.png)
+
+![App Screenshot](https://i2.paste.pics/J7G3J.png)
+
+![App Screenshot](https://i2.paste.pics/J7G3L.png)
+
+![App Screenshot](https://i2.paste.pics/J7G3O.png)
+
+![App Screenshot](https://i2.paste.pics/J7G3U.png)
+
+![App Screenshot](https://i2.paste.pics/J7G40.png)
+
 ### Changes in details (auto-generated):
 
 - refactor: change some styles, remove unnecessary console.logs.
