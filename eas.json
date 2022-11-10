@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "CleanMe!",
+    "icon": "./assets/icon.png",
+    "version": "1.0.0",
+    "slug": "Find-your-service!",
+    "ios": {
+      "bundleIdentifier": "com.pvchernoff.cleanme",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.pvchernoff.cleanme",
+      "versionCode": 1
+    }
+  }
+}

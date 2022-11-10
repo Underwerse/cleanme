@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "CleanMe!",
-    "slug": "CleanMe! Find your service",
+    "slug": "CleanMe_Find_your_service",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.pavelc.CleanMe_Find_your_service"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -37,6 +38,11 @@
           "cameraPermission": "The app accesses your camera"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "9d6307a6-72fd-499b-95c8-1639a79ce285"
+      }
+    }
   }
 }

@@ -1,8 +1,7 @@
 # CleanMe!
 
 CleanMe! - is a university React Native project of team "hmmm".
-
-
+This project Android APP has been published to Google Play Market, so you can install in through [this link](https://play.google.com/store/apps/details?id=com.pavelc.CleanMe_Find_your_service&pli=1)
 ## Features
 
 - Register account and login
